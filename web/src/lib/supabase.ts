@@ -161,34 +161,20 @@ export const INITIAL_MOCK_EMAILS: EmailRecord[] = [
 ];
 
 export async function getDashboardData(): Promise<{ emails: EmailRecord[]; stats: DashboardStats }> {
-  let emails = [...INITIAL_MOCK_EMAILS];
-
-  if (supabase) {
-    try {
-      const { data: dbEmails, error } = await supabase
-        .from('emails')
-        .select('*')
-        .order('created_at', { ascending: false });
-
-      if (!error && dbEmails && dbEmails.length > 0) {
-        // Merge Supabase emails
-        const mergedMap = new Map<string, EmailRecord>();
-        INITIAL_MOCK_EMAILS.forEach(e => mergedMap.set(e.email_id, e));
-        dbEmails.forEach(dbItem => {
-          const existing = mergedMap.get(dbItem.email_id);
-          mergedMap.set(dbItem.email_id, {
-            ...existing,
-            ...dbItem,
-            defect_fields: Array.isArray(dbItem.defect_fields) ? dbItem.defect_fields : []
-          });
-        });
-        emails = Array.from(mergedMap.values());
+  try {
+    const res = await fetch('/api/emails', { cache: 'no-store' });
+    if (res.ok) {
+      const data = await res.json();
+      if (data.emails && data.emails.length > 0) {
+        return { emails: data.emails, stats: data.stats };
       }
-    } catch (e) {
-      console.warn('Supabase fetch fallback to local state:', e);
     }
+  } catch (err) {
+    console.warn('API route /api/emails error, falling back to local dataset:', err);
   }
 
+  // Fallback to initial mock if API is unavailable
+  const emails = [...INITIAL_MOCK_EMAILS];
   const blEmails = emails.filter(e => e.category === 'BL_COMPARISON');
   const cleanMatches = blEmails.filter(e => e.status === 'OK').length;
   const mismatchesDetected = blEmails.filter(e => e.status === 'MISMATCH').length;
@@ -212,16 +198,15 @@ export async function updateEmailStatus(
   newStatus: 'OK' | 'MISMATCH' | 'NEEDS_REVIEW',
   note?: string
 ): Promise<boolean> {
-  if (supabase) {
-    try {
-      const { error } = await supabase
-        .from('emails')
-        .update({ status: newStatus, review_reason: note || null })
-        .eq('email_id', emailId);
-      return !error;
-    } catch (e) {
-      console.error('Error updating status in Supabase:', e);
-    }
+  try {
+    const res = await fetch('/api/emails', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email_id: emailId, status: newStatus, review_reason: note })
+    });
+    return res.ok;
+  } catch (e) {
+    console.error('Error updating status via API:', e);
+    return false;
   }
-  return true;
 }

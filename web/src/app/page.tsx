@@ -6,9 +6,10 @@ import { Header } from '../components/Header';
 import { StatsCards } from '../components/StatsCards';
 import { InboxTable } from '../components/InboxTable';
 import { DiffViewerModal } from '../components/DiffViewerModal';
+import { PerformanceMetricsModal } from '../components/PerformanceMetricsModal';
 import { getDashboardData, updateEmailStatus } from '../lib/supabase';
 import { EmailRecord, DashboardStats } from '../lib/types';
-import { Sparkles, Layers } from 'lucide-react';
+import { Sparkles, Layers, CheckCircle, AlertCircle } from 'lucide-react';
 
 export default function DashboardPage() {
   const [emails, setEmails] = useState<EmailRecord[]>([]);
@@ -24,6 +25,9 @@ export default function DashboardPage() {
   const [selectedSidebarTab, setSelectedSidebarTab] = useState('all');
   const [selectedTableCategory, setSelectedTableCategory] = useState('ALL');
   const [selectedEmailForDiff, setSelectedEmailForDiff] = useState<EmailRecord | null>(null);
+  const [isMetricsOpen, setIsMetricsOpen] = useState(false);
+  const [isResetting, setIsResetting] = useState(false);
+  const [actionToast, setActionToast] = useState<{ message: string; type: 'success' | 'warning' } | null>(null);
 
   const loadData = async () => {
     setIsLoading(true);
@@ -35,6 +39,29 @@ export default function DashboardPage() {
       console.error('Failed to load dashboard data:', e);
     } finally {
       setIsLoading(false);
+    }
+  };
+
+  const handleResetSandbox = async () => {
+    setIsResetting(true);
+    try {
+      const res = await fetch('/api/emails', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ action: 'reset' })
+      });
+      if (res.ok) {
+        await loadData();
+        setActionToast({
+          message: '↺ Sandbox Direset: Kesemua data dan status dokumen telah dikembalikan ke tetapan asal 97.83% benchmark!',
+          type: 'success'
+        });
+        setTimeout(() => setActionToast(null), 5000);
+      }
+    } catch (err) {
+      console.error('Reset failed:', err);
+    } finally {
+      setIsResetting(false);
     }
   };
 
@@ -58,6 +85,23 @@ export default function DashboardPage() {
     );
 
     setSelectedEmailForDiff(null);
+
+    // Trigger feedback toast
+    if (actionType === 'APPROVE') {
+      setActionToast({
+        message: `✅ Diluluskan! ${emailId} telah ditukar ke status 'OK' (Disahkan oleh Lead Officer untuk pelepasan kargo).`,
+        type: 'success'
+      });
+    } else {
+      setActionToast({
+        message: `⚠️ Dieskalasi! ${emailId} ditandakan sebagai 'NEEDS_REVIEW' (Notis pembetulan dihantar ke Carrier).`,
+        type: 'warning'
+      });
+    }
+
+    setTimeout(() => {
+      setActionToast(null);
+    }, 4500);
   };
 
   // Filter emails based on search and sidebar tab
@@ -84,7 +128,13 @@ export default function DashboardPage() {
       {/* Sidebar */}
       <Sidebar
         currentTab={selectedSidebarTab}
-        onTabChange={(tab) => setSelectedSidebarTab(tab)}
+        onTabChange={(tab) => {
+          if (tab === 'analytics') {
+            setIsMetricsOpen(true);
+          } else {
+            setSelectedSidebarTab(tab);
+          }
+        }}
         stats={{
           total: emails.length,
           mismatches: stats.mismatchesDetected,
@@ -93,12 +143,28 @@ export default function DashboardPage() {
       />
 
       {/* Main Content Area */}
-      <div className="flex-1 flex flex-col min-w-0 overflow-hidden">
+      <div className="flex-1 flex flex-col min-w-0 overflow-hidden relative">
+        {/* Floating Action Toast Notification */}
+        {actionToast && (
+          <div className="absolute top-4 right-6 z-40 animate-in slide-in-from-top-2 fade-in duration-200 shadow-xl rounded-lg p-3.5 flex items-center gap-3 border bg-white max-w-md">
+            {actionToast.type === 'success' ? (
+              <CheckCircle className="w-5 h-5 text-emerald shrink-0" />
+            ) : (
+              <AlertCircle className="w-5 h-5 text-amber-500 shrink-0" />
+            )}
+            <p className="text-xs font-medium text-slate-800 leading-snug">
+              {actionToast.message}
+            </p>
+          </div>
+        )}
+
         <Header
           searchTerm={searchTerm}
           onSearchChange={setSearchTerm}
           onRefresh={loadData}
+          onResetSandbox={handleResetSandbox}
           isLoading={isLoading}
+          isResetting={isResetting}
         />
 
         {/* Scrollable Dashboard Body */}
@@ -160,6 +226,12 @@ export default function DashboardPage() {
         email={selectedEmailForDiff}
         onClose={() => setSelectedEmailForDiff(null)}
         onAction={handleAction}
+      />
+
+      {/* Performance Metrics Modal */}
+      <PerformanceMetricsModal
+        isOpen={isMetricsOpen}
+        onClose={() => setIsMetricsOpen(false)}
       />
     </div>
   );

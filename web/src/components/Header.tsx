@@ -1,20 +1,24 @@
 'use client';
 
 import React from 'react';
-import { Search, RefreshCw, Filter, Bell, User } from 'lucide-react';
+import { Search, RefreshCw, RotateCcw, Filter, Bell, User } from 'lucide-react';
 
 interface HeaderProps {
   searchTerm: string;
   onSearchChange: (value: string) => void;
   onRefresh: () => void;
+  onResetSandbox?: () => void;
   isLoading: boolean;
+  isResetting?: boolean;
 }
 
 export const Header: React.FC<HeaderProps> = ({
   searchTerm,
   onSearchChange,
   onRefresh,
-  isLoading
+  onResetSandbox,
+  isLoading,
+  isResetting
 }) => {
   return (
     <header className="h-16 bg-white border-b border-slate-200 px-6 flex items-center justify-between shrink-0">
@@ -31,7 +35,19 @@ export const Header: React.FC<HeaderProps> = ({
         </div>
       </div>
 
-      <div className="flex items-center gap-3">
+      <div className="flex items-center gap-2.5">
+        {onResetSandbox && (
+          <button
+            onClick={onResetSandbox}
+            disabled={isResetting || isLoading}
+            title="Reset semua data dan status ke tetapan asal 97.83% benchmark"
+            className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold text-amber-900 bg-amber-50 border border-amber-300 rounded-md hover:bg-amber-100 transition-colors disabled:opacity-50 shadow-sm"
+          >
+            <RotateCcw className={`w-3.5 h-3.5 text-amber-700 ${isResetting ? 'animate-spin' : ''}`} />
+            <span>Reset Sandbox</span>
+          </button>
+        )}
+
         <button
           onClick={onRefresh}
           disabled={isLoading}
