@@ -6,7 +6,7 @@ Extracts the 7 canonical fields from shipping document text (SI & BL).
 import os
 import json
 import logging
-from typing import Optional
+from typing import Optional, List, Dict, Any
 from pathlib import Path
 from ai.schema import ShippingDocumentExtraction, ShippingFields
 
@@ -53,12 +53,14 @@ IMPORTANT INTEGRITY RULES:
 class GeminiExtractor:
     """Class to interact with Gemini API for structured shipping document extraction."""
 
-    def __init__(self, api_key: Optional[str] = None, model_name: str = "gemini-3.6-flash"):
+    def __init__(self, api_key: Optional[str] = None, model_name: str = "gemini-3.6-flash", use_gemini: bool = True):
         self.api_key = api_key or os.getenv("GEMINI_API_KEY")
         self.model_name = model_name
         self.client_configured = False
+        self.use_gemini = use_gemini
+        self.quota_exceeded = False
         
-        if self.api_key and not self.api_key.startswith("your_"):
+        if self.use_gemini and self.api_key and not self.api_key.startswith("your_"):
             try:
                 import google.generativeai as genai
                 genai.configure(api_key=self.api_key)
@@ -67,12 +69,15 @@ class GeminiExtractor:
             except Exception as e:
                 logger.warning(f"Could not configure Gemini client: {e}")
         else:
-            logger.warning("GEMINI_API_KEY is not set or is still the default placeholder in .env")
+            if not self.use_gemini:
+                logger.info("Fast mode enabled (using deterministic domain synonym extractor).")
+            else:
+                logger.warning("GEMINI_API_KEY is not set or is still the default placeholder in .env")
 
     def extract(self, document_text: str, doc_type_hint: Optional[str] = None) -> ShippingDocumentExtraction:
         """
         Extract 7 canonical fields from text using Gemini API with Structured JSON Output.
-        Falls back to rule-based parser if API key is not available.
+        Falls back to rule-based parser if API key is not available or quota is exceeded.
         """
         if not document_text or not document_text.strip():
             return ShippingDocumentExtraction(
@@ -81,7 +86,7 @@ class GeminiExtractor:
                 confidence_notes="Empty document text provided."
             )
 
-        if self.client_configured:
+        if self.client_configured and not self.quota_exceeded:
             try:
                 import google.generativeai as genai
                 
@@ -122,13 +127,18 @@ Extract shipping document data into this exact JSON structure:
                 return ShippingDocumentExtraction(**extracted_data)
 
             except Exception as e:
-                logger.error(f"Gemini API call failed: {e}. Falling back to deterministic regex parser.")
+                err_str = str(e)
+                if "429" in err_str or "quota" in err_str.lower() or "resourceexhausted" in err_str.lower():
+                    logger.warning(f"Gemini API quota reached. Tripping circuit-breaker to instantaneous deterministic parser: {e}")
+                    self.quota_exceeded = True
+                else:
+                    logger.error(f"Gemini API call failed: {e}. Falling back to deterministic regex parser.")
 
         # Deterministic / Fallback Parser
         return self._fallback_regex_extract(document_text, doc_type_hint)
 
     def _fallback_regex_extract(self, text: str, doc_type_hint: Optional[str]) -> ShippingDocumentExtraction:
-        """Deterministic regex-based extraction as high-reliability fallback."""
+        """High-precision deterministic extraction covering all known domain synonym variations."""
         import re
 
         fields = ShippingFields()
@@ -137,60 +147,100 @@ Extract shipping document data into this exact JSON structure:
 
         # Check for non-shipping doc
         lower_text = text.lower()
-        if "commercial invoice" in lower_text or "invoice no:" in lower_text and "bill of lading" not in lower_text and "shipping instruction" not in lower_text:
+        if (
+            "commercial invoice" in lower_text or
+            "packing list only" in lower_text or
+            "certificate of origin" in lower_text
+        ) and "bill of lading" not in lower_text and "shipping instruction" not in lower_text:
             return ShippingDocumentExtraction(
                 is_shipping_document=False,
                 doc_type="INVOICE",
-                confidence_notes="Detected Commercial Invoice header instead of SI/BL."
+                confidence_notes="Detected Non-shipping document header."
             )
 
-        # Detect Shipper
-        shipper_match = re.search(r"(?:shipper|exporter|from)\s*:\s*([^\n\r]+)", text, re.IGNORECASE)
-        if shipper_match:
-            fields.shipper = shipper_match.group(1).strip()
+        def _get_val(patterns: List[str]) -> Optional[str]:
+            for pat in patterns:
+                m = re.search(pat, text, re.IGNORECASE)
+                if m:
+                    v = m.group(1) or (m.group(2) if len(m.groups()) >= 2 else None)
+                    if v and v.strip():
+                        return v.strip()
+            return None
 
-        # Detect Consignee
-        consignee_match = re.search(r"(?:consignee|to)\s*:\s*([^\n\r]+)", text, re.IGNORECASE)
-        if consignee_match:
-            val = consignee_match.group(1).strip()
-            if "???" in val or "tba" in val.lower() or "___" in val:
+        # 1. Shipper
+        if re.search(r'(?:Shipper|Exporter)[^\n\r:|]*[:|]\s*[\r\n]+(?=[A-Z])', text, re.IGNORECASE):
+            fields.shipper = None
+            has_placeholder = True
+            missing_fields.append("shipper")
+        else:
+            fields.shipper = _get_val([
+                r'(?:Shipper|Exporter|\bFrom\b)[^\n\r:|]*\s*(?:[:|]\s*([^\n\r|]+)|\n\s*([^\n\r|]+))'
+            ])
+
+        # 2. Consignee
+        if re.search(r'(?:Consignee)[^\n\r:|]*[:|]\s*[\r\n]+(?=[A-Z])', text, re.IGNORECASE):
+            fields.consignee = None
+            has_placeholder = True
+            missing_fields.append("consignee")
+        else:
+            fields.consignee = _get_val([
+                r'(?:Consignee|To\s*the\s*Order\s*of|Buyer|\bTo\b)[^\n\r:|]*\s*(?:[:|]\s*([^\n\r|]+)|\n\s*([^\n\r|]+))'
+            ])
+            if fields.consignee and any(p in fields.consignee.lower() for p in ["???", "tba", "___", "pending", "to be advised", "n/a"]):
                 has_placeholder = True
                 missing_fields.append("consignee")
-            fields.consignee = val
 
-        # Detect Notify Party
-        notify_match = re.search(r"(?:notify\s*party|notify)\s*:\s*([^\n\r]+)", text, re.IGNORECASE)
-        if notify_match:
-            fields.notify_party = notify_match.group(1).strip()
+        # 3. Notify Party
+        fields.notify_party = _get_val([
+            r'(?:Notify\s*Party|Intermediate\s*Consignee|\bNotify\b)[^\n\r:|]*\s*(?:[:|]\s*([^\n\r|]+)|\n\s*([^\n\r|]+))'
+        ])
 
-        # Detect POL
-        pol_match = re.search(r"(?:port\s*of\s*loading|load\s*port|pol)\s*:\s*([^\n\r]+)", text, re.IGNORECASE)
-        if pol_match:
-            fields.port_of_loading = pol_match.group(1).strip()
+        # 4. Port of Loading
+        fields.port_of_loading = _get_val([
+            r'(?:Port\s*of\s*Loading|Load\s*Port|\bPOL\b)[^\n\r:|]*\s*(?:[:|]\s*([^\n\r|]+)|\n\s*([^\n\r|]+))'
+        ])
+        if fields.port_of_loading and any(p in fields.port_of_loading.lower() for p in ["???", "tba", "___", "pending", "n/a"]):
+            has_placeholder = True
+            missing_fields.append("port_of_loading")
 
-        # Detect POD
-        pod_match = re.search(r"(?:port\s*of\s*discharge|discharge\s*port|pod)\s*:\s*([^\n\r]+)", text, re.IGNORECASE)
-        if pod_match:
-            fields.port_of_discharge = pod_match.group(1).strip()
+        # 5. Port of Discharge
+        fields.port_of_discharge = _get_val([
+            r'(?:Port\s*of\s*Discharge|Discharge\s*Port|\bPOD\b)[^\n\r:|]*\s*(?:[:|]\s*([^\n\r|]+)|\n\s*([^\n\r|]+))'
+        ])
+        if fields.port_of_discharge and any(p in fields.port_of_discharge.lower() for p in ["???", "tba", "___", "pending", "n/a"]):
+            has_placeholder = True
+            missing_fields.append("port_of_discharge")
 
-        # Detect Container Count
-        cnt_match = re.search(r"(?:container\s*count|containers?|qty|units?)\s*:\s*(\d+)", text, re.IGNORECASE)
-        if cnt_match:
-            fields.container_count = int(cnt_match.group(1))
+        # 6. Container Count
+        cnt_val = _get_val([
+            r'(?:No\.\s*of\s*Containers|Total\s*Containers|Container\s*Count|Containers?)[^\n\r:|]*\s*[:|]\s*(\d+)'
+        ])
+        if not cnt_val:
+            m_c = re.search(r'(\d+)\s*[xX]\s*(?:20|40)', text)
+            if m_c:
+                cnt_val = m_c.group(1)
+        if cnt_val and cnt_val.isdigit():
+            fields.container_count = int(cnt_val)
         else:
-            # Look for 3x40HQ pattern
-            c_pattern = re.search(r"(\d+)\s*[xX]\s*(?:20|40)", text)
-            if c_pattern:
-                fields.container_count = int(c_pattern.group(1))
+            fields.container_count = None
 
-        # Detect Gross Weight
-        weight_match = re.search(r"(?:gross\s*weight|weight|gw)\s*:\s*([0-9,.]+)\s*(?:kgs?|kg|mt)?", text, re.IGNORECASE)
-        if weight_match:
-            w_str = weight_match.group(1).replace(",", "").strip()
-            try:
-                fields.gross_weight_kg = float(w_str)
-            except ValueError:
-                pass
+        # 7. Gross Weight
+        m_wt_ph = re.search(r'(?:Gross\s*Weight|Gross\s*Wt)[^\n\r:|]*[:|]\s*([^\n\r|]+)', text, re.IGNORECASE)
+        if m_wt_ph and any(ph in m_wt_ph.group(1).lower() for ph in ['n/a', '___', '???', 'tba']):
+            fields.gross_weight_kg = None
+            has_placeholder = True
+            missing_fields.append("gross_weight_kg")
+        else:
+            wt_val = _get_val([
+                r'(?:Gross\s*Weight|Gross\s*Wt|G\.?W\.?|Weight)[^\n\r:|]*\s*(?:[:|]\s*([0-9,.]+)\s*(?:KG|KGS|MT|MTS)?|\n\s*([0-9,.]+))'
+            ])
+            if wt_val:
+                try:
+                    fields.gross_weight_kg = float(wt_val.replace(',', '').strip())
+                except ValueError:
+                    fields.gross_weight_kg = None
+            else:
+                fields.gross_weight_kg = None
 
         return ShippingDocumentExtraction(
             is_shipping_document=True,
@@ -198,5 +248,5 @@ Extract shipping document data into this exact JSON structure:
             has_missing_placeholder=has_placeholder,
             missing_fields=missing_fields,
             fields=fields,
-            confidence_notes="Extracted using deterministic pattern matcher."
+            confidence_notes="Extracted using deterministic domain synonym matcher."
         )

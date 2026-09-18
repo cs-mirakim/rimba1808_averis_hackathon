@@ -124,6 +124,40 @@ class SupabaseSync:
             logger.error(f"Network error inserting extracted fields: {e}")
             return False
 
+    def save_email_records_batch(self, records: List[Dict[str, Any]]) -> bool:
+        """Batch upsert multiple email records to Supabase in a single HTTP request."""
+        if not self.is_ready or not records:
+            return True
+        endpoint = f"{self.url}/rest/v1/emails"
+        try:
+            res = requests.post(endpoint, headers=self.headers, json=records, timeout=20)
+            if res.status_code in [200, 201, 204]:
+                logger.info(f"Successfully synced batch of {len(records)} email records to Supabase.")
+                return True
+            else:
+                logger.error(f"Batch emails upsert failed: {res.status_code} - {res.text}")
+                return False
+        except Exception as e:
+            logger.error(f"Network error in batch email sync: {e}")
+            return False
+
+    def save_extracted_fields_batch(self, fields_list: List[Dict[str, Any]]) -> bool:
+        """Batch insert multiple extracted field rows into Supabase in a single HTTP request."""
+        if not self.is_ready or not fields_list:
+            return True
+        endpoint = f"{self.url}/rest/v1/extracted_fields"
+        try:
+            res = requests.post(endpoint, headers=self.headers, json=fields_list, timeout=20)
+            if res.status_code in [200, 201, 204]:
+                logger.info(f"Successfully synced batch of {len(fields_list)} extracted field records to Supabase.")
+                return True
+            else:
+                logger.error(f"Batch fields insert failed: {res.status_code} - {res.text}")
+                return False
+        except Exception as e:
+            logger.error(f"Network error in batch fields sync: {e}")
+            return False
+
     def fetch_all_emails(self) -> List[Dict[str, Any]]:
         """Retrieve all emails from Supabase for frontend dashboard verification."""
         if not self.is_ready:
@@ -137,3 +171,4 @@ class SupabaseSync:
         except Exception as e:
             logger.error(f"Failed to fetch emails: {e}")
             return []
+
