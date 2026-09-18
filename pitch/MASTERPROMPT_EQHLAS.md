@@ -110,6 +110,16 @@ Bina sebuah **Aplikasi Web Interaktif untuk Pitch Deck (Slide Deck Web Applicati
 
 ---
 
+## 🛡️ CRITICAL BOUNDARY & ISOLATION RULES (PERATURAN KESELAMATAN WAJIB)
+> [!IMPORTANT]
+> **ZON ISOLASI KOD:**
+> 1. **HANYA TULIS DALAM FOLDER `pitch/`:** Semua fail kod, HTML, CSS, JavaScript, komponen, atau konfigurasi projek Web Pitch Deck **MESTILAH DIBINA DAN DISIMPAN 100% DI DALAM FOLDER `pitch/` SAHAJA** (contohnya: `pitch/index.html` atau di dalam subfolder `pitch/`).
+> 2. **JANGAN SENTUH FOLDER LAIN:** DILARANG SAMA SEKALI mengubah, menimpa, atau mencipta fail di dalam folder `web/`, `core/`, `pipeline/`, `ai/`, atau fail utama seperti `run_pipeline.py` dan `start_system.bat`.
+> 3. **PELANCAR ASING:** Sistem slaid ini mestilah dilancarkan secara berasingan menggunakan `run_pitch_deck.bat` di root (yang akan membaca dari folder `pitch/`) tanpa mengganggu sistem utama.
+
+---
+
 ## 🛠️ Arahan Pelaksanaan Teknikal
-1. Letakkan fail slide di dalam sub-folder `pitch/deck/` atau `pitch/app/` (boleh gunakan Tailwind CSS / Vanilla React / Vite / Next.js atau single-page app HTML+CSS+JS moden berprestasi tinggi).
-2. Sediakan fail pelancar `.bat` khusus bertajuk `run_pitch_deck.bat` di root projek untuk membuka slide web dengan satu klik tanpa mengganggu `start_system.bat` utama.
+1. Bina web slide di dalam folder `pitch/` (disyorkan fail `pitch/index.html` yang *self-contained* atau Vite/React app di dalam `pitch/`).
+2. Pastikan web slides menyokong pintasan papan kekunci (Arrow Keys, `F` Fullscreen, `N`/`P` Speaker Notes, `T` Timer).
+3. Uji pelancaran menggunakan `run_pitch_deck.bat`.
