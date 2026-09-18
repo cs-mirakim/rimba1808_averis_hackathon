@@ -9,7 +9,7 @@ import { DiffViewerModal } from '../components/DiffViewerModal';
 import { PerformanceMetricsModal } from '../components/PerformanceMetricsModal';
 import { getDashboardData, updateEmailStatus } from '../lib/supabase';
 import { EmailRecord, DashboardStats } from '../lib/types';
-import { Sparkles, Layers, CheckCircle, AlertCircle } from 'lucide-react';
+import { Sparkles, Layers, CheckCircle, AlertCircle, X } from 'lucide-react';
 
 export default function DashboardPage() {
   const [emails, setEmails] = useState<EmailRecord[]>([]);
@@ -151,17 +151,26 @@ export default function DashboardPage() {
 
       {/* Main Content Area */}
       <div className="flex-1 flex flex-col min-w-0 overflow-hidden relative">
-        {/* Floating Action Toast Notification */}
+        {/* Floating Action Toast Notification (Bottom Right - Non-obstructive) */}
         {actionToast && (
-          <div className="absolute top-4 right-6 z-40 animate-in slide-in-from-top-2 fade-in duration-200 shadow-xl rounded-lg p-3.5 flex items-center gap-3 border bg-white max-w-md">
+          <div className="fixed bottom-6 right-6 z-50 animate-in slide-in-from-bottom-3 fade-in duration-200 shadow-2xl rounded-xl p-4 flex items-start gap-3 border border-slate-200/90 bg-white/95 backdrop-blur-sm max-w-md ring-1 ring-slate-950/5">
             {actionToast.type === 'success' ? (
-              <CheckCircle className="w-5 h-5 text-emerald shrink-0" />
+              <CheckCircle className="w-5 h-5 text-emerald shrink-0 mt-0.5" />
             ) : (
-              <AlertCircle className="w-5 h-5 text-amber-500 shrink-0" />
+              <AlertCircle className="w-5 h-5 text-amber-500 shrink-0 mt-0.5" />
             )}
-            <p className="text-xs font-medium text-slate-800 leading-snug">
-              {actionToast.message}
-            </p>
+            <div className="flex-1 pr-1">
+              <p className="text-xs font-semibold text-slate-900 leading-snug">
+                {actionToast.message}
+              </p>
+            </div>
+            <button
+              onClick={() => setActionToast(null)}
+              className="p-1 rounded-md text-slate-400 hover:text-slate-700 hover:bg-slate-100 transition-colors shrink-0 -mr-1 -mt-1"
+              title="Dismiss notification"
+            >
+              <X className="w-4 h-4" />
+            </button>
           </div>
         )}
 

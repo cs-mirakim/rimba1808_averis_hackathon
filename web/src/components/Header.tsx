@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { Search, RefreshCw, RotateCcw, Filter, Bell, User } from 'lucide-react';
+import { Search, RefreshCw, RotateCcw, Filter, Bell, User, X } from 'lucide-react';
 
 interface HeaderProps {
   searchTerm: string;
@@ -30,8 +30,18 @@ export const Header: React.FC<HeaderProps> = ({
             placeholder="Search email ID, company, port, or status..."
             value={searchTerm}
             onChange={(e) => onSearchChange(e.target.value)}
-            className="w-full pl-9 pr-4 py-1.5 text-xs bg-slate-50 border border-slate-200 rounded-md focus:outline-none focus:ring-1 focus:ring-emerald focus:border-emerald transition-all"
+            className="w-full pl-9 pr-9 py-1.5 text-xs bg-slate-50 border border-slate-200 rounded-md focus:outline-none focus:ring-1 focus:ring-emerald focus:border-emerald transition-all"
           />
+          {searchTerm && (
+            <button
+              type="button"
+              onClick={() => onSearchChange('')}
+              title="Clear search"
+              className="absolute right-2.5 top-1/2 -translate-y-1/2 p-0.5 rounded-full text-slate-400 hover:text-slate-700 hover:bg-slate-200/80 transition-colors"
+            >
+              <X className="w-3.5 h-3.5" />
+            </button>
+          )}
         </div>
       </div>
 
