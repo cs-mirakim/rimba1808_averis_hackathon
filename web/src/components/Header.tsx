@@ -61,12 +61,12 @@ export const Header: React.FC<HeaderProps> = ({
         <div className="h-4 w-px bg-slate-200" />
 
         <div className="flex items-center gap-2">
-          <div className="w-8 h-8 rounded-full bg-emerald-100 border border-emerald-300 text-emerald-800 flex items-center justify-center font-bold text-xs">
-            AH
+          <div className="w-8 h-8 rounded-full bg-emerald-100 border border-emerald-300 text-emerald-800 flex items-center justify-center font-bold text-xs font-mono">
+            R8
           </div>
           <div className="hidden sm:block text-left">
-            <p className="text-xs font-semibold text-slate-800 leading-none">Amir Hakim</p>
-            <p className="text-[10px] text-slate-500 leading-none mt-1">Lead Ops Engineer</p>
+            <p className="text-xs font-semibold text-slate-800 leading-none">Rimba 0818</p>
+            <p className="text-[10px] text-slate-500 leading-none mt-1">SDOC Hackathon Team</p>
           </div>
         </div>
       </div>

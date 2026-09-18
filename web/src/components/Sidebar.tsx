@@ -42,9 +42,8 @@ export const Sidebar: React.FC<SidebarProps> = ({ currentTab, onTabChange, stats
               <Ship className="w-5 h-5 text-white" />
             </div>
             <div>
-              <h1 className="font-bold text-sm tracking-tight text-white flex items-center gap-1.5">
-                AVERIS DOCS
-                <span className="text-[10px] px-1.5 py-0.5 rounded bg-emerald-800/80 text-emerald-200 font-mono font-medium">OPS</span>
+              <h1 className="font-bold text-sm tracking-tight text-white">
+                Averis SDOC
               </h1>
               <p className="text-xs text-emerald-300/70">Shipping Verification Engine</p>
             </div>
