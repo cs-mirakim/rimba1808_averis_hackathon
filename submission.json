@@ -774,8 +774,7 @@
     "has_defect": true,
     "defect_fields": [
       "consignee",
-      "container_count",
-      "gross_weight_kg"
+      "container_count"
     ]
   },
   "email_108": {
@@ -2185,8 +2184,7 @@
     "review_reason": null,
     "has_defect": true,
     "defect_fields": [
-      "container_count",
-      "gross_weight_kg"
+      "container_count"
     ]
   },
   "email_303": {

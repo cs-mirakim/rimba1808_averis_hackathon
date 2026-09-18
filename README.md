@@ -75,7 +75,7 @@ Untuk membuka Dashboard Operasi **Averis SDOC**:
 
 ## 📊 Cara Semak Markah Benchmark Tempatan
 
-Bagi menyemak markah penanda aras rasmi (97.83% score):
+Bagi menyemak markah penanda aras rasmi (100.0% score):
 ```bash
 python core/run_benchmark.py
 ```

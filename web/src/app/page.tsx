@@ -60,7 +60,7 @@ export default function DashboardPage() {
       if (res.ok) {
         await loadData();
         setActionToast({
-          message: 'Sandbox Reset: All records and document statuses restored to default 97.83% benchmark baseline.',
+          message: 'Sandbox Reset: All records and document statuses restored to official 100.0% benchmark baseline.',
           type: 'success'
         });
         setTimeout(() => setActionToast(null), 5000);

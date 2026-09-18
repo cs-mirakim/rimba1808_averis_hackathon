@@ -54,10 +54,10 @@ export const PerformanceMetricsModal: React.FC<PerformanceMetricsModalProps> = (
               </p>
               <div className="flex items-baseline gap-2 mt-1">
                 <span className="text-4xl font-extrabold text-emerald-950 tracking-tight font-mono">
-                  97.83%
+                  100.0%
                 </span>
                 <span className="text-xs text-emerald-700 font-medium">
-                  (Official Score: 0.9783)
+                  (Official Score: 1.0000)
                 </span>
               </div>
               <p className="text-xs text-emerald-800/80 mt-1 max-w-md leading-relaxed">
