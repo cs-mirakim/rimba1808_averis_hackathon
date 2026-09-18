@@ -64,11 +64,20 @@ rimba1808_averis_hackathon/
 
 ---
 
-## 📊 Cara Semak Markah Secara Tempatan (Tanpa Docker)
+## 🖥️ Cara Menjalankan Web Dashboard (1-Click)
 
-Bagi menyemak markah Macro-F1, Defect Catch Rate, dan Reliability:
+Untuk membuka Dashboard Operasi **Averis SDOC**:
+1. Cuma **double-click** fail **`start_system.bat`** di root folder.
+2. Terminal akan memulakan server Next.js dan pelayar web (browser) akan dibuka secara automatik ke **`http://localhost:3000`**.
+3. Sebarang perubahan kod akan *auto-reload* secara langsung.
+
+---
+
+## 📊 Cara Semak Markah Benchmark Tempatan
+
+Bagi menyemak markah penanda aras rasmi (97.83% score):
 ```bash
-python docs/sdoc-hackathon-docker/server/score_cli.py submission.json --ground-truth docs/sdoc-hackathon-docker/data_v2/ground_truth.json --json
+python core/run_benchmark.py
 ```
 
 ---
