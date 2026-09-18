@@ -61,7 +61,7 @@ export const PerformanceMetricsModal: React.FC<PerformanceMetricsModalProps> = (
                 </span>
               </div>
               <p className="text-xs text-emerald-800/80 mt-1 max-w-md leading-relaxed">
-                Formula Penilai: <code className="font-mono text-emerald-900 font-semibold">0.3 × Stage 1 + 0.2 × Stage 3 + 0.5 × End-to-End</code> merentasi 520 emel dataset rasmi.
+                Evaluation Formula: <code className="font-mono text-emerald-900 font-semibold">0.3 × Stage 1 + 0.2 × Stage 3 + 0.5 × End-to-End</code> across all 520 official dataset emails.
               </p>
             </div>
 
@@ -84,11 +84,11 @@ export const PerformanceMetricsModal: React.FC<PerformanceMetricsModalProps> = (
               </div>
               <h3 className="text-sm font-bold text-slate-900">Email Classification</h3>
               <p className="text-[11px] text-slate-500 leading-relaxed">
-                Ketepatan mengelaskan emel kepada 5 kategori (BL_COMPARISON, SI_REQUEST, INVOICE_QUERY, GENERAL, SPAM).
+                Accuracy in classifying incoming emails into 5 operational categories (BL_COMPARISON, SI_REQUEST, INVOICE_QUERY, GENERAL, SPAM).
               </p>
               <div className="pt-2 border-t border-slate-200/80 flex items-center justify-between text-[11px]">
                 <span className="text-slate-500">Macro-F1:</span>
-                <span className="font-mono font-bold text-slate-900">1.0000 (Sempurna)</span>
+                <span className="font-mono font-bold text-slate-900">1.0000 (Perfect)</span>
               </div>
             </div>
 
@@ -102,11 +102,11 @@ export const PerformanceMetricsModal: React.FC<PerformanceMetricsModalProps> = (
               </div>
               <h3 className="text-sm font-bold text-slate-900">Defect Detection</h3>
               <p className="text-[11px] text-slate-500 leading-relaxed">
-                Ketepatan mengesan ralat antara SI vs Draft BL bagi kesemua 7 canonical fields tanpa ralat palsu (0 false alarm).
+                Accuracy in detecting discrepancies between customer SI vs carrier Draft BL across all 7 canonical fields with zero false alarms.
               </p>
               <div className="pt-2 border-t border-slate-200/80 flex items-center justify-between text-[11px]">
                 <span className="text-slate-500">Defect Precision:</span>
-                <span className="font-mono font-bold text-slate-900">1.0000 (0 false alarm)</span>
+                <span className="font-mono font-bold text-slate-900">1.0000 (0 false alarms)</span>
               </div>
             </div>
 
@@ -120,11 +120,11 @@ export const PerformanceMetricsModal: React.FC<PerformanceMetricsModalProps> = (
               </div>
               <h3 className="text-sm font-bold text-slate-900">Human Escalation</h3>
               <p className="text-[11px] text-slate-500 leading-relaxed">
-                Keupayaan AI mengecam fail rosak, dokumen bukan BL (commercial invoice), atau medan bertanda &apos;TBA&apos;/&apos;N/A&apos;.
+                Autonomous detection of corrupted files, non-BL documents (e.g. commercial invoices), or unpopulated &apos;TBA&apos;/&apos;N/A&apos; fields.
               </p>
               <div className="pt-2 border-t border-slate-200/80 flex items-center justify-between text-[11px]">
                 <span className="text-slate-500">Escalation F1:</span>
-                <span className="font-mono font-bold text-slate-900">1.0000 (20/20 tepat)</span>
+                <span className="font-mono font-bold text-slate-900">1.0000 (20/20 exact)</span>
               </div>
             </div>
           </div>
@@ -133,29 +133,29 @@ export const PerformanceMetricsModal: React.FC<PerformanceMetricsModalProps> = (
           <div className="border border-slate-200 rounded-xl overflow-hidden">
             <div className="px-4 py-3 bg-slate-100/80 border-b border-slate-200">
               <h4 className="text-xs font-bold text-slate-800 uppercase tracking-wider">
-                Pecahan Metrik Terperinci (520 Emel)
+                Detailed Evaluation Breakdown (520 Emails)
               </h4>
             </div>
             <table className="w-full text-xs text-left">
               <thead className="bg-slate-50 text-slate-600 border-b border-slate-200">
                 <tr>
-                  <th className="py-2.5 px-4 font-semibold">Komponen Ujian</th>
-                  <th className="py-2.5 px-4 font-semibold">Kategori / Senario</th>
-                  <th className="py-2.5 px-4 font-semibold">Keputusan Ujian</th>
-                  <th className="py-2.5 px-4 font-semibold text-right">Skor Pencapaian</th>
+                  <th className="py-2.5 px-4 font-semibold">Evaluation Component</th>
+                  <th className="py-2.5 px-4 font-semibold">Category / Scenario</th>
+                  <th className="py-2.5 px-4 font-semibold">Test Outcome</th>
+                  <th className="py-2.5 px-4 font-semibold text-right">Benchmark Score</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-slate-100">
                 <tr>
                   <td className="py-2.5 px-4 font-semibold text-slate-800">Stage 1 Ingestion</td>
                   <td className="py-2.5 px-4 text-slate-600">5-Way Email Triage Classification</td>
-                  <td className="py-2.5 px-4 text-slate-600">520 / 520 tepat</td>
+                  <td className="py-2.5 px-4 text-slate-600">520 / 520 exact matches</td>
                   <td className="py-2.5 px-4 text-right font-mono font-bold text-emerald-700">100.00%</td>
                 </tr>
                 <tr>
                   <td className="py-2.5 px-4 font-semibold text-slate-800">Stage 3 Defects</td>
                   <td className="py-2.5 px-4 text-slate-600">Discrepancy Catch Rate (SI vs BL)</td>
-                  <td className="py-2.5 px-4 text-slate-600">46 / 46 kecacatan dikesan</td>
+                  <td className="py-2.5 px-4 text-slate-600">46 / 46 discrepancies caught</td>
                   <td className="py-2.5 px-4 text-right font-mono font-bold text-emerald-700">100.00%</td>
                 </tr>
                 <tr>
@@ -167,14 +167,14 @@ export const PerformanceMetricsModal: React.FC<PerformanceMetricsModalProps> = (
                 <tr>
                   <td className="py-2.5 px-4 font-semibold text-slate-800">Reliability Triage</td>
                   <td className="py-2.5 px-4 text-slate-600">Wrong Doc, Unreadable, Missing Values</td>
-                  <td className="py-2.5 px-4 text-slate-600">20 / 20 eskalasi dikesan</td>
+                  <td className="py-2.5 px-4 text-slate-600">20 / 20 escalations caught</td>
                   <td className="py-2.5 px-4 text-right font-mono font-bold text-emerald-700">100.00%</td>
                 </tr>
                 <tr>
                   <td className="py-2.5 px-4 font-semibold text-slate-800">Throughput</td>
-                  <td className="py-2.5 px-4 text-slate-600">Kelajuan pemprosesan 520 dokumen</td>
+                  <td className="py-2.5 px-4 text-slate-600">Batch processing speed across 520 docs</td>
                   <td className="py-2.5 px-4 text-slate-600">Multi-format deterministic engine</td>
-                  <td className="py-2.5 px-4 text-right font-mono font-bold text-slate-900">&lt; 2.5 saat</td>
+                  <td className="py-2.5 px-4 text-right font-mono font-bold text-slate-900">&lt; 2.5s</td>
                 </tr>
               </tbody>
             </table>
@@ -184,13 +184,13 @@ export const PerformanceMetricsModal: React.FC<PerformanceMetricsModalProps> = (
         {/* Footer */}
         <div className="px-6 py-4 border-t border-slate-200 bg-slate-50 flex items-center justify-between">
           <p className="text-xs text-slate-500">
-            Enjin disahkan terhadap fail <code className="font-mono text-slate-700">ground_truth.json</code> rasmi juri.
+            Engine validated against the official jury <code className="font-mono text-slate-700">ground_truth.json</code> test suite.
           </p>
           <button
             onClick={onClose}
             className="px-4 py-1.5 text-xs font-semibold text-slate-700 bg-white hover:bg-slate-100 border border-slate-300 rounded-md transition-colors"
           >
-            Tutup
+            Close
           </button>
         </div>
       </div>

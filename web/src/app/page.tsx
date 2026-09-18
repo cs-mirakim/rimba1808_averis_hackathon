@@ -53,7 +53,7 @@ export default function DashboardPage() {
       if (res.ok) {
         await loadData();
         setActionToast({
-          message: '↺ Sandbox Direset: Kesemua data dan status dokumen telah dikembalikan ke tetapan asal 97.83% benchmark!',
+          message: '↺ Sandbox Reset: All records and document statuses restored to default 97.83% benchmark baseline!',
           type: 'success'
         });
         setTimeout(() => setActionToast(null), 5000);
@@ -89,12 +89,12 @@ export default function DashboardPage() {
     // Trigger feedback toast
     if (actionType === 'APPROVE') {
       setActionToast({
-        message: `✅ Diluluskan! ${emailId} telah ditukar ke status 'OK' (Disahkan oleh Lead Officer untuk pelepasan kargo).`,
+        message: `✅ Approved! ${emailId} status updated to 'OK' (Manual override confirmed by Lead Officer for cargo release).`,
         type: 'success'
       });
     } else {
       setActionToast({
-        message: `⚠️ Dieskalasi! ${emailId} ditandakan sebagai 'NEEDS_REVIEW' (Notis pembetulan dihantar ke Carrier).`,
+        message: `⚠️ Escalated! ${emailId} flagged as 'NEEDS_REVIEW' (Discrepancy notice dispatched to carrier).`,
         type: 'warning'
       });
     }

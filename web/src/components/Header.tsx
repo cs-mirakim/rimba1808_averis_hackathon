@@ -40,7 +40,7 @@ export const Header: React.FC<HeaderProps> = ({
           <button
             onClick={onResetSandbox}
             disabled={isResetting || isLoading}
-            title="Reset semua data dan status ke tetapan asal 97.83% benchmark"
+            title="Reset all records and statuses to default 97.83% benchmark baseline"
             className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold text-amber-900 bg-amber-50 border border-amber-300 rounded-md hover:bg-amber-100 transition-colors disabled:opacity-50 shadow-sm"
           >
             <RotateCcw className={`w-3.5 h-3.5 text-amber-700 ${isResetting ? 'animate-spin' : ''}`} />
