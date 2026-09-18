@@ -1,8 +1,23 @@
 'use client';
 
-import React from 'react';
+import React, { useState } from 'react';
 import { EmailRecord } from '../lib/types';
-import { X, AlertCircle, CheckCircle2, ShieldAlert, UserCheck, Send, Mail, Check, FileQuestion } from 'lucide-react';
+import { 
+  X, 
+  AlertCircle, 
+  CheckCircle2, 
+  ShieldAlert, 
+  UserCheck, 
+  Send, 
+  Mail, 
+  Check, 
+  Sparkles, 
+  Copy, 
+  Bot, 
+  ChevronDown, 
+  ChevronUp,
+  FileText
+} from 'lucide-react';
 
 interface DiffViewerModalProps {
   email: EmailRecord | null;
@@ -15,6 +30,10 @@ export const DiffViewerModal: React.FC<DiffViewerModalProps> = ({
   onClose,
   onAction
 }) => {
+  const [aiLoading, setAiLoading] = useState(false);
+  const [aiResult, setAiResult] = useState<any>(null);
+  const [copied, setCopied] = useState(false);
+
   if (!email) return null;
 
   const fieldsList: { key: keyof NonNullable<EmailRecord['si_fields']>; label: string }[] = [
@@ -35,9 +54,43 @@ export const DiffViewerModal: React.FC<DiffViewerModalProps> = ({
     (email.bl_fields && Object.values(email.bl_fields).some(v => v !== null && v !== undefined && v !== ''))
   );
 
+  const handleCallGemini = async () => {
+    setAiLoading(true);
+    try {
+      const res = await fetch('/api/ai/analyze', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          email_id: email.email_id,
+          subject: email.subject,
+          defect_fields: email.defect_fields,
+          si_fields: email.si_fields,
+          bl_fields: email.bl_fields,
+        })
+      });
+      if (res.ok) {
+        const data = await res.json();
+        setAiResult(data);
+      }
+    } catch (err) {
+      console.error('Failed to analyze with Gemini:', err);
+    } finally {
+      setAiLoading(false);
+    }
+  };
+
+  const handleCopyEmail = () => {
+    if (aiResult?.carrier_email_draft?.body) {
+      const textToCopy = `Subject: ${aiResult.carrier_email_draft.subject}\n\n${aiResult.carrier_email_draft.body}`;
+      navigator.clipboard.writeText(textToCopy);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2500);
+    }
+  };
+
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-sm animate-in fade-in duration-150">
-      <div className="bg-white rounded-xl shadow-2xl border border-slate-200 w-full max-w-4xl max-h-[90vh] flex flex-col overflow-hidden font-sans">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-sm animate-in fade-in duration-150 font-sans">
+      <div className="bg-white rounded-xl shadow-2xl border border-slate-200 w-full max-w-4xl max-h-[92vh] flex flex-col overflow-hidden">
         {/* Modal Header */}
         <div className="px-6 py-4 border-b border-slate-200 flex items-center justify-between bg-slate-50/80">
           <div>
@@ -122,13 +175,84 @@ export const DiffViewerModal: React.FC<DiffViewerModalProps> = ({
               )}
 
               {email.has_defect && email.defect_fields.length > 0 && (
-                <div className="p-3 bg-red-50 border border-red-200 rounded-lg flex items-center gap-3 text-red-900 text-xs">
-                  <ShieldAlert className="w-4 h-4 text-red-600 shrink-0" />
-                  <span>
-                    <strong>Discrepancy Alert:</strong> Enjin pengesahan mengesan percanggahan pada{' '}
-                    <span className="font-mono font-bold uppercase">{email.defect_fields.join(', ')}</span>.
-                    Sila semak sebelum mengesahkan draf ini kepada syarikat perkapalan.
-                  </span>
+                <div className="p-3.5 bg-red-50/90 border border-red-200 rounded-xl flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-red-950 text-xs shadow-sm">
+                  <div className="flex items-center gap-2.5">
+                    <ShieldAlert className="w-4 h-4 text-red-600 shrink-0" />
+                    <div>
+                      <strong className="text-red-900">Discrepancy Alert:</strong> Enjin mengesan perbezaan pada{' '}
+                      <span className="font-mono font-bold uppercase text-red-800">{email.defect_fields.join(', ')}</span>.
+                    </div>
+                  </div>
+
+                  {/* Gemini AI Trigger Button */}
+                  <button
+                    onClick={handleCallGemini}
+                    disabled={aiLoading}
+                    className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-bold text-white bg-gradient-to-r from-emerald-700 via-teal-700 to-forest-900 hover:from-emerald-800 hover:to-forest-950 rounded-lg shadow-sm border border-emerald-600 transition-all shrink-0 self-start sm:self-auto disabled:opacity-50"
+                  >
+                    <Sparkles className={`w-3.5 h-3.5 text-amber-300 ${aiLoading ? 'animate-spin' : ''}`} />
+                    <span>{aiLoading ? 'Gemini AI Sedang Menganalisis...' : '✨ Tanya Gemini AI Copilot'}</span>
+                  </button>
+                </div>
+              )}
+
+              {/* Gemini AI Analysis Box */}
+              {aiResult && (
+                <div className="bg-gradient-to-br from-emerald-50/80 via-teal-50/40 to-slate-50 border border-emerald-200 rounded-xl p-4 text-xs space-y-3 shadow-sm animate-in fade-in duration-200">
+                  <div className="flex items-center justify-between pb-2 border-b border-emerald-200/60">
+                    <div className="flex items-center gap-2">
+                      <div className="w-6 h-6 rounded-md bg-emerald text-white flex items-center justify-center">
+                        <Bot className="w-3.5 h-3.5" />
+                      </div>
+                      <span className="font-bold text-emerald-950">
+                        {aiResult.ai_source || 'Google Gemini 3.6 Flash'} • Analisis Risiko & Draf Bantahan
+                      </span>
+                    </div>
+
+                    <span className={`px-2 py-0.5 rounded text-[10px] font-bold font-mono ${
+                      aiResult.risk_severity === 'HIGH' ? 'bg-red-100 text-red-800 border border-red-300' : 'bg-amber-100 text-amber-800 border border-amber-300'
+                    }`}>
+                      {aiResult.risk_severity} RISK
+                    </span>
+                  </div>
+
+                  <div className="space-y-2">
+                    <div>
+                      <p className="font-semibold text-slate-800">Punca Percanggahan & Kesan Operasi:</p>
+                      <p className="text-slate-600 leading-relaxed mt-0.5">{aiResult.summary}</p>
+                    </div>
+
+                    <div className="pt-2 border-t border-slate-200/80">
+                      <p className="font-semibold text-slate-800">Syor Tindakan AI:</p>
+                      <p className="text-emerald-900 font-medium mt-0.5">
+                        <span className="font-mono font-bold px-1.5 py-0.5 rounded bg-emerald-100 text-emerald-800 mr-1.5">
+                          {aiResult.recommended_action}
+                        </span>
+                        {aiResult.action_rationale}
+                      </p>
+                    </div>
+
+                    {aiResult.carrier_email_draft && (
+                      <div className="pt-2 border-t border-slate-200/80 space-y-1.5">
+                        <div className="flex items-center justify-between">
+                          <p className="font-semibold text-slate-800 flex items-center gap-1.5">
+                            <FileText className="w-3.5 h-3.5 text-emerald-700" />
+                            Draf Emel Bantahan Rasmi (Sedia Dihantar ke Syarikat Perkapalan):
+                          </p>
+                          <button
+                            onClick={handleCopyEmail}
+                            className="inline-flex items-center gap-1 px-2 py-0.5 rounded bg-white hover:bg-slate-100 border border-slate-200 text-slate-700 font-medium text-[11px] transition-colors"
+                          >
+                            {copied ? <Check className="w-3 h-3 text-emerald-600" /> : <Copy className="w-3 h-3 text-slate-500" />}
+                            <span>{copied ? 'Disalin!' : 'Salin Draf'}</span>
+                          </button>
+                        </div>
+                        <div className="p-3 bg-white rounded-lg border border-slate-200 text-[11px] font-mono text-slate-800 whitespace-pre-line leading-relaxed max-h-40 overflow-y-auto">
+                          {`Subject: ${aiResult.carrier_email_draft.subject}\n\n${aiResult.carrier_email_draft.body}`}
+                        </div>
+                      </div>
+                    )}
+                  </div>
                 </div>
               )}
 
