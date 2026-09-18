@@ -37,7 +37,7 @@ export default function DashboardPage() {
       setStats(data.stats);
       if (isManualSync) {
         setActionToast({
-          message: '🔄 Supabase Synchronized: All 520 document records and live verification metrics are up to date!',
+          message: 'Supabase Synchronized: All 520 document records and live verification metrics are up to date.',
           type: 'success'
         });
         setTimeout(() => setActionToast(null), 4000);
@@ -60,7 +60,7 @@ export default function DashboardPage() {
       if (res.ok) {
         await loadData();
         setActionToast({
-          message: '↺ Sandbox Reset: All records and document statuses restored to default 97.83% benchmark baseline!',
+          message: 'Sandbox Reset: All records and document statuses restored to default 97.83% benchmark baseline.',
           type: 'success'
         });
         setTimeout(() => setActionToast(null), 5000);
@@ -96,12 +96,12 @@ export default function DashboardPage() {
     // Trigger feedback toast
     if (actionType === 'APPROVE') {
       setActionToast({
-        message: `✅ Approved! ${emailId} status updated to 'OK' (Manual override confirmed by Lead Officer for cargo release).`,
+        message: `Approved: ${emailId} status updated to 'OK' (Manual override confirmed by Lead Officer for cargo release).`,
         type: 'success'
       });
     } else {
       setActionToast({
-        message: `⚠️ Escalated! ${emailId} flagged as 'NEEDS_REVIEW' (Discrepancy notice dispatched to carrier).`,
+        message: `Escalated: ${emailId} flagged as 'NEEDS_REVIEW' (Discrepancy notice dispatched to carrier).`,
         type: 'warning'
       });
     }

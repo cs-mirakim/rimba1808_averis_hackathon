@@ -196,7 +196,7 @@ export const DiffViewerModal: React.FC<DiffViewerModalProps> = ({
                     className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-bold text-white bg-gradient-to-r from-emerald-700 via-teal-700 to-forest-900 hover:from-emerald-800 hover:to-forest-950 rounded-lg shadow-sm border border-emerald-600 transition-all shrink-0 self-start sm:self-auto disabled:opacity-50"
                   >
                     <Sparkles className={`w-3.5 h-3.5 text-amber-300 ${aiLoading ? 'animate-spin' : ''}`} />
-                    <span>{aiLoading ? 'Gemini AI Analyzing...' : '✨ Ask Gemini AI Copilot'}</span>
+                    <span>{aiLoading ? 'Analyzing Shipment...' : 'Ask Gemini AI Copilot'}</span>
                   </button>
                 </div>
               )}
