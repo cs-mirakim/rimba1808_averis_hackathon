@@ -3,6 +3,12 @@ Unit Test Suite untuk Modul Core (Team Rimba)
 Menguji normalizer, perbandingan deterministik 7-field, dan pengendalian ralat.
 """
 
+import sys
+from pathlib import Path
+ROOT = Path(__file__).resolve().parent.parent
+if str(ROOT) not in sys.path:
+    sys.path.insert(0, str(ROOT))
+
 import unittest
 from core.normalizer import (
     normalize_text,
