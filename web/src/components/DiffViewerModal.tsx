@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { EmailRecord } from '../lib/types';
 import { 
   X, 
@@ -33,6 +33,13 @@ export const DiffViewerModal: React.FC<DiffViewerModalProps> = ({
   const [aiLoading, setAiLoading] = useState(false);
   const [aiResult, setAiResult] = useState<any>(null);
   const [copied, setCopied] = useState(false);
+
+  // Automatically reset AI Copilot response whenever a different email is opened
+  useEffect(() => {
+    setAiResult(null);
+    setAiLoading(false);
+    setCopied(false);
+  }, [email?.email_id]);
 
   if (!email) return null;
 
