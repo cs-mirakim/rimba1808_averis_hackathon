@@ -7,10 +7,13 @@ export const dynamic = 'force-dynamic';
 const SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_URL || 'https://soqanyoziihtkiigratn.supabase.co';
 const SUPABASE_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || '';
 
+// Server-side in-memory cache to prevent downloading static extracted_fields & disk reads repeatedly
+let cachedFieldsMap: Record<string, { si?: any; bl?: any }> | null = null;
+let cachedSubjectMap: Record<string, string> | null = null;
+
 export async function GET() {
   try {
     let emailsData: any[] = [];
-    let fieldsMap: Record<string, { si?: any; bl?: any }> = {};
 
     // 1. Try fetching live from Supabase using Service Role Key (bypasses RLS)
     if (SUPABASE_KEY && !SUPABASE_KEY.startsWith('your_')) {
@@ -21,22 +24,31 @@ export async function GET() {
           'Content-Type': 'application/json',
         };
 
-        const [emailsRes, fieldsRes] = await Promise.all([
-          fetch(`${SUPABASE_URL}/rest/v1/emails?select=*&order=created_at.desc`, { headers, cache: 'no-store' }),
-          fetch(`${SUPABASE_URL}/rest/v1/extracted_fields?select=*`, { headers, cache: 'no-store' })
-        ]);
+        // Only fetch static extracted_fields once, then cache in memory
+        const fetchPromises: Promise<any>[] = [
+          fetch(`${SUPABASE_URL}/rest/v1/emails?select=*&order=created_at.desc`, { headers, cache: 'no-store' })
+        ];
 
-        if (emailsRes.ok) {
+        if (!cachedFieldsMap) {
+          fetchPromises.push(
+            fetch(`${SUPABASE_URL}/rest/v1/extracted_fields?select=*`, { headers, cache: 'no-store' })
+          );
+        }
+
+        const [emailsRes, fieldsRes] = await Promise.all(fetchPromises);
+
+        if (emailsRes && emailsRes.ok) {
           emailsData = await emailsRes.json();
         }
 
-        if (fieldsRes.ok) {
+        if (fieldsRes && fieldsRes.ok) {
           const fieldsList = await fieldsRes.json();
+          cachedFieldsMap = {};
           for (const f of fieldsList) {
             const eid = f.email_id;
-            if (!fieldsMap[eid]) fieldsMap[eid] = {};
-            if (f.doc_type === 'SI') fieldsMap[eid].si = f;
-            if (f.doc_type === 'BL') fieldsMap[eid].bl = f;
+            if (!cachedFieldsMap[eid]) cachedFieldsMap[eid] = {};
+            if (f.doc_type === 'SI') cachedFieldsMap[eid].si = f;
+            if (f.doc_type === 'BL') cachedFieldsMap[eid].bl = f;
           }
         }
       } catch (err) {
@@ -52,21 +64,25 @@ export async function GET() {
 
       if (fs.existsSync(subPath)) {
         const subContent = JSON.parse(fs.readFileSync(subPath, 'utf-8'));
-        const fileNames = fs.existsSync(inboxDir) ? fs.readdirSync(inboxDir) : [];
 
-        const subjectMap: Record<string, string> = {};
-        for (const fname of fileNames) {
-          if (fname.endsWith('.json')) {
-            try {
-              const em = JSON.parse(fs.readFileSync(path.join(inboxDir, fname), 'utf-8'));
-              subjectMap[em.email_id] = em.subject || fname;
-            } catch {}
+        if (!cachedSubjectMap) {
+          cachedSubjectMap = {};
+          if (fs.existsSync(inboxDir)) {
+            const fileNames = fs.readdirSync(inboxDir);
+            for (const fname of fileNames) {
+              if (fname.endsWith('.json')) {
+                try {
+                  const em = JSON.parse(fs.readFileSync(path.join(inboxDir, fname), 'utf-8'));
+                  cachedSubjectMap[em.email_id] = em.subject || fname;
+                } catch {}
+              }
+            }
           }
         }
 
         emailsData = Object.entries(subContent).map(([eid, rec]: [string, any]) => ({
           email_id: eid,
-          subject: subjectMap[eid] || `Shipping Verification - ${eid}`,
+          subject: (cachedSubjectMap && cachedSubjectMap[eid]) || `Shipping Verification - ${eid}`,
           category: rec.category || 'BL_COMPARISON',
           status: rec.status || 'OK',
           review_reason: rec.review_reason || null,
@@ -78,8 +94,9 @@ export async function GET() {
     }
 
     // Connect extracted fields
+    const fMap = cachedFieldsMap || {};
     const formattedEmails = emailsData.map((e) => {
-      const f = fieldsMap[e.email_id];
+      const f = fMap[e.email_id];
       return {
         ...e,
         defect_fields: Array.isArray(e.defect_fields) ? e.defect_fields : [],

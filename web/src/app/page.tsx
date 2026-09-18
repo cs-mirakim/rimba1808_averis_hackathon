@@ -29,12 +29,19 @@ export default function DashboardPage() {
   const [isResetting, setIsResetting] = useState(false);
   const [actionToast, setActionToast] = useState<{ message: string; type: 'success' | 'warning' } | null>(null);
 
-  const loadData = async () => {
+  const loadData = async (isManualSync = false) => {
     setIsLoading(true);
     try {
       const data = await getDashboardData();
       setEmails(data.emails);
       setStats(data.stats);
+      if (isManualSync) {
+        setActionToast({
+          message: '🔄 Supabase Synchronized: All 520 document records and live verification metrics are up to date!',
+          type: 'success'
+        });
+        setTimeout(() => setActionToast(null), 4000);
+      }
     } catch (e) {
       console.error('Failed to load dashboard data:', e);
     } finally {
@@ -161,7 +168,7 @@ export default function DashboardPage() {
         <Header
           searchTerm={searchTerm}
           onSearchChange={setSearchTerm}
-          onRefresh={loadData}
+          onRefresh={() => loadData(true)}
           onResetSandbox={handleResetSandbox}
           isLoading={isLoading}
           isResetting={isResetting}

@@ -51,10 +51,11 @@ export const Header: React.FC<HeaderProps> = ({
         <button
           onClick={onRefresh}
           disabled={isLoading}
+          title="Synchronize and fetch latest verification statuses from Supabase"
           className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-slate-700 bg-white border border-slate-200 rounded-md hover:bg-slate-50 transition-colors disabled:opacity-50"
         >
           <RefreshCw className={`w-3.5 h-3.5 text-slate-500 ${isLoading ? 'animate-spin' : ''}`} />
-          <span>Sync Supabase</span>
+          <span>{isLoading ? 'Syncing...' : 'Sync Supabase'}</span>
         </button>
 
         <div className="h-4 w-px bg-slate-200" />
