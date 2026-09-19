@@ -102,6 +102,6 @@
 ### [04:30 - 04:45] Scene 6: Conclusion & Call to Action
 **Visual On Screen:** Slide 8 (Summary & Closing)  
 **Speaker:**
-> "In summary: Averis SDOC is **100% compliant** with all hackathon rules, **100% mathematically verified**, and **production-ready** for enterprise deployment at Averis and APRIL Group.
+> "In summary: Averis SDOC is **100% compliant** with all hackathon rules, **100% mathematically verified**, and **production-ready** for enterprise demonstration and deployment at Averis and APRIL Group.
 >
 > Thank you to Averis and Monash University. We are Team Rimba 0818, ready to power the next generation of autonomous shipping operations!"

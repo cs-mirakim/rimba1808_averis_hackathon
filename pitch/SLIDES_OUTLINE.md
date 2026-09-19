@@ -98,7 +98,7 @@
 ---
 
 ## Slide 8: Summary & Closing
-- **Headline:** Averis SDOC — Resilient, Scalable, Production-Ready
+- **Headline:** Averis SDOC — Resilient, Scalable, Ready for Demonstration
 - **Key Takeaways:**
   - Full compliance with Hackathon rules: Incorporates live cloud AI (Gemini 3.6 Flash) & cloud DB (Supabase).
   - 100% accuracy verified locally on official evaluation kit (1.0000 benchmark score).
