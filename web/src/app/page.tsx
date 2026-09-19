@@ -118,7 +118,7 @@ export default function DashboardPage() {
           ? { 
               ...e, 
               status: newStatus, 
-              review_reason: note as any, 
+              review_reason: note, 
               has_defect: actionType !== 'APPROVE' 
             }
           : e

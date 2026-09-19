@@ -2,7 +2,7 @@ export type EmailCategory = 'BL_COMPARISON' | 'SI_REQUEST' | 'INVOICE_QUERY' | '
 
 export type VerificationStatus = 'OK' | 'MISMATCH' | 'NEEDS_REVIEW';
 
-export type ReviewReason = 'wrong_doc_type' | 'missing_attachment' | 'unreadable' | 'missing_value';
+export type ReviewReason = 'wrong_doc_type' | 'missing_attachment' | 'unreadable' | 'missing_value' | string;
 
 export interface ShippingFieldsData {
   shipper?: string | null;

@@ -51,13 +51,28 @@ function setCachedAi(emailId: string, data: any) {
   }
 }
 
+interface CarrierNoticeDraft {
+  subject?: string;
+  body?: string;
+}
+
+interface AiAnalysisResult {
+  summary?: string;
+  ai_source?: string;
+  risk_severity?: string;
+  recommended_action?: string;
+  action_rationale?: string;
+  carrier_email_draft?: CarrierNoticeDraft;
+  raw_explanation?: string;
+}
+
 export const DiffViewerModal: React.FC<DiffViewerModalProps> = ({
   email,
   onClose,
   onAction
 }) => {
   const [aiLoading, setAiLoading] = useState(false);
-  const [aiResult, setAiResult] = useState<any>(null);
+  const [aiResult, setAiResult] = useState<AiAnalysisResult | null>(null);
   const [copied, setCopied] = useState(false);
   const [confirmAction, setConfirmAction] = useState<'APPROVE' | 'ESCALATE' | null>(null);
 

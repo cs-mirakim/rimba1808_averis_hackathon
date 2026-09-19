@@ -21,12 +21,37 @@ import {
 } from 'lucide-react';
 import { Footer } from './Footer';
 
+interface BenchmarkStageResult {
+  accuracy?: number;
+  macro_f1?: number;
+  correct_count?: number;
+  defect_f1?: number;
+  defect_precision?: number;
+  defect_recall?: number;
+  discrepancies_caught?: number;
+  total_defects?: number;
+  escalation_f1?: number;
+  caught?: number;
+  gold_review?: number;
+}
+
+interface BenchmarkData {
+  success: boolean;
+  n_emails: number;
+  final_score: number;
+  stage1: BenchmarkStageResult;
+  stage3: BenchmarkStageResult;
+  reliability: BenchmarkStageResult;
+  latency_total_seconds?: number;
+  per_email_ms?: number;
+}
+
 interface PerformanceMetricsViewProps {
   onBackToInbox: () => void;
 }
 
 export const PerformanceMetricsView: React.FC<PerformanceMetricsViewProps> = ({ onBackToInbox }) => {
-  const [metrics, setMetrics] = useState<any>(null);
+  const [metrics, setMetrics] = useState<BenchmarkData | null>(null);
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
