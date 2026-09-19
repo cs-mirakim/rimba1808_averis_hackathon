@@ -132,7 +132,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ currentTab, onTabChange, stats
           </div>
           <div className="text-[10px] text-slate-400 flex items-center justify-between pt-1 border-t border-emerald-900/40">
             <span>Model: Gemini 3.6</span>
-            <span className="text-emerald-300 font-mono font-medium">99.4% F1</span>
+            <span className="text-emerald-300 font-mono font-medium">Active (Live)</span>
           </div>
         </div>
 
