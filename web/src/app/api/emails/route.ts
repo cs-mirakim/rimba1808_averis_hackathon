@@ -4,8 +4,10 @@ import path from 'path';
 
 export const dynamic = 'force-dynamic';
 
-const SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_URL || 'https://soqanyoziihtkiigratn.supabase.co';
+const SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_URL || '';
 const SUPABASE_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || '';
+
+const VALID_STATUSES = ['OK', 'MISMATCH', 'NEEDS_REVIEW'] as const;
 
 // Server-side in-memory cache to prevent downloading static extracted_fields & disk reads repeatedly
 let cachedFieldsMap: Record<string, { si?: any; bl?: any }> | null = null;
@@ -16,7 +18,7 @@ export async function GET() {
     let emailsData: any[] = [];
 
     // 1. Try fetching live from Supabase using Service Role Key (bypasses RLS)
-    if (SUPABASE_KEY && !SUPABASE_KEY.startsWith('your_')) {
+    if (SUPABASE_KEY && !SUPABASE_KEY.startsWith('your_') && SUPABASE_URL) {
       try {
         const headers = {
           apikey: SUPABASE_KEY,
@@ -140,7 +142,8 @@ export async function GET() {
     });
 
   } catch (error: any) {
-    return NextResponse.json({ error: error.message }, { status: 500 });
+    console.error('API /api/emails GET Error:', error);
+    return NextResponse.json({ error: 'Failed to retrieve emails data.' }, { status: 500 });
   }
 }
 
@@ -178,7 +181,7 @@ export async function POST(req: Request) {
           defect_fields: rec.defect_fields || []
         }));
 
-        if (SUPABASE_KEY) {
+        if (SUPABASE_KEY && SUPABASE_URL) {
           const headers = {
             apikey: SUPABASE_KEY,
             Authorization: `Bearer ${SUPABASE_KEY}`,
@@ -202,11 +205,19 @@ export async function POST(req: Request) {
 
     const { email_id, status, review_reason } = body;
 
-    if (!email_id || !status) {
-      return NextResponse.json({ error: 'Missing email_id or status' }, { status: 400 });
+    // Strict regex validation for email_id (Prevents PostgREST query param injection)
+    if (!email_id || typeof email_id !== 'string' || !/^[a-zA-Z0-9_-]{1,64}$/.test(email_id)) {
+      return NextResponse.json({ error: 'Invalid or missing email_id format.' }, { status: 400 });
     }
 
-    if (SUPABASE_KEY) {
+    // Strict enum validation for status
+    if (!status || !VALID_STATUSES.includes(status as any)) {
+      return NextResponse.json({ error: 'Invalid status. Allowed values: OK, MISMATCH, NEEDS_REVIEW.' }, { status: 400 });
+    }
+
+    const sanitizedReason = typeof review_reason === 'string' ? review_reason.slice(0, 250) : null;
+
+    if (SUPABASE_KEY && SUPABASE_URL) {
       const headers = {
         apikey: SUPABASE_KEY,
         Authorization: `Bearer ${SUPABASE_KEY}`,
@@ -216,19 +227,21 @@ export async function POST(req: Request) {
 
       const payload = {
         status,
-        review_reason: review_reason || null,
+        review_reason: sanitizedReason,
         has_defect: status === 'MISMATCH'
       };
 
-      await fetch(`${SUPABASE_URL}/rest/v1/emails?email_id=eq.${email_id}`, {
+      const safeEmailIdParam = encodeURIComponent(email_id);
+      await fetch(`${SUPABASE_URL}/rest/v1/emails?email_id=eq.${safeEmailIdParam}`, {
         method: 'PATCH',
         headers,
         body: JSON.stringify(payload)
       });
     }
 
-    return NextResponse.json({ success: true, email_id, status, review_reason });
+    return NextResponse.json({ success: true, email_id, status, review_reason: sanitizedReason });
   } catch (err: any) {
-    return NextResponse.json({ error: err.message }, { status: 500 });
+    console.error('API /api/emails POST Error:', err);
+    return NextResponse.json({ error: 'Failed to update email record.' }, { status: 500 });
   }
 }
