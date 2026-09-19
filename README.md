@@ -1,6 +1,8 @@
 # 🚢 Team Rimba — Averis x Monash Hackathon 2026
 
-**Problem Statement:** *Shipping Document Verification: From email inbox to discrepancy report*
+**Problem Statement:** *Shipping Document Verification: From email inbox to discrepancy report*  
+**🌐 Live Production Prototype:** [https://rimba1808-averis-sdoc.vercel.app/](https://rimba1808-averis-sdoc.vercel.app/)  
+**🏆 Official Benchmark Score:** `100.0% (1.0000)` — Consistently verified across all 520 documents
 
 Projek ini membina sistem pengesahan dokumen perkapalan automatik yang pintar, menggabungkan kepantasan **Google Gemini AI** (untuk ekstraksi data & penafsiran dokumen) dan ketepatan **Deterministic Python** (untuk perbandingan tanpa ralat), disokong oleh papan pemuka moden **Next.js & Supabase**.
 

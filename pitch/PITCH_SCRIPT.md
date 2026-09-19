@@ -36,7 +36,7 @@
 ---
 
 ### [01:25 - 03:15] Scene 3: Live Dashboard Walkthrough (The "Wow" Factor)
-**Visual On Screen:** Live screen recording of the Dashboard at `http://localhost:3000`  
+**Visual On Screen:** Live screen recording of the Dashboard at `https://rimba1808-averis-sdoc.vercel.app/` (or local `http://localhost:3000`)  
 **Speaker:**
 > *(Showing Main Dashboard)*  
 > "Here is the **Averis SDOC Operations Cockpit**. 

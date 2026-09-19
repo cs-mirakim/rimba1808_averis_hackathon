@@ -22,6 +22,9 @@
 - **GitHub Repository URL:**  
   `https://github.com/cs-mirakim/rimba1808_averis_hackathon`
 
+- **Live Prototype / Demo Link (Mandatory):**  
+  `https://rimba1808-averis-sdoc.vercel.app/`
+
 - **Video Demo / Pitch URL:**  
   `[PASTE YOUTUBE UNLISTED / GOOGLE DRIVE LINK HERE]`  
   *(Make sure Google Drive sharing permission is set to "Anyone with the link -> Viewer")*

@@ -52,7 +52,7 @@
             <li><strong>Tier 3 — Google Gemini 3.6 Flash Copilot:</strong> Performs autonomous root-cause risk assessment and drafts official dispute notices to shipping lines in seconds.</li>
           </ul>
           <br>
-          <span style='color: #34d399; font-weight: 700;'>[DEMO TRANSITION ALERT (01:25 - 03:15)]:</span> Switch to live dashboard at <a href='http://localhost:3000' target='_blank' style='color:#38bdf8;'>http://localhost:3000</a> to demonstrate Inbox 520 records, classic green sidebar with bold 'Verified Clean' (454) counter badge, table header search bar, email_004 Consignee mismatch, Gemini Copilot risk assessment, Escalate to Carrier vs Approve Override, official footer with ship icon, and live Performance Metrics (100.0%)."
+          <span style='color: #34d399; font-weight: 700;'>[DEMO TRANSITION ALERT (01:25 - 03:15)]:</span> Switch to live dashboard at <a href='https://rimba1808-averis-sdoc.vercel.app/' target='_blank' style='color:#38bdf8;'>https://rimba1808-averis-sdoc.vercel.app/</a> to demonstrate Inbox 520 records, classic green sidebar with bold 'Verified Clean' (454) counter badge, table header search bar, email_004 Consignee mismatch, Gemini Copilot risk assessment, Escalate to Carrier vs Approve Override, official footer with ship icon, and live Performance Metrics (100.0%)."
         </blockquote>
       `
     },
