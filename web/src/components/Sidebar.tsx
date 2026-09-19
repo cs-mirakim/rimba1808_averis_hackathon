@@ -20,6 +20,7 @@ interface SidebarProps {
     total: number;
     mismatches: number;
     needsReview: number;
+    verified: number;
   };
 }
 
@@ -28,7 +29,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ currentTab, onTabChange, stats
     { id: 'all', label: 'All Ingestion', icon: Inbox, count: stats.total },
     { id: 'mismatch', label: 'Discrepancies', icon: AlertTriangle, count: stats.mismatches, badgeColor: 'bg-red-950 text-red-300 border border-red-800' },
     { id: 'needs_review', label: 'Needs Review', icon: HelpCircle, count: stats.needsReview, badgeColor: 'bg-amber-950 text-amber-300 border border-amber-800' },
-    { id: 'verified', label: 'Verified Clean', icon: CheckCircle2 },
+    { id: 'verified', label: 'Verified Clean', icon: CheckCircle2, count: stats.verified, badgeColor: 'bg-emerald-950 text-emerald-300 border border-emerald-800' },
     { id: 'analytics', label: 'Performance Metrics', icon: BarChart3 },
   ];
 

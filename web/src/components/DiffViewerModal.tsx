@@ -201,8 +201,14 @@ export const DiffViewerModal: React.FC<DiffViewerModalProps> = ({
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-sm animate-in fade-in duration-150 font-sans">
-      <div className="bg-white rounded-xl shadow-2xl border border-slate-200 w-full max-w-4xl max-h-[92vh] flex flex-col overflow-hidden">
+    <div 
+      onClick={(e) => { if (e.target === e.currentTarget) onClose(); }}
+      className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-sm animate-in fade-in duration-150 font-sans cursor-pointer"
+    >
+      <div 
+        onClick={(e) => e.stopPropagation()} 
+        className="bg-white rounded-xl shadow-2xl border border-slate-200 w-full max-w-4xl max-h-[92vh] flex flex-col overflow-hidden cursor-default"
+      >
         {/* Modal Header */}
         <div className="px-6 py-4 border-b border-slate-200 flex items-center justify-between bg-slate-50/80">
           <div>
@@ -367,21 +373,54 @@ export const DiffViewerModal: React.FC<DiffViewerModalProps> = ({
                 </div>
               )}
 
-              {email.has_defect && email.defect_fields.length > 0 && (
+              {/* Status Banner for Escalated Records */}
+              {email.status === 'NEEDS_REVIEW' && (
+                <div className="p-3.5 bg-amber-50 border border-amber-300 rounded-xl flex items-center justify-between gap-3 text-amber-950 text-xs shadow-xs">
+                  <div className="flex items-center gap-2.5">
+                    <AlertCircle className="w-4 h-4 text-amber-700 shrink-0" />
+                    <div>
+                      <strong className="text-amber-900 font-bold">
+                        {email.review_reason?.toLowerCase().includes('escalat')
+                          ? 'Operational Status: Escalated to Carrier Operations'
+                          : 'Operational Status: Human Review Required'}
+                      </strong>
+                      <p className="text-[11px] text-amber-800 mt-0.5">
+                        {email.review_reason?.toLowerCase().includes('escalat')
+                          ? 'Discrepancy notice has been dispatched. Automated cargo clearance is held until amended Draft BL is received from the carrier.'
+                          : email.review_reason === 'wrong_doc_type'
+                          ? 'Attached document is a commercial invoice/packing list rather than a Draft BL.'
+                          : email.review_reason === 'missing_attachment'
+                          ? 'Draft BL or Shipping Instruction attachment is missing.'
+                          : email.review_reason === 'missing_value'
+                          ? 'Mandatory fields contain empty or placeholder values (TBA, N/A).'
+                          : 'Attachment scan resolution is degraded or unreadable.'}
+                      </p>
+                    </div>
+                  </div>
+                  <span className="shrink-0 text-[10px] font-bold font-mono px-2 py-0.5 rounded bg-amber-200 text-amber-900">
+                    {email.review_reason?.toLowerCase().includes('escalat') ? 'ON HOLD' : 'EXCEPTION'}
+                  </span>
+                </div>
+              )}
+
+              {/* Discrepancy Alert & Always-Available Gemini Copilot */}
+              {((email.defect_fields && email.defect_fields.length > 0) || email.status === 'MISMATCH' || (email.status === 'NEEDS_REVIEW' && hasDocs)) && (
                 <div className="p-3.5 bg-red-50/90 border border-red-200 rounded-xl flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-red-950 text-xs shadow-sm">
                   <div className="flex items-center gap-2.5">
                     <ShieldAlert className="w-4 h-4 text-red-600 shrink-0" />
                     <div>
-                      <strong className="text-red-900">Discrepancy Alert:</strong> The verification engine flagged differences in{' '}
-                      <span className="font-mono font-bold uppercase text-red-800">{email.defect_fields.join(', ')}</span>.
+                      <strong className="text-red-900">Discrepancy Details:</strong> Differences identified in{' '}
+                      <span className="font-mono font-bold uppercase text-red-800">
+                        {email.defect_fields?.length > 0 ? email.defect_fields.join(', ') : 'consignee, shipping parameters'}
+                      </span>.
                     </div>
                   </div>
 
-                  {/* Gemini AI Trigger Button */}
+                  {/* Gemini AI Trigger Button (Available for MISMATCH and Escalated NEEDS_REVIEW records) */}
                   <button
                     onClick={handleCallGemini}
                     disabled={aiLoading}
-                    className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-bold text-white bg-gradient-to-r from-emerald-700 via-teal-700 to-forest-900 hover:from-emerald-800 hover:to-forest-950 rounded-lg shadow-sm border border-emerald-600 transition-all shrink-0 self-start sm:self-auto disabled:opacity-50"
+                    className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-bold text-white bg-gradient-to-r from-emerald-700 via-teal-700 to-forest-900 hover:from-emerald-800 hover:to-forest-950 rounded-lg shadow-sm border border-emerald-600 transition-all shrink-0 self-start sm:self-auto disabled:opacity-50 cursor-pointer"
                   >
                     <Sparkles className={`w-3.5 h-3.5 text-amber-300 ${aiLoading ? 'animate-spin' : ''}`} />
                     <span>{aiLoading ? 'Analyzing Shipment...' : 'Ask Gemini AI Copilot'}</span>
@@ -391,22 +430,6 @@ export const DiffViewerModal: React.FC<DiffViewerModalProps> = ({
 
               {/* Gemini AI Analysis Box */}
               {renderAiBox()}
-
-              {email.status === 'NEEDS_REVIEW' && (
-                <div className="p-3 bg-amber-50 border border-amber-200 rounded-lg flex items-center gap-3 text-amber-900 text-xs">
-                  <AlertCircle className="w-4 h-4 text-amber-600 shrink-0" />
-                  <span>
-                    <strong>Human Escalation Triggered:</strong>{' '}
-                    {email.review_reason === 'wrong_doc_type'
-                      ? 'Attached document is a commercial invoice or packing list, not a Bill of Lading.'
-                      : email.review_reason === 'missing_attachment'
-                      ? 'Draft BL or Shipping Instruction attachment is missing or dropped.'
-                      : email.review_reason === 'missing_value'
-                      ? 'Mandatory fields contain empty or placeholder values (e.g., TBA, N/A, ___).'
-                      : 'Attachment file scan is unreadable or corrupted.'}
-                  </span>
-                </div>
-              )}
 
               <div className="border border-slate-200 rounded-lg overflow-hidden shadow-xs">
                 <table className="w-full text-xs text-left border-collapse">
@@ -490,8 +513,8 @@ export const DiffViewerModal: React.FC<DiffViewerModalProps> = ({
           </p>
 
           <div className="flex items-center gap-2">
-            {/* Action buttons shown when there's an actual discrepancy or review needed */}
-            {(email.status === 'MISMATCH' || email.status === 'NEEDS_REVIEW') && (
+            {/* If status is MISMATCH: Officer can Escalate to Carrier or Approve Override */}
+            {email.status === 'MISMATCH' && (
               <>
                 <button
                   type="button"
@@ -513,6 +536,24 @@ export const DiffViewerModal: React.FC<DiffViewerModalProps> = ({
               </>
             )}
 
+            {/* If status is NEEDS_REVIEW: Item is already escalated to carrier/exception, only Lead can Approve Override */}
+            {email.status === 'NEEDS_REVIEW' && (
+              <>
+                <span className="text-[11px] font-mono px-2 py-1 rounded bg-amber-100 text-amber-900 border border-amber-300 font-medium hidden sm:inline-block">
+                  Escalation Dispatched (On Hold)
+                </span>
+
+                <button
+                  type="button"
+                  onClick={() => setConfirmAction('APPROVE')}
+                  className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold text-white bg-emerald hover:bg-emerald-700 rounded-md shadow-sm transition-colors cursor-pointer"
+                >
+                  <UserCheck className="w-3.5 h-3.5" />
+                  <span>Approve Override / Release</span>
+                </button>
+              </>
+            )}
+
             <button
               type="button"
               onClick={onClose}
@@ -525,8 +566,14 @@ export const DiffViewerModal: React.FC<DiffViewerModalProps> = ({
 
         {/* Custom Confirmation Modal Overlay */}
         {confirmAction && (
-          <div className="absolute inset-0 z-50 bg-slate-950/70 backdrop-blur-xs flex items-center justify-center p-4 animate-in fade-in duration-150">
-            <div className="bg-white rounded-xl shadow-2xl border border-slate-200 max-w-md w-full p-5 space-y-4 animate-in zoom-in-95 duration-150">
+          <div 
+            onClick={(e) => { if (e.target === e.currentTarget) setConfirmAction(null); }}
+            className="absolute inset-0 z-50 bg-slate-950/70 backdrop-blur-xs flex items-center justify-center p-4 animate-in fade-in duration-150 cursor-pointer"
+          >
+            <div 
+              onClick={(e) => e.stopPropagation()}
+              className="bg-white rounded-xl shadow-2xl border border-slate-200 max-w-md w-full p-5 space-y-4 animate-in zoom-in-95 duration-150 cursor-default"
+            >
               <div className="flex items-start gap-3.5">
                 <div className={`w-10 h-10 rounded-xl flex items-center justify-center shrink-0 ${
                   confirmAction === 'ESCALATE'
