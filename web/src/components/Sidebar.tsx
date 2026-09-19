@@ -9,7 +9,8 @@ import {
   BarChart3, 
   Ship, 
   ShieldCheck, 
-  Database 
+  Database,
+  Github 
 } from 'lucide-react';
 
 interface SidebarProps {
@@ -135,9 +136,22 @@ export const Sidebar: React.FC<SidebarProps> = ({ currentTab, onTabChange, stats
           </div>
         </div>
 
-        <div className="flex items-center gap-2 px-1 text-[11px] text-slate-400">
-          <ShieldCheck className="w-3.5 h-3.5 text-emerald-400" />
-          <span>Averis x Monash 2026</span>
+        <div className="flex items-center justify-between px-1 text-[11px] text-slate-400">
+          <div className="flex items-center gap-1.5">
+            <ShieldCheck className="w-3.5 h-3.5 text-emerald-400" />
+            <span>Averis x Monash 2026</span>
+          </div>
+
+          <a
+            href="https://github.com/cs-mirakim/rimba1808_averis_hackathon"
+            target="_blank"
+            rel="noreferrer"
+            className="flex items-center gap-1 px-2 py-0.5 rounded-md bg-forest-900 hover:bg-emerald-900/80 text-slate-300 hover:text-white border border-emerald-900/60 transition-colors shadow-2xs"
+            title="Open Rimba 0818 GitHub Repository"
+          >
+            <Github className="w-3 h-3 text-emerald-400" />
+            <span className="font-mono text-[10px] font-semibold">GitHub</span>
+          </a>
         </div>
       </div>
     </aside>

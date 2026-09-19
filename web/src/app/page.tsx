@@ -10,7 +10,7 @@ import { PerformanceMetricsView } from '../components/PerformanceMetricsView';
 import { Footer } from '../components/Footer';
 import { getDashboardData, updateEmailStatus } from '../lib/supabase';
 import { EmailRecord, DashboardStats } from '../lib/types';
-import { Sparkles, Layers, CheckCircle, AlertCircle, X } from 'lucide-react';
+import { Sparkles, Layers, CheckCircle, AlertCircle, X, Search } from 'lucide-react';
 
 export default function DashboardPage() {
   const [emails, setEmails] = useState<EmailRecord[]>([]);
@@ -205,8 +205,6 @@ export default function DashboardPage() {
         )}
 
         <Header
-          searchTerm={searchTerm}
-          onSearchChange={setSearchTerm}
           onRefresh={() => loadData(true)}
           onResetSandbox={handleResetSandbox}
           isLoading={isLoading}
@@ -248,9 +246,9 @@ export default function DashboardPage() {
             {/* KPI Stats Cards (Dynamically Updated) */}
             <StatsCards stats={dynamicStats} />
 
-            {/* Inbox Triage Table */}
-            <div className="space-y-2">
-              <div className="flex items-center justify-between">
+            {/* Inbox Triage Table Section with Cohesive Local Search */}
+            <div className="space-y-3">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
                 <div>
                   <h2 className="text-sm font-bold text-slate-900">
                     Inbox Document Triage & Verification Logs
@@ -258,6 +256,28 @@ export default function DashboardPage() {
                   <p className="text-xs text-slate-500">
                     Select any shipment to inspect side-by-side 7 canonical fields and manage discrepancies.
                   </p>
+                </div>
+
+                {/* Table-specific Search Bar (Relocated from Header for better UX) */}
+                <div className="relative w-full sm:w-80 shrink-0">
+                  <Search className="w-4 h-4 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2" />
+                  <input
+                    type="text"
+                    placeholder="Search email ID, company, port, or status..."
+                    value={searchTerm}
+                    onChange={(e) => setSearchTerm(e.target.value)}
+                    className="w-full pl-9 pr-8 py-2 text-xs bg-white border border-slate-200/90 focus:border-emerald-500 rounded-xl focus:outline-none focus:ring-2 focus:ring-emerald-500/20 shadow-2xs transition-all text-slate-800 placeholder:text-slate-400"
+                  />
+                  {searchTerm && (
+                    <button
+                      type="button"
+                      onClick={() => setSearchTerm('')}
+                      title="Clear search"
+                      className="absolute right-2.5 top-1/2 -translate-y-1/2 p-0.5 rounded-full text-slate-400 hover:text-slate-700 hover:bg-slate-100 transition-colors cursor-pointer"
+                    >
+                      <X className="w-3.5 h-3.5" />
+                    </button>
+                  )}
                 </div>
               </div>
 
@@ -270,10 +290,7 @@ export default function DashboardPage() {
             </div>
 
             {/* Informative Operations Footer */}
-            <Footer
-              onOpenMetrics={() => setSelectedSidebarTab('analytics')}
-              totalRecords={dynamicStats.totalProcessed}
-            />
+            <Footer />
           </main>
         )}
       </div>
