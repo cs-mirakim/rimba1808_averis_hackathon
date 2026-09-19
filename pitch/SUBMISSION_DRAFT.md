@@ -82,3 +82,33 @@
    Enjin deterministik memproses ribuan dokumen secara percuma di peringkat tempatan (*local edge*), dan hanya memanggil model Gemini 3.6 Flash untuk analisis percanggahan sebenar.
 4. **Sifar Kelewatan Kapal (*Zero Vessel Cutoff Delays*):**  
    Draf pertikaian dihantar serta-merta kepada syarikat perkapalan sebelum kapal berlepas, mengelakkan penahanan kastam dan denda demurrage ribuan ringgit di pelabuhan.
+
+---
+
+## 📌 Section 6: Challenges Faced & Engineering Solutions (Mandatory Rubric)
+
+1. **Cabaran 1: LLM Hallucinations & Inconsistent Numeric Formats**
+   - *Masalah:* Format unit berat berbeza (MT vs KG vs LBS) dan singkatan pelabuhan tidak standard (cth: CNNTG vs NANTONG) menyebabkan LLM tersalah baca nombor dan halusinasi.
+   - *Penyelesaian Rimba 0818:* Membina *Deterministic Normalizer Tier 1* yang menyelaraskan unit berat dan kod pelabuhan UN/LOCODE secara matematik sebelum sebarang perbandingan dilakukan.
+
+2. **Cabaran 2: Corrupted Scans & Non-BL Attachments (20 Edge Cases)**
+   - *Masalah:* Emel sebenar mengandungi lampiran selain BL (invois komersial, senarai pembungkusan), fail 0-bait, dan imbasan kabur yang boleh menyebabkan sistem gagal secara senyap (*silent failure*).
+   - *Penyelesaian Rimba 0818:* Membina *Reliability Exception Triage* yang mengesan tajuk struktur dokumen dan ketumpatan teks imbasan untuk menaikkan status `NEEDS_REVIEW` dengan 100% ketepatan (20/20 kes berjaya dikesan).
+
+3. **Cabaran 3: API Rate Limits & Cost Escalation**
+   - *Masalah:* Menghantar kesemua 520 fail ke API LLM awan menyebabkan kelewatan lebih 15 minit dan melanggar had kadar panggilan (*rate limits*).
+   - *Penyelesaian Rimba 0818:* Seni bina *Smart Multi-Tier Caching + Local Rule Engine* memproses lebih 80% fail di peringkat tempatan dalam < 2.5 saat secara percuma, menjimatkan 95% panggilan API ke Google Gemini.
+
+---
+
+## 📌 Section 7: Future Commercial Roadmap & Enterprise Scalability (Mandatory Rubric)
+
+1. **Phase 1 (Q3 2026) — SAP S/4HANA ERP Deep Integration:**
+   - Penyambung dua hala (*Bi-directional API*) berasaskan RFC dan OData untuk menarik SI pelanggan secara langsung dari modul pengangkutan SAP (*SAP TM*) dan meluluskan pelepasan kargo (*Goods Release*) secara automatik tanpa campur tangan manusia.
+
+2. **Phase 2 (Q4 2026) — Autonomous Multi-Carrier EDI Network:**
+   - Integrasi terus melalui webhook dengan portal syarikat perkapalan global (*Maersk, CMA CGM, ONE, MSC*) untuk memuat turun draf BL v2 yang telah dipinda dan mengesahkan penyelesaian pertikaian secara kitaran tertutup (*closed-loop*).
+   - Menyokong piawaian pertukaran data elektronik perkapalan antarabangsa (EDIFACT 310 / D99B).
+
+3. **Phase 3 (2027) — Edge-Optimized Local SLM:**
+   - Menggunakan model bahasa kecil (*Small Language Model*) yang ditala khas (*domain fine-tuned*) dan dijalankan dalam rangkaian kontena tertutup (*Air-gapped*) di premis Averis bagi mematuhi undang-undang kedaulatan data kastam antarabangsa yang ketat.

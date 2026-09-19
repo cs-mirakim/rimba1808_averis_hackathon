@@ -763,7 +763,153 @@ html, body {
   background-color: var(--bg-card-elevated);
 }
 
-/* ────────── SLIDE 5: Business ROI ────────── */
+/* ────────── SLIDE 5: Engineering Challenges & Robustness ────────── */
+.challenges-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+  height: 100%;
+}
+
+.challenge-card {
+  background-color: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-lg);
+  padding: 20px 18px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 12px;
+  transition: all var(--transition-normal);
+}
+
+.challenge-card:hover {
+  border-color: var(--border-highlight);
+  background-color: var(--bg-card-hover);
+  transform: translateY(-4px);
+}
+
+.challenge-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.challenge-badge {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text-dim);
+}
+
+.challenge-status-chip {
+  font-size: 10px;
+  font-family: var(--font-mono);
+  font-weight: 700;
+  padding: 3px 8px;
+  border-radius: 999px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.challenge-status-chip.chip-warning {
+  background-color: rgba(245, 158, 11, 0.15);
+  color: #fbbf24;
+  border: 1px solid rgba(245, 158, 11, 0.3);
+}
+
+.challenge-status-chip.chip-danger {
+  background-color: rgba(239, 68, 68, 0.15);
+  color: #f87171;
+  border: 1px solid rgba(239, 68, 68, 0.3);
+}
+
+.challenge-status-chip.chip-info {
+  background-color: rgba(56, 189, 248, 0.15);
+  color: #38bdf8;
+  border: 1px solid rgba(56, 189, 248, 0.3);
+}
+
+.challenge-card-title {
+  font-size: 15px;
+  font-weight: 700;
+  color: #fff;
+  line-height: 1.35;
+}
+
+.challenge-box {
+  border-radius: var(--radius-md);
+  padding: 10px 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+.challenge-box.problem-side {
+  background-color: rgba(239, 68, 68, 0.06);
+  border: 1px solid rgba(239, 68, 68, 0.18);
+  color: #cbd5e1;
+}
+
+.challenge-box.problem-side .box-label {
+  color: #f87171;
+}
+
+.challenge-box.solution-side {
+  background-color: rgba(5, 150, 105, 0.1);
+  border: 1px solid var(--border-highlight);
+  color: #e2e8f0;
+}
+
+.challenge-box.solution-side .box-label {
+  color: var(--mint-accent);
+}
+
+.challenge-box .box-label {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.challenge-box p code {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  padding: 1px 4px;
+  background-color: rgba(0, 0, 0, 0.4);
+  border-radius: 4px;
+  color: var(--mint-soft);
+}
+
+.challenge-footer-pill {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 12px;
+  background-color: rgba(5, 150, 105, 0.12);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-sm);
+  font-size: 11px;
+  color: var(--mint-soft);
+  font-weight: 600;
+  margin-top: auto;
+}
+
+.challenge-footer-pill svg {
+  color: var(--mint-accent);
+  flex-shrink: 0;
+}
+
+/* ────────── SLIDE 6: Business ROI ────────── */
 .roi-grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
@@ -826,7 +972,138 @@ html, body {
   font-weight: 600;
 }
 
-/* ────────── SLIDE 6: Summary & Closing ────────── */
+/* ────────── SLIDE 7: Future Commercial Roadmap ────────── */
+.roadmap-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+  height: 100%;
+}
+
+.roadmap-card {
+  background-color: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-lg);
+  padding: 20px 18px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 12px;
+  transition: all var(--transition-normal);
+  position: relative;
+}
+
+.roadmap-card:hover {
+  border-color: var(--border-highlight);
+  background-color: var(--bg-card-hover);
+  transform: translateY(-4px);
+}
+
+.roadmap-card.roadmap-hero {
+  border-color: rgba(52, 211, 153, 0.35);
+  background: linear-gradient(180deg, rgba(14, 35, 28, 0.95) 0%, rgba(11, 25, 20, 0.95) 100%);
+  box-shadow: 0 8px 24px -6px rgba(16, 185, 129, 0.12);
+}
+
+.roadmap-phase-tag {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.roadmap-phase-tag .phase-number {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  color: var(--text-dim);
+  text-transform: uppercase;
+}
+
+.roadmap-phase-tag .phase-timeline {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--mint-accent);
+  background-color: var(--mint-glow);
+  padding: 3px 10px;
+  border-radius: 999px;
+  border: 1px solid var(--border-subtle);
+}
+
+.roadmap-phase-tag.highlight-phase .phase-timeline {
+  background-color: rgba(16, 185, 129, 0.25);
+  color: #6ee7b7;
+  border-color: var(--border-highlight);
+}
+
+.roadmap-card-title {
+  font-size: 16px;
+  font-weight: 700;
+  color: #fff;
+  line-height: 1.3;
+}
+
+.roadmap-card-desc {
+  font-size: 12px;
+  color: var(--text-muted);
+  line-height: 1.5;
+}
+
+.roadmap-milestones {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin: 2px 0;
+}
+
+.milestone-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  font-size: 11.5px;
+  color: #cbd5e1;
+  line-height: 1.45;
+  background-color: var(--bg-surface);
+  padding: 7px 9px;
+  border-radius: var(--radius-sm);
+  border: 1px solid rgba(255, 255, 255, 0.04);
+}
+
+.milestone-item svg {
+  width: 13px;
+  height: 13px;
+  color: var(--mint-accent);
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.roadmap-footer-badge {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px 12px;
+  background-color: rgba(5, 150, 105, 0.12);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-sm);
+  font-size: 10.5px;
+  font-family: var(--font-mono);
+  color: var(--mint-soft);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  margin-top: auto;
+}
+
+.roadmap-footer-badge.highlight-badge {
+  background-color: rgba(16, 185, 129, 0.2);
+  border-color: var(--border-highlight);
+  color: #6ee7b7;
+}
+
+/* ────────── SLIDE 8: Summary & Closing ────────── */
 .closing-layout {
   display: grid;
   grid-template-columns: 1.15fr 0.85fr;

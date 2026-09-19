@@ -41,7 +41,7 @@
     {
       slide: 3,
       title: "Slide 3: Solution Architecture — Hybrid Intelligence",
-      timeTarget: "00:45 - 01:30",
+      timeTarget: "00:45 - 01:25",
       visualCue: "Presenting 3-Tier Diagram: High-Speed Ingestion (<2.5s) + Supabase Cloud + Gemini 3.6 Flash",
       script: `
         <blockquote>
@@ -52,14 +52,14 @@
             <li><strong>Tier 3 — Google Gemini 3.6 Flash Copilot:</strong> Performs autonomous root-cause risk assessment and drafts official dispute notices to shipping lines in seconds.</li>
           </ul>
           <br>
-          <span style='color: #34d399; font-weight: 700;'>[DEMO TRANSITION ALERT (01:30 - 03:30)]:</span> Switch to live dashboard at <a href='http://localhost:3000' target='_blank' style='color:#38bdf8;'>http://localhost:3000</a> to demonstrate Inbox 520 records, email_004 Consignee mismatch, Gemini Copilot risk assessment, and live Performance Metrics (100.0%)."
+          <span style='color: #34d399; font-weight: 700;'>[DEMO TRANSITION ALERT (01:25 - 03:15)]:</span> Switch to live dashboard at <a href='http://localhost:3000' target='_blank' style='color:#38bdf8;'>http://localhost:3000</a> to demonstrate Inbox 520 records, classic green sidebar with bold 'Verified Clean' (454) counter badge, table header search bar, email_004 Consignee mismatch, Gemini Copilot risk assessment, Escalate to Carrier vs Approve Override, official footer with ship icon, and live Performance Metrics (100.0%)."
         </blockquote>
       `
     },
     {
       slide: 4,
       title: "Slide 4: Official Benchmark Performance (100% Score)",
-      timeTarget: "03:30 - 03:50",
+      timeTarget: "03:15 - 03:35",
       visualCue: "Displaying Consolidated 100.0% (1.0000) Official Benchmark Scorecard & 0 False Alarm",
       script: `
         <blockquote>
@@ -76,8 +76,24 @@
     },
     {
       slide: 5,
-      title: "Slide 5: Business Impact & Shared Services ROI",
-      timeTarget: "03:50 - 04:20",
+      title: "Slide 5: Engineering Challenges & Robustness",
+      timeTarget: "03:35 - 03:55",
+      visualCue: "Presenting 3 Engineering Challenges & Solutions: LLM Hallucinations, 20 Edge Cases, API Rate Limits",
+      script: `
+        <blockquote>
+          "To achieve 100% benchmark reliability in chaotic real-world operations, our engineering team tackled 3 major technical hurdles:
+          <ol style='margin-left: 20px; margin-top: 6px;'>
+            <li><strong>LLM Hallucinations & Inconsistent Numeric Formats:</strong> Raw LLMs hallucinate digits and stumble over MT vs KG vs LBS or port abbreviations like CNNTG. We built a <strong>Tier 1 Deterministic Normalizer</strong> that mathematically unifies units and matches UN/LOCODE aliases before comparison.</li>
+            <li><strong>Corrupted Scans & Non-BL Attachments:</strong> Inboxes receive commercial invoices and low-res 72-DPI scans. Our <strong>Reliability Exception Triage</strong> detects structural headers and scan density, catching all 20 planted edge cases with zero silent failures.</li>
+            <li><strong>API Rate Limits & Cost Escalation:</strong> Querying cloud LLMs for 520 files spikes latency and bills. Our <strong>Multi-Tier Caching + Local Rule Engine</strong> runs in &lt; 2.5s for free, saving 95% of cloud API costs."
+          </ol>
+        </blockquote>
+      `
+    },
+    {
+      slide: 6,
+      title: "Slide 6: Business Impact & Shared Services ROI",
+      timeTarget: "03:55 - 04:15",
       visualCue: "Highlighting 4 Key Value Pillars: 80% STP, 90% Triage Speed, 95% LLM Cost Savings, Zero Delays",
       script: `
         <blockquote>
@@ -92,9 +108,25 @@
       `
     },
     {
-      slide: 6,
-      title: "Slide 6: Summary & Closing Call",
-      timeTarget: "04:20 - 04:45",
+      slide: 7,
+      title: "Slide 7: Future Roadmap & Enterprise Scalability",
+      timeTarget: "04:15 - 04:35",
+      visualCue: "Displaying 3-Phase Commercial Roadmap: SAP S/4HANA (Q3 2026), Multi-Carrier EDI (Q4 2026), Local SLM (2027)",
+      script: `
+        <blockquote>
+          "Looking forward, Averis SDOC has a clear enterprise commercial scalability roadmap:
+          <ul style='margin-left: 20px; margin-top: 6px;'>
+            <li><strong>Phase 1 (Q3 2026) — SAP S/4HANA Deep Integration:</strong> Bi-directional RFC/OData APIs feeding verified 'OK' Draft BLs directly into SAP Transportation Management with zero manual keying.</li>
+            <li><strong>Phase 2 (Q4 2026) — Autonomous Multi-Carrier EDI Network:</strong> Direct webhook integration with Maersk, CMA CGM, ONE, and MSC to automatically ingest amended Draft BL v2 and close disputes hands-free.</li>
+            <li><strong>Phase 3 (2027) — Edge-Optimized Local SLM:</strong> Fine-tuned containerized Small Language Models deployed on-premises in air-gapped environments for strict international customs data sovereignty."
+          </ul>
+        </blockquote>
+      `
+    },
+    {
+      slide: 8,
+      title: "Slide 8: Summary & Closing Call",
+      timeTarget: "04:35 - 04:45",
       visualCue: "Concluding Presentation with Team Rimba 0818 & Enterprise Readiness",
       script: `
         <blockquote>
@@ -116,7 +148,9 @@
     "The Enterprise Problem",
     "3-Tier Hybrid Architecture",
     "Official Benchmark Performance (100%)",
+    "Engineering Challenges & Robustness",
     "Business Impact & Enterprise ROI",
+    "Future Roadmap & Enterprise Scalability",
     "Summary & Closing"
   ];
 
@@ -373,7 +407,7 @@
         break;
 
       default:
-        // Number keys 1-6 for quick slide jump
+        // Number keys 1-8 for quick slide jump
         const num = parseInt(e.key, 10);
         if (num >= 1 && num <= totalSlides) {
           goToSlide(num - 1);
