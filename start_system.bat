@@ -5,9 +5,14 @@ echo ======================================================================
 echo    AVERIS SHIPPING DOCUMENT VERIFICATION ENGINE
 echo    Autonomous Triage and Discrepancy Matching System
 echo ======================================================================
-echo.
+set "PATH=C:\Program Files\nodejs;%PATH%"
 
 cd /d "%~dp0web"
+
+if not exist "node_modules\" (
+    echo [INFO] node_modules not found. Installing web dependencies...
+    call npm install
+)
 
 echo [1/2] Opening browser at http://localhost:3000...
 start "" http://localhost:3000

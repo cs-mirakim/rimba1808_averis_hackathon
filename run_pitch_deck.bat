@@ -15,9 +15,15 @@ if exist "package.json" (
     start "" "http://localhost:5173"
     npm run dev
 ) else (
-    echo [INFO] Starting Lightweight Pitch Deck Web Server...
-    start "" "http://localhost:8080"
-    python -m http.server 8080 --directory "%~dp0pitch"
+    echo [INFO] Opening Interactive Pitch Deck directly in your browser...
+    start "" "%~dp0pitch\index.html"
+    echo [SUCCESS] Presentation slides opened!
+    echo.
+    echo [INFO] Serving web slides at: http://127.0.0.1:8085
+    echo [NOTE] Leave this window open during your pitch presentation.
+    echo [NOTE] Press Ctrl+C to close the server when you are done.
+    echo.
+    python -m http.server 8085 --bind 127.0.0.1 --directory "%~dp0pitch"
 )
 
 pause
