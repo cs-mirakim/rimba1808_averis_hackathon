@@ -19,6 +19,7 @@ import {
   Layers,
   Sparkles
 } from 'lucide-react';
+import { Footer } from './Footer';
 
 interface PerformanceMetricsViewProps {
   onBackToInbox: () => void;
@@ -340,6 +341,9 @@ export const PerformanceMetricsView: React.FC<PerformanceMetricsViewProps> = ({ 
           </tbody>
         </table>
       </div>
+
+      {/* Team & Hackathon Footer */}
+      <Footer />
     </div>
   );
 };
