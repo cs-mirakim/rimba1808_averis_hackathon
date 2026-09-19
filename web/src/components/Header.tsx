@@ -61,7 +61,7 @@ export const Header: React.FC<HeaderProps> = ({
           </div>
           <div className="hidden sm:block text-left">
             <p className="text-xs font-bold text-slate-800 leading-none">Rimba 0818</p>
-            <p className="text-[10px] text-slate-500 leading-none mt-1">SDOC Hackathon Team</p>
+            <p className="text-[10px] text-slate-500 leading-none mt-1">Hackathon Team</p>
           </div>
         </div>
       </div>
