@@ -218,29 +218,29 @@ export default function DashboardPage() {
           <PerformanceMetricsView onBackToInbox={() => setSelectedSidebarTab('all')} />
         ) : (
           /* Scrollable Dashboard Body */
-          <main className="flex-1 overflow-y-auto p-6 space-y-6">
-            {/* Welcome Banner */}
-            <div className="bg-gradient-to-r from-forest-950 via-forest-900 to-forest-800 rounded-xl p-5 text-white border border-emerald-900/60 flex flex-col md:flex-row md:items-center justify-between gap-4 shadow-sm">
-              <div className="space-y-1">
+          <main className="flex-1 overflow-y-auto p-6 lg:p-8 space-y-6">
+            {/* Welcome Banner (Clean Traversi Aesthetic matching Image 3) */}
+            <div className="bg-white rounded-2xl p-6 border border-slate-200/90 shadow-xs flex flex-col md:flex-row md:items-center justify-between gap-4">
+              <div className="space-y-1.5">
                 <div className="flex items-center gap-2">
-                  <span className="text-[11px] font-bold px-2 py-0.5 rounded bg-emerald text-white uppercase tracking-wider font-mono">
-                    Live Operations
+                  <span className="text-[11px] font-bold px-2.5 py-0.5 rounded-full bg-emerald-50 text-emerald-800 border border-emerald-200 uppercase tracking-wider font-mono">
+                    Live Pipeline Active
                   </span>
-                  <span className="text-xs text-emerald-300">Averis Automated Ingestion Active</span>
+                  <span className="text-xs text-slate-500 font-medium">Averis Automated Ingestion</span>
                 </div>
-                <h1 className="text-lg font-bold tracking-tight text-white">
-                  Shipping Document Verification Engine
+                <h1 className="text-xl font-extrabold tracking-tight text-slate-900">
+                  Shipping Document <span className="text-emerald-700">Verification Engine</span>
                 </h1>
-                <p className="text-xs text-slate-300 max-w-2xl leading-relaxed">
+                <p className="text-xs text-slate-600 max-w-2xl leading-relaxed">
                   Single Source of Truth (SI) cross-checked against carrier Draft Bill of Lading (BL).
                   Powered by deterministic rule normalizers and Google Gemini 3.6 Flash structured extraction.
                 </p>
               </div>
 
               <div className="flex items-center gap-3 shrink-0">
-                <div className="text-right hidden sm:block">
-                  <p className="text-xs text-slate-300">Active Pipeline</p>
-                  <p className="text-sm font-bold text-white font-mono">{dynamicStats.totalProcessed} Ingested</p>
+                <div className="px-4 py-2.5 bg-slate-50 rounded-xl border border-slate-200/80 text-right hidden sm:block shadow-2xs">
+                  <p className="text-[11px] text-slate-500 font-medium">Dataset Batch</p>
+                  <p className="text-base font-bold text-slate-900 font-mono">{dynamicStats.totalProcessed} Ingested</p>
                 </div>
               </div>
             </div>
