@@ -26,27 +26,55 @@ interface SidebarProps {
 
 export const Sidebar: React.FC<SidebarProps> = ({ currentTab, onTabChange, stats }) => {
   const navItems = [
-    { id: 'all', label: 'All Ingestion', icon: Inbox, count: stats.total },
-    { id: 'mismatch', label: 'Discrepancies', icon: AlertTriangle, count: stats.mismatches, badgeColor: 'bg-red-950 text-red-300 border border-red-800' },
-    { id: 'needs_review', label: 'Needs Review', icon: HelpCircle, count: stats.needsReview, badgeColor: 'bg-amber-950 text-amber-300 border border-amber-800' },
-    { id: 'verified', label: 'Verified Clean', icon: CheckCircle2, count: stats.verified, badgeColor: 'bg-emerald-950 text-emerald-300 border border-emerald-800' },
-    { id: 'analytics', label: 'Performance Metrics', icon: BarChart3 },
+    { 
+      id: 'all', 
+      label: 'All Ingestion', 
+      icon: Inbox, 
+      count: stats.total, 
+      badgeColor: 'bg-white/10 text-slate-100 border border-white/20' 
+    },
+    { 
+      id: 'mismatch', 
+      label: 'Discrepancies', 
+      icon: AlertTriangle, 
+      count: stats.mismatches, 
+      badgeColor: 'bg-rose-500/20 text-rose-200 border border-rose-500/40' 
+    },
+    { 
+      id: 'needs_review', 
+      label: 'Needs Review', 
+      icon: HelpCircle, 
+      count: stats.needsReview, 
+      badgeColor: 'bg-amber-500/20 text-amber-200 border border-amber-500/40' 
+    },
+    { 
+      id: 'verified', 
+      label: 'Verified Clean', 
+      icon: CheckCircle2, 
+      count: stats.verified, 
+      badgeColor: 'bg-emerald-400/20 text-emerald-200 border border-emerald-400/40' 
+    },
+    { 
+      id: 'analytics', 
+      label: 'Performance Metrics', 
+      icon: BarChart3 
+    },
   ];
 
   return (
     <aside className="w-64 bg-forest-950 text-slate-100 flex flex-col justify-between shrink-0 border-r border-emerald-900/40 min-h-screen">
       <div>
-        {/* Brand Header */}
-        <div className="p-5 border-b border-emerald-900/40">
-          <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-lg bg-emerald flex items-center justify-center text-white shadow-sm">
+        {/* Brand Header - exactly h-16 (64px) to perfectly align with top navigation border-b */}
+        <div className="h-16 px-5 border-b border-emerald-900/40 flex items-center shrink-0">
+          <div className="flex items-center gap-3 min-w-0">
+            <div className="w-9 h-9 rounded-lg bg-emerald flex items-center justify-center text-white shadow-sm shrink-0">
               <Ship className="w-5 h-5 text-white" />
             </div>
-            <div>
-              <h1 className="font-bold text-sm tracking-tight text-white">
+            <div className="min-w-0">
+              <h1 className="font-bold text-sm tracking-tight text-white truncate">
                 Averis SDOC
               </h1>
-              <p className="text-xs text-emerald-300/70">Shipping Verification Engine</p>
+              <p className="text-[11px] text-emerald-300/80 truncate leading-tight">Shipping Verification Engine</p>
             </div>
           </div>
         </div>
@@ -66,7 +94,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ currentTab, onTabChange, stats
                   onClick={() => onTabChange(item.id)}
                   className={`w-full flex items-center justify-between px-3 py-2.5 rounded-md text-xs font-medium transition-colors ${
                     isActive
-                      ? 'bg-emerald-800/90 text-white font-semibold'
+                      ? 'bg-emerald-800/90 text-white font-semibold shadow-xs'
                       : 'text-slate-300 hover:bg-forest-900 hover:text-white'
                   }`}
                 >
@@ -75,8 +103,10 @@ export const Sidebar: React.FC<SidebarProps> = ({ currentTab, onTabChange, stats
                     <span>{item.label}</span>
                   </div>
                   {item.count !== undefined && item.count > 0 && (
-                    <span className={`text-[10px] px-1.5 py-0.5 rounded font-mono ${
-                      item.badgeColor || (isActive ? 'bg-emerald-950 text-emerald-200' : 'bg-forest-900 text-slate-300')
+                    <span className={`text-[10px] px-2 py-0.5 rounded-full font-mono font-semibold transition-colors ${
+                      isActive
+                        ? 'bg-white/25 text-white border border-white/40 shadow-xs'
+                        : item.badgeColor
                     }`}>
                       {item.count}
                     </span>

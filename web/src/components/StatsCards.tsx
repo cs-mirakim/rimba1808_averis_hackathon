@@ -55,27 +55,27 @@ export const StatsCards: React.FC<StatsCardsProps> = ({ stats }) => {
         return (
           <div
             key={idx}
-            className={`bg-white rounded-lg p-4 border border-slate-200 shadow-sm ${card.accent} flex flex-col justify-between`}
+            className={`bg-white rounded-xl p-4.5 border border-slate-200/90 shadow-xs hover:shadow-md hover:border-slate-300 transition-all ${card.accent} flex flex-col justify-between`}
           >
             <div className="flex items-center justify-between mb-3">
-              <span className="text-xs font-medium text-slate-500 uppercase tracking-wide">
+              <span className="text-xs font-semibold text-slate-500 uppercase tracking-wider text-[11px]">
                 {card.title}
               </span>
-              <span className={`text-[10px] font-semibold px-2 py-0.5 rounded-full ${card.badgeStyle}`}>
+              <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full ${card.badgeStyle}`}>
                 {card.badge}
               </span>
             </div>
 
             <div className="flex items-baseline justify-between">
               <div>
-                <p className="text-2xl font-bold tracking-tight text-slate-900 font-mono">
+                <p className="text-2xl font-extrabold tracking-tight text-slate-900 font-mono">
                   {card.value}
                 </p>
-                <p className="text-xs text-slate-500 mt-0.5">
+                <p className="text-xs text-slate-500 mt-1 font-medium">
                   {card.subtitle}
                 </p>
               </div>
-              <div className="w-8 h-8 rounded-md bg-slate-50 border border-slate-100 flex items-center justify-center text-slate-600">
+              <div className="w-9 h-9 rounded-lg bg-slate-50 border border-slate-200/80 flex items-center justify-center text-slate-700 shadow-2xs">
                 <Icon className="w-4 h-4" />
               </div>
             </div>

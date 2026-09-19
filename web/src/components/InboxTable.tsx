@@ -40,9 +40,9 @@ export const InboxTable: React.FC<InboxTableProps> = ({
   const paginatedEmails = filteredEmails.slice((currentPage - 1) * pageSize, currentPage * pageSize);
 
   return (
-    <div className="bg-white rounded-lg border border-slate-200 shadow-sm overflow-hidden flex flex-col">
+    <div className="bg-white rounded-xl border border-slate-200/90 shadow-xs overflow-hidden flex flex-col">
       {/* Table Filter Tabs */}
-      <div className="px-4 py-3 border-b border-slate-200 bg-slate-50/60 flex items-center justify-between gap-2 overflow-x-auto">
+      <div className="px-4 py-3 border-b border-slate-200 bg-slate-50/90 flex items-center justify-between gap-2 overflow-x-auto">
         <div className="flex items-center gap-1.5">
           {categories.map((cat) => {
             const count = cat.id === 'ALL' ? emails.length : emails.filter(e => e.category === cat.id).length;
@@ -51,15 +51,15 @@ export const InboxTable: React.FC<InboxTableProps> = ({
               <button
                 key={cat.id}
                 onClick={() => onCategorySelect(cat.id)}
-                className={`px-3 py-1.5 rounded-md text-xs font-medium transition-colors flex items-center gap-1.5 ${
+                className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-all flex items-center gap-1.5 ${
                   isSelected
-                    ? 'bg-white text-slate-900 border border-slate-300 shadow-sm font-semibold'
-                    : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100/80'
+                    ? 'bg-white text-slate-900 border border-slate-300 shadow-2xs font-semibold'
+                    : 'text-slate-600 hover:text-slate-900 hover:bg-slate-200/60'
                 }`}
               >
                 <span>{cat.label}</span>
-                <span className={`text-[10px] px-1.5 py-0.2 rounded-full font-mono ${
-                  isSelected ? 'bg-slate-100 text-slate-800' : 'bg-slate-200 text-slate-600'
+                <span className={`text-[10px] px-1.5 py-0.2 rounded-full font-mono font-medium ${
+                  isSelected ? 'bg-slate-150 text-slate-800' : 'bg-slate-200 text-slate-600'
                 }`}>
                   {count}
                 </span>
@@ -68,8 +68,8 @@ export const InboxTable: React.FC<InboxTableProps> = ({
           })}
         </div>
 
-        <span className="text-[11px] text-slate-500 hidden sm:inline">
-          Showing {filteredEmails.length} shipments
+        <span className="text-[11px] text-slate-500 font-medium hidden sm:inline">
+          Showing <span className="font-semibold text-slate-800">{filteredEmails.length}</span> shipments
         </span>
       </div>
 
@@ -77,13 +77,13 @@ export const InboxTable: React.FC<InboxTableProps> = ({
       <div className="overflow-x-auto">
         <table className="w-full text-xs text-left border-collapse">
           <thead>
-            <tr className="bg-slate-100/70 border-b border-slate-200 text-slate-600 font-semibold uppercase tracking-wider text-[11px]">
-              <th className="py-3 px-4 w-28">Email ID</th>
-              <th className="py-3 px-4">Subject & Context</th>
-              <th className="py-3 px-4 w-36">Category</th>
-              <th className="py-3 px-4 w-32">Verdict</th>
-              <th className="py-3 px-4 w-48">Discrepancy Details</th>
-              <th className="py-3 px-4 w-28 text-right">Actions</th>
+            <tr className="bg-slate-100/90 border-b border-slate-200 text-slate-700 font-bold uppercase tracking-wider text-[11px]">
+              <th className="py-3.5 px-4 w-28">Email ID</th>
+              <th className="py-3.5 px-4">Subject & Context</th>
+              <th className="py-3.5 px-4 w-36">Category</th>
+              <th className="py-3.5 px-4 w-32">Verdict</th>
+              <th className="py-3.5 px-4 w-48">Discrepancy Details</th>
+              <th className="py-3.5 px-4 w-28 text-right">Actions</th>
             </tr>
           </thead>
           <tbody className="divide-y divide-slate-100">

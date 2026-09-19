@@ -7,6 +7,7 @@ import { StatsCards } from '../components/StatsCards';
 import { InboxTable } from '../components/InboxTable';
 import { DiffViewerModal } from '../components/DiffViewerModal';
 import { PerformanceMetricsView } from '../components/PerformanceMetricsView';
+import { Footer } from '../components/Footer';
 import { getDashboardData, updateEmailStatus } from '../lib/supabase';
 import { EmailRecord, DashboardStats } from '../lib/types';
 import { Sparkles, Layers, CheckCircle, AlertCircle, X } from 'lucide-react';
@@ -162,7 +163,7 @@ export default function DashboardPage() {
   }, [emails, searchTerm, selectedSidebarTab]);
 
   return (
-    <div className="flex h-screen bg-slate-50 overflow-hidden font-sans">
+    <div className="flex h-screen bg-[#f4f6f9] overflow-hidden font-sans">
       {/* Sidebar with dynamically computed counters */}
       <Sidebar
         currentTab={selectedSidebarTab}
@@ -267,6 +268,12 @@ export default function DashboardPage() {
                 onSelectEmail={(email) => setSelectedEmailForDiff(email)}
               />
             </div>
+
+            {/* Informative Operations Footer */}
+            <Footer
+              onOpenMetrics={() => setSelectedSidebarTab('analytics')}
+              totalRecords={dynamicStats.totalProcessed}
+            />
           </main>
         )}
       </div>

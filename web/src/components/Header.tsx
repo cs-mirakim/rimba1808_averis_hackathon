@@ -21,7 +21,7 @@ export const Header: React.FC<HeaderProps> = ({
   isResetting
 }) => {
   return (
-    <header className="h-16 bg-white border-b border-slate-200 px-6 flex items-center justify-between shrink-0">
+    <header className="h-16 bg-white border-b border-slate-200 px-6 flex items-center justify-between shrink-0 shadow-2xs">
       <div className="flex items-center gap-4 flex-1 max-w-lg">
         <div className="relative w-full">
           <Search className="w-4 h-4 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2" />
@@ -30,7 +30,7 @@ export const Header: React.FC<HeaderProps> = ({
             placeholder="Search email ID, company, port, or status..."
             value={searchTerm}
             onChange={(e) => onSearchChange(e.target.value)}
-            className="w-full pl-9 pr-9 py-1.5 text-xs bg-slate-50 border border-slate-200 rounded-md focus:outline-none focus:ring-1 focus:ring-emerald focus:border-emerald transition-all"
+            className="w-full pl-9 pr-9 py-1.5 text-xs bg-white border border-slate-300/90 rounded-md focus:outline-none focus:ring-2 focus:ring-emerald/20 focus:border-emerald shadow-2xs transition-all text-slate-800 placeholder:text-slate-400"
           />
           {searchTerm && (
             <button
