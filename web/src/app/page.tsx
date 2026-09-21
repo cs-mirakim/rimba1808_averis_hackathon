@@ -21,6 +21,7 @@ export default function DashboardPage() {
   const [selectedEmailForDiff, setSelectedEmailForDiff] = useState<EmailRecord | null>(null);
   const [isResetting, setIsResetting] = useState(false);
   const [actionToast, setActionToast] = useState<{ message: string; type: 'success' | 'warning' } | null>(null);
+  const [isMobileSidebarOpen, setIsMobileSidebarOpen] = useState(false);
 
   // Ref to store active toast timeout and guarantee consistent 5-second lifespan
   const toastTimeoutRef = useRef<NodeJS.Timeout | null>(null);
@@ -100,7 +101,7 @@ export default function DashboardPage() {
       cleanMatches,
       mismatchesDetected,
       needsHumanReview,
-      matchRatePercent,
+      matchRatePercent
     };
   }, [emails]);
 
@@ -141,39 +142,64 @@ export default function DashboardPage() {
     }
   };
 
-  // Filter emails based on search and sidebar tab
+  // Combined Filtering: Tab Filter + Category Filter + Search Query
   const filteredEmails = useMemo(() => {
-    return emails.filter((item) => {
-      // Search query filter
-      const matchesSearch =
-        item.email_id.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        item.subject.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        (item.si_fields?.shipper && item.si_fields.shipper.toLowerCase().includes(searchTerm.toLowerCase())) ||
-        (item.si_fields?.port_of_discharge && item.si_fields.port_of_discharge.toLowerCase().includes(searchTerm.toLowerCase()));
+    return emails.filter((email) => {
+      // 1. Sidebar Tab Filter
+      if (selectedSidebarTab === 'mismatch' && email.status !== 'MISMATCH') return false;
+      if (selectedSidebarTab === 'needs_review' && email.status !== 'NEEDS_REVIEW') return false;
+      if (selectedSidebarTab === 'verified' && email.status !== 'OK') return false;
 
-      if (!matchesSearch) return false;
+      // 2. Local Table Category Filter
+      if (selectedTableCategory !== 'ALL' && email.category !== selectedTableCategory) return false;
 
-      // Sidebar tab filter
-      if (selectedSidebarTab === 'mismatch') return item.status === 'MISMATCH';
-      if (selectedSidebarTab === 'needs_review') return item.status === 'NEEDS_REVIEW';
-      if (selectedSidebarTab === 'verified') return item.status === 'OK';
+      // 3. Search Query Filter
+      if (searchTerm.trim() !== '') {
+        const query = searchTerm.toLowerCase();
+        const matchesId = email.email_id.toLowerCase().includes(query);
+        const matchesSubject = email.subject.toLowerCase().includes(query);
+        const matchesCategory = email.category.toLowerCase().includes(query);
+        const matchesStatus = email.status.toLowerCase().includes(query);
+
+        // Also search in Shipper / Consignee / Port names
+        const shipper = String(email.si_fields?.shipper || '').toLowerCase();
+        const consignee = String(email.si_fields?.consignee || '').toLowerCase();
+        const pol = String(email.si_fields?.port_of_loading || '').toLowerCase();
+        const pod = String(email.si_fields?.port_of_discharge || '').toLowerCase();
+
+        return (
+          matchesId ||
+          matchesSubject ||
+          matchesCategory ||
+          matchesStatus ||
+          shipper.includes(query) ||
+          consignee.includes(query) ||
+          pol.includes(query) ||
+          pod.includes(query)
+        );
+      }
 
       return true;
     });
-  }, [emails, searchTerm, selectedSidebarTab]);
+  }, [emails, selectedSidebarTab, selectedTableCategory, searchTerm]);
 
   return (
-    <div className="flex h-screen bg-[#f4f6f9] overflow-hidden font-sans">
-      {/* Sidebar with dynamically computed counters */}
+    <div className="flex h-screen bg-slate-50 font-sans text-slate-800">
+      {/* Sidebar with mobile drawer support */}
       <Sidebar
         currentTab={selectedSidebarTab}
-        onTabChange={(tab) => setSelectedSidebarTab(tab)}
+        onTabChange={(tab) => {
+          setSelectedSidebarTab(tab);
+          setIsMobileSidebarOpen(false);
+        }}
         stats={{
           total: dynamicStats.totalProcessed,
           mismatches: dynamicStats.mismatchesDetected,
           needsReview: dynamicStats.needsHumanReview,
           verified: dynamicStats.cleanMatches,
         }}
+        isOpenMobile={isMobileSidebarOpen}
+        onCloseMobile={() => setIsMobileSidebarOpen(false)}
       />
 
       {/* Main Content Area */}
@@ -209,6 +235,7 @@ export default function DashboardPage() {
           onResetSandbox={handleResetSandbox}
           isLoading={isLoading}
           isResetting={isResetting}
+          onToggleMobileSidebar={() => setIsMobileSidebarOpen((prev) => !prev)}
         />
 
         {/* Conditional Rendering: If 'analytics' tab selected, render dedicated PerformanceMetricsView page */}
@@ -216,9 +243,9 @@ export default function DashboardPage() {
           <PerformanceMetricsView onBackToInbox={() => setSelectedSidebarTab('all')} />
         ) : (
           /* Scrollable Dashboard Body */
-          <main className="flex-1 overflow-y-auto p-6 lg:p-8 space-y-6">
-            {/* Welcome Banner (Clean Traversi Aesthetic matching Image 3) */}
-            <div className="bg-white rounded-2xl p-6 border border-slate-200/90 shadow-xs flex flex-col md:flex-row md:items-center justify-between gap-4">
+          <main className="flex-1 overflow-y-auto p-4 sm:p-6 lg:p-8 space-y-4 sm:space-y-6">
+            {/* Welcome Banner */}
+            <div className="bg-white rounded-2xl p-4 sm:p-6 border border-slate-200/90 shadow-xs flex flex-col md:flex-row md:items-center justify-between gap-4">
               <div className="space-y-1.5">
                 <div className="flex items-center gap-2">
                   <span className="text-[11px] font-bold px-2.5 py-0.5 rounded-full bg-emerald-50 text-emerald-800 border border-emerald-200 uppercase tracking-wider font-mono">

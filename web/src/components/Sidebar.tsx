@@ -10,6 +10,7 @@ import {
   Ship, 
   ShieldCheck, 
   Database,
+  X,
   Github 
 } from 'lucide-react';
 
@@ -22,9 +23,17 @@ interface SidebarProps {
     needsReview: number;
     verified: number;
   };
+  isOpenMobile?: boolean;
+  onCloseMobile?: () => void;
 }
 
-export const Sidebar: React.FC<SidebarProps> = ({ currentTab, onTabChange, stats }) => {
+export const Sidebar: React.FC<SidebarProps> = ({ 
+  currentTab, 
+  onTabChange, 
+  stats,
+  isOpenMobile = false,
+  onCloseMobile
+}) => {
   const navItems = [
     { 
       id: 'all', 
@@ -61,11 +70,11 @@ export const Sidebar: React.FC<SidebarProps> = ({ currentTab, onTabChange, stats
     },
   ];
 
-  return (
-    <aside className="w-64 bg-forest-950 text-slate-100 flex flex-col justify-between shrink-0 border-r border-emerald-900/40 min-h-screen font-sans">
+  const renderSidebarBody = (isMobile = false) => (
+    <div className="flex flex-col justify-between h-full min-h-screen">
       <div>
         {/* Brand Header - exactly h-16 (64px) to perfectly align with top navigation border-b */}
-        <div className="h-16 px-5 border-b border-emerald-900/40 flex items-center shrink-0">
+        <div className="h-16 px-5 border-b border-emerald-900/40 flex items-center justify-between shrink-0">
           <div className="flex items-center gap-3 min-w-0">
             <div className="w-9 h-9 rounded-lg bg-emerald flex items-center justify-center text-white shadow-sm shrink-0">
               <Ship className="w-5 h-5 text-white" />
@@ -79,6 +88,16 @@ export const Sidebar: React.FC<SidebarProps> = ({ currentTab, onTabChange, stats
               </p>
             </div>
           </div>
+
+          {isMobile && onCloseMobile && (
+            <button
+              onClick={onCloseMobile}
+              className="p-1.5 rounded-lg text-emerald-300 hover:text-white hover:bg-forest-900 transition-colors"
+              title="Close sidebar"
+            >
+              <X className="w-5 h-5" />
+            </button>
+          )}
         </div>
 
         {/* Navigation Section */}
@@ -93,7 +112,10 @@ export const Sidebar: React.FC<SidebarProps> = ({ currentTab, onTabChange, stats
               return (
                 <button
                   key={item.id}
-                  onClick={() => onTabChange(item.id)}
+                  onClick={() => {
+                    onTabChange(item.id);
+                    if (isMobile && onCloseMobile) onCloseMobile();
+                  }}
                   className={`w-full flex items-center justify-between px-3 py-2.5 rounded-xl text-xs font-medium transition-colors cursor-pointer ${
                     isActive
                       ? 'bg-emerald-800/90 text-white font-semibold shadow-xs'
@@ -154,6 +176,29 @@ export const Sidebar: React.FC<SidebarProps> = ({ currentTab, onTabChange, stats
           </a>
         </div>
       </div>
-    </aside>
+    </div>
+  );
+
+  return (
+    <>
+      {/* Desktop Persistent Sidebar (Unchanged) */}
+      <aside className="hidden md:flex w-64 bg-forest-950 text-slate-100 flex-col justify-between shrink-0 border-r border-emerald-900/40 min-h-screen font-sans">
+        {renderSidebarBody(false)}
+      </aside>
+
+      {/* Mobile Overlay Drawer */}
+      {isOpenMobile && (
+        <div className="fixed inset-0 z-50 md:hidden flex">
+          <div 
+            className="fixed inset-0 bg-slate-900/60 backdrop-blur-xs transition-opacity"
+            onClick={onCloseMobile}
+          />
+          <aside className="relative w-72 max-w-[85vw] bg-forest-950 text-slate-100 flex flex-col justify-between shrink-0 border-r border-emerald-900/40 min-h-screen font-sans shadow-2xl z-10 animate-in slide-in-from-left duration-200">
+            {renderSidebarBody(true)}
+          </aside>
+        </div>
+      )}
+    </>
   );
 };
+

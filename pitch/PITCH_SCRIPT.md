@@ -1,118 +1,125 @@
 # 5-Minute Video Pitch Script — Averis SDOC
 **Project Name:** Averis SDOC (Autonomous Shipping Document Verification Engine)  
 **Team Name:** Rimba 0818 (Amir Hakim, Amir Azib [Moi], Farhan [Paan], Eqhlas)  
-**Target Duration:** 4 minutes 40 seconds (Strict rule: < 5:00 minutes)  
+**Target Duration:** 4 minutes 40 seconds (Strict hackathon rule: < 5:00 minutes)  
 **Live Production Prototype:** [https://rimba1808-averis-sdoc.vercel.app/](https://rimba1808-averis-sdoc.vercel.app/)  
 **Interactive Pitch Deck:** [https://averis-pitch.vercel.app/](https://averis-pitch.vercel.app/) (or local `pitch/index.html`)
 
 ---
 
-## 🎬 Timeline & Video Script (Synchronized with 8 Slides)
+## 🎬 Master Script & Timeline (Synchronized 8-Slide Flow)
 
 ### [00:00 - 00:25] Scene 1: The Mission & Team Rimba 0818
 **Visual On Screen:** Slide 1 (Cover: AVERIS SDOC — *When a single consignee typo costs $3,000 a day*)  
 **Speaker (Eqhlas / Presenter):**
-> "Selamat sejahtera semua, kami dari **Team Rimba 0818**, dan ini adalah **Averis SDOC** — enjin pengesahan dokumen perkapalan berautonomi gred perusahaan yang direka khas untuk operasi logistik global di Averis dan APRIL Group.
+> "Good day everyone, we are **Team Rimba 0818**, and this is **Averis SDOC** — an enterprise-grade autonomous shipping document verification engine engineered specifically for global export logistics at Averis and APRIL Group.
 >
-> Pasukan kami terdiri daripada **Amir Hakim** sebagai Tech Lead & Arkitek Sistem, **Amir Azib (Moi)** mengetuai Document Ingestion, **Farhan (Paan)** mengetuai Comparison Engine & Benchmark, dan saya sendiri **Eqhlas** menerajui Product Strategy & Quality Assurance."
+> Our team comprises **Amir Hakim** as Tech Lead & Enterprise Architect, **Amir Azib (Moi)** leading Document Ingestion, **Farhan (Paan)** heading the Comparison Engine & Benchmark, and myself **Eqhlas** spearheading Product Strategy & Quality Assurance."
 
 ---
 
-### [00:25 - 00:55] Scene 2: The Real-Life Nightmare (The 2:00 AM Shipping Crisis)
-**Visual On Screen:** Slide 2 (The 2:00 AM Crisis — The 500+ Email Tsunami, 7-Field Fatigue, Demurrage Catastrophe)  
+### [00:25 - 00:55] Scene 2: The Real-Life Nightmare (The 2:00 AM Crisis)
+**Visual On Screen:** Slide 2 (The 2:00 AM Crisis — 500+ Email Tsunami, 7-Field Fatigue, Demurrage Catastrophe)  
 **Speaker:**
-> "Bayangkan situasi ini: Jam 2 pagi di Pelabuhan Qingdao. Sebuah kapal kargo membawa muatan pulpa kertas bernilai jutaan dolar dari APRIL Dumai baru sahaja berlabuh. Namun, kontena tidak boleh dilepaskan.
+> "Picture this: It is 2:00 AM at the Port of Qingdao. A container vessel laden with millions of dollars in export pulp from APRIL Dumai has just berthed. Yet, cargo clearance is blocked.
 >
-> Sebabnya? Kerani tersilap pandang satu perkataan pada Bill of Lading — nama Consignee tidak sepadan dengan Shipping Instruction.
+> The culprit? An operations clerk overlooked a single word on the draft Bill of Lading — the Consignee did not match the customer's Shipping Instruction.
 >
-> Akibat satu kesilapan manusia selepas menyemak ratusan emel, syarikat berdepan **denda demurrage ribuan dolar sehari**, kargo tersadai, dan hubungan pelanggan terjejas.
+> Because of one human oversight amidst hundreds of daily emails, the enterprise faces **thousands of dollars in port demurrage penalties per day**, stranded cargo, and strained customer relationships.
 >
-> Masalah berisiko tinggi inilah yang saya dan rakan sepasukan saya di Team Rimba — Amir Hakim, Moi, Farhan, dan saya sendiri Eqhlas — nekad untuk selesaikan secara tuntas."
+> This exact high-stakes crisis is what my teammates — Amir Hakim, Moi, Farhan, and myself Eqhlas — resolved to eliminate once and for all."
 
 ---
 
 ### [00:55 - 01:25] Scene 3: The Breakthrough Idea — 3-Tier Hybrid Architecture
 **Visual On Screen:** Slide 3 (3-Tier Hybrid Architecture: Deterministic Edge + Supabase Cloud + Gemini 3.6 Flash)  
 **Speaker:**
-> "Kebanyakan penyelesaian di luar sana gagal kerana hanya bergantung kepada AI semata-mata yang lambat dan kerap berhalusinasi, atau sistem kata kunci lama yang terlalu kaku.
+> "Most solutions fail because they rely solely on raw LLMs that hallucinate digits and crawl under high volume, or legacy keyword systems that break on slight formatting changes.
 >
-> Idea kami? **Averis SDOC — 3-Tier Hybrid Architecture** yang menggabungkan kepantasan enjin deterministik dan kebijaksanaan AI generatif:
-> - **Tier 1 — High-Throughput Edge Ingestion:** 5-Way Email Triage classifier (100% Macro-F1) dan normalizer deterministik memproses 520 fail bawah **2.5 saat**.
-> - **Tier 2 — Enterprise Cloud Infrastructure:** Pangkalan data awan Supabase PostgreSQL dengan Row-Level Security dan kokpit operasi Next.js 14.
-> - **Tier 3 — Google Gemini 3.6 Flash Copilot:** Pegawai pintar yang menilai tahap risiko kargo dan mendraf surat pertikaian rasmi secara automatik.
+> Our breakthrough? **Averis SDOC — 3-Tier Hybrid Architecture** uniting zero-tolerance mathematical determinism with Google Gemini generative intelligence:
+> - **Tier 1 — High-Throughput Edge Ingestion:** 5-Way Email Triage classifier (100% Macro-F1) and deterministic normalizers parsing 520 documents in **under 2.5 seconds**.
+> - **Tier 2 — Enterprise Cloud Infrastructure:** Supabase PostgreSQL cloud schema with Row-Level Security paired with our responsive Next.js 14 operations cockpit.
+> - **Tier 3 — Google Gemini 3.6 Flash Copilot:** An intelligent agent assessing cargo detention risk and autonomously drafting formal carrier dispute notices in seconds.
 >
-> Sekarang, mari kita saksikan sistem ini berfungsi secara langsung."
+> Now, let us witness this live in action."
 
 ---
 
 ### [01:25 - 03:15] Scene 4: Live Operations Demonstration Showcase (The 3 Killer Moments)
-**Visual On Screen:** Slide 4 (Demo Gateway) $\rightarrow$ **Switch to Live Browser Tab:** `https://rimba1808-averis-sdoc.vercel.app/`  
-**Speaker:**
-> *(Tunjuk Dashboard Utama)*  
-> "Ini adalah kokpit operasi Averis SDOC yang sedang LIVE di Vercel.
+**Visual Transition Guidelines:**
+1. **At 01:25:** On Slide 4, click **'Launch Live Cockpit'** (or press `Ctrl + Tab` to switch to your pre-opened tab at `https://rimba1808-averis-sdoc.vercel.app/`).
+2. Demonstrate the **3 Killer Moments** cleanly without rushing:
+
+**Speaker (During Live Screen Recording):**
+> *(Showing Main Dashboard)*  
+> "Here is the **Averis SDOC Operations Cockpit**, running live in production on Vercel.
 >
-> **Babak 1: Kelajuan & Skala (Straight-Through Processing)**  
-> Perhatikan sidebar hijau kami yang menyerlahkan **454 kargo bersih (Verified Clean)** daripada 520 emel masuk. Kargo ini diproses dan auto-lulus ke SAP dalam masa bawah 2.5 saat tanpa sentuhan manusia. Kotak carian di atas meja emel membolehkan pegawai menapis rekod serta-merta.
+> **Moment 1: Speed & Straight-Through Processing (STP)**  
+> Notice our classic forest green sidebar highlighting **454 Verified Clean** shipments out of 520 incoming emails. The engine processed, normalized, and cleared these in under 2.5 seconds with zero human fatigue. Our responsive search bar in the table header allows instant lookup by booking reference or vessel.
 >
-> *(Klik 'Discrepancies' di Sidebar ➡️ Klik 'Diff' pada email_004)*  
-> **Babak 2: Pengesanan Ralat & Gemini AI Copilot**  
-> Enjin kami mengasingkan 46 emel yang bermasalah. Mari kita semak `email_004`. Modal perbandingan 7 medan kanonikal memaparkan dokumen secara bersebelahan: Customer SI di kiri dan Draft BL di kanan.  
-> Sistem menandakan warna merah serta-merta: Consignee tersilap ditaip sebagai 'UAB NOVAKOPA' berbanding 'EAST BRIGHT FZ-LLC'.
+> *(Clicking 'Discrepancies' in Sidebar ➡️ Clicking 'Diff' on email_004)*  
+> **Moment 2: Defect Catch & Gemini AI Copilot**  
+> The engine cleanly isolated all 46 shipments with discrepancies. Let's inspect `email_004`.  
+> Our side-by-side modal places the customer SI on the left and the carrier Draft BL on the right. Notice the red highlight: the Consignee on the draft BL was erroneously issued to 'UAB NOVAKOPA' instead of 'EAST BRIGHT FZ-LLC'.
 >
-> *(Klik butang 'Ask Gemini AI Copilot')*  
-> Pegawai operasi hanya klik **Ask Gemini AI Copilot**. Dikuasakan oleh Gemini 3.6 Flash secara langsung, AI menilai tahap risiko sebagai 'High Severity' kerana risiko sekatan kastam pelabuhan, dan **autonomously mendraf emel Carrier Discrepancy Notice rasmi** lengkap dengan nombor rujukan. Pegawai cuma klik 'Copy Draft' untuk dihantar ke talian perkapalan.
+> *(Clicking 'Ask Gemini AI Copilot')*  
+> When the lead officer clicks **Ask Gemini AI Copilot**, live Gemini 3.6 Flash grades this as High Severity risk due to customs detention, and **autonomously drafts the official Carrier Discrepancy Notice email** with container and booking citations. The officer simply clicks 'Copy Draft' to dispatch it.
 >
-> *(Tunjuk Butang Tindakan 'Escalate' vs 'Approve Override')*  
-> **Babak 3: Kuasa Pegawai (Human-in-the-Loop)**  
-> Pegawai memegang kuasa eksekutif: menekan **'Escalate to Carrier'** serta-merta mengunci status kargo sebagai 'On Hold' sehingga draf BL v2 diterima. Atau menekan **'Approve Override'** untuk pelepasan komersial yang sah dengan rekod audit penuh.
+> *(Showing 'Escalate to Carrier' vs 'Approve Override')*  
+> **Moment 3: Human-in-the-Loop Governance**  
+> Officers retain ultimate authority: clicking **'Escalate to Carrier'** immediately locks the shipment on-hold until an amended BL v2 arrives. Or, for commercial exemptions, clicking **'Approve Override'** releases the cargo with a complete immutable audit log.
 >
-> *(Klik 'Performance Metrics' di Sidebar)*  
-> Dan di tab Performance Metrics, ujian langsung menentang dataset ground truth mengesahkan sistem kami mencapai **skor rasmi 100.0% (1.0000)**!"
+> *(Clicking 'Performance Metrics' in Sidebar)*  
+> And on our Performance Metrics tab, live testing against the official ground truth confirms our engine achieved a **flawless 100.0% (1.0000)** score."
 
 ---
 
 ### [03:15 - 03:45] Scene 5: Flawless Verification (100.0% Official Benchmark Score)
-**Visual On Screen:** Switch back to Pitch Deck $\rightarrow$ Slide 5 (Official Benchmark Scorecard 100.0%)  
+**Visual Transition Guideline:**
+> **[CRITICAL TRANSITION BACK TO PITCH DECK]:**  
+> At **03:15**, press **`Ctrl + Tab`** (or click your Pitch Deck browser tab) to return to the presentation window.  
+> Press **`Spacebar`** or **`Right Arrow`** to advance to **Slide 5**!
+
 **Speaker:**
-> "Kembali kepada keputusan rasmi juri: Averis SDOC diuji secara ketat menentang ground truth rasmi kit penilaian Averis:
-> - **100.0% (1.0000)** — Skor Penanda Aras Rasmi disahkan.
-> - **520 / 520 (100%)** — Ketepatan Pengelasan Emel & Macro-F1.
-> - **46 / 46 (100%)** — Kadar Tangkapan Ralat Discrepancy.
-> - **0 False Alarms (100% Precision)** — Tiada kargo bersih yang tertahan sia-sia.
-> - **20 / 20 (100%)** — Kejayaan Reliability Triage mengesan imbasan kabur, invois sesat, dan lampiran rosak."
+> "With that live operational proof in mind, let us examine the cold hard evaluation metrics: Averis SDOC was rigorously tested against the jury's official evaluation ground truth across all 520 documents:
+> - **100.0% (1.0000)** — Consolidated Official Benchmark Score.
+> - **520 / 520 (100%)** — Email Classification Accuracy & Macro-F1.
+> - **46 / 46 (100%)** — Stage 3 Discrepancy Defect Catch Rate.
+> - **0 False Alarms (100% Precision)** — Clean cargo moves freely with zero holding delays.
+> - **20 / 20 (100%)** — Reliability Triage handling corrupted scans, wrong document types, and missing attachments without silent failure."
 
 ---
 
 ### [03:45 - 04:15] Scene 6: Under The Hood — Engineering Challenges & Robustness
-**Visual On Screen:** Slide 6 (3 Engineering Challenges: Data Ambiguity, Corrupted Scans, API Costs)  
+**Visual On Screen:** Slide 6 (Engineering Challenges & Robustness)  
 **Speaker:**
-> "Bagaimana kami capai 100% ketepatan dalam operasi sebenar yang mencabar? Kami selesaikan 3 cabaran kejuruteraan:
-> 1. **Mengatasi Halusinasi LLM:** Kami bina **Deterministic Normalizer Tier 1** yang menyelaraskan unit berat (MT, LBS kepada KG) dan kod pelabuhan (CNNTG kepada NANTONG) secara matematik sebelum perbandingan dibuat.
-> 2. **Imbasan Rosak & Lampiran Bukan BL:** Sistem **Reliability Exception Triage** memeriksa header fail dan kepadatan imbasan, berjaya mengesan kesemua 20 kes ekstrem tanpa sebarang kegagalan senyap.
-> 3. **Had API & Kecekapan Kos:** Menapis pukal secara deterministik membolehkan sistem siap bawah 2.5 saat, menjimatkan **95% kos panggilan API awan**."
+> "How did we achieve 100% precision in chaotic, real-world shipping conditions? We engineered direct solutions for 3 critical technical challenges:
+> 1. **Overcoming LLM Hallucinations:** Rather than trusting probabilistic LLMs with numeric scales, our **Deterministic Normalizer Tier 1** unifies weights (MT, LBS to KG) and port aliases (CNNTG to NANTONG) mathematically before comparison.
+> 2. **Corrupted Scans & Non-BL Files:** Our fail-safe **Reliability Exception Triage** inspects document structures and scan density, catching all 20 planted edge cases with zero silent failures.
+> 3. **API Rate Limits & Cost Escalation:** Local deterministic pre-filtering resolves 80%+ clean shipments in under 2.5 seconds, slashing **cloud API costs by 95%**."
 
 ---
 
 ### [04:15 - 04:35] Scene 7: Commercial ROI & Averis Production Roadmap
 **Visual On Screen:** Slide 7 (Dual Panel: $142,000 Annual Savings + 3-Phase Global Roadmap)  
 **Speaker:**
-> "Impak komersial kepada Averis Shared Services adalah serta-merta:
-> - **$142,000 Penjimatan Setahun** dengan menghapuskan denda demurrage dan yuran pindaan BL.
-> - **80% Straight-Through Processing** membebaskan kakitangan daripada tugas kerani.
-> - **Masa semakan berkurang 90%**, dari 15 minit kepada 30 saat.
+> "The commercial return for Averis Shared Services is immediate and substantial:
+> - **$142,000 Projected Annual Savings:** Eradicating port demurrage fines and carrier BL amendment fees.
+> - **80% Straight-Through Processing:** Verified shipments auto-cleared directly into SAP without human keying.
+> - **90% Triage Reduction:** Slashing document review time from 15 minutes down to 30 seconds.
 >
-> Roadmap kami bersedia untuk skala global Averis & APRIL:
-> - **Fasa 1 (Q3 2026):** Integrasi dua hala terus ke **SAP S/4HANA & SAP TM** untuk pelepasan kargo automatik.
-> - **Fasa 2 (Q4 2026):** Sambungan webhook terus dengan syarikat perkapalan global seperti **Maersk, CMA CGM, ONE, dan MSC**.
-> - **Fasa 3 (2027):** Model Bahasa Kecil (SLM) tempatan on-premises untuk kedaulatan data kastam antarabangsa."
+> Our enterprise roadmap is aligned with Averis & APRIL Group's global infrastructure:
+> - **Phase 1 (Q3 2026):** Deep bi-directional integration with **SAP S/4HANA & SAP Transportation Management**.
+> - **Phase 2 (Q4 2026):** Direct EDI webhook network with ocean carriers including **Maersk, CMA CGM, ONE, and MSC**.
+> - **Phase 3 (2027):** Edge-optimized on-premises Small Language Models (SLMs) for strict customs data sovereignty."
 
 ---
 
 ### [04:35 - 04:45] Scene 8: Grand Finale — An Unstoppable Operational Shield
 **Visual On Screen:** Slide 8 (Summary & Closing — Team Rimba 0818 Sign-Off)  
 **Speaker:**
-> "Kesimpulannya: **Averis SDOC** mematuhi 100% syarat hackathon dengan pangkalan data awan Supabase dan AI Gemini 3.6 Flash. Ia disahkan 100% secara matematik dan sedia dilaksanakan untuk operasi sebenar Averis dan APRIL Group.
+> "In summary: **Averis SDOC** is 100% compliant with all hackathon guidelines, verified live on Supabase and Google Gemini 3.6 Flash, and backed by a mathematically proven 100.0% benchmark score.
 >
-> **Kami bukan sekadar membina papan pemuka; kami membina perisai operasi yang kalis ralat untuk Averis.**
+> **We did not just build a dashboard; we engineered an unstoppable operational shield for Averis.**
 >
-> Sekian terima kasih kepada Averis dan Monash University. Kami dari **Team Rimba 0818** — sedia memacu masa depan logistik pintar!"
+> Thank you to Averis and Monash University. We are **Team Rimba 0818**, ready to power the future of autonomous shipping operations!"

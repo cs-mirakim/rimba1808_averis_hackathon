@@ -1840,3 +1840,235 @@ html, body {
   line-height: 1.45;
 }
 
+/* ══════════════ MOBILE & TABLET RESPONSIVENESS (< 900px) ══════════════ */
+@media (max-width: 900px) {
+  #app {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+  }
+
+  .slides-viewport {
+    padding: 12px 14px;
+    overflow-y: auto !important;
+    overflow-x: hidden !important;
+    -webkit-overflow-scrolling: touch;
+    display: block;
+    height: calc(100vh - 110px);
+  }
+
+  .slide-stage {
+    height: auto !important;
+    min-height: 100%;
+    display: block;
+  }
+
+  .slide {
+    height: auto !important;
+    min-height: 100%;
+    overflow-y: visible !important;
+    padding-bottom: 80px;
+    display: none;
+  }
+
+  .slide.active {
+    display: flex !important;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .slide-header {
+    margin-bottom: 8px;
+  }
+
+  .slide-title {
+    font-size: 22px;
+    line-height: 1.25;
+  }
+
+  .slide-subtitle {
+    font-size: 13px;
+    line-height: 1.5;
+  }
+
+  /* Slide 1 Cover Responsive */
+  .slide-cover-layout {
+    grid-template-columns: 1fr;
+    gap: 22px;
+  }
+
+  .cover-title {
+    font-size: 34px;
+    line-height: 1.1;
+  }
+
+  .cover-desc {
+    font-size: 13.5px;
+    line-height: 1.6;
+  }
+
+  .cover-metrics-highlight {
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+
+  .stat-pill {
+    flex: 1 1 28%;
+    min-width: 90px;
+  }
+
+  .team-members-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+  }
+
+  /* Slide 2 Problems Responsive */
+  .problems-grid {
+    grid-template-columns: 1fr;
+    gap: 14px;
+  }
+
+  .problem-card {
+    padding: 18px 16px;
+  }
+
+  /* Slide 3 Architecture Responsive */
+  .architecture-layout {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  /* Slide 4 Live Demo Responsive */
+  .demo-moments-grid {
+    grid-template-columns: 1fr;
+    gap: 14px;
+  }
+
+  .demo-launcher-banner {
+    flex-direction: column;
+    align-items: stretch;
+    text-align: center;
+    gap: 14px;
+    padding: 16px;
+  }
+
+  .demo-launcher-info {
+    flex-direction: column;
+    gap: 8px;
+    align-items: center;
+  }
+
+  .btn-demo-launch {
+    justify-content: center;
+    width: 100%;
+  }
+
+  /* Slide 5 Benchmark Responsive */
+  .benchmark-layout {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  .benchmark-hero-card {
+    padding: 24px 16px;
+  }
+
+  .benchmark-details-grid {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+
+  /* Slide 6 Challenges Responsive */
+  .challenges-grid {
+    grid-template-columns: 1fr;
+    gap: 14px;
+  }
+
+  /* Slide 7 ROI & Roadmap Responsive */
+  .enterprise-exec-layout {
+    grid-template-columns: 1fr;
+    gap: 18px;
+  }
+
+  /* Slide 8 Closing Responsive */
+  .closing-layout {
+    grid-template-columns: 1fr;
+    gap: 18px;
+  }
+
+  /* Top Bar Mobile */
+  .top-bar {
+    padding: 0 12px;
+    height: 50px;
+  }
+
+  .brand-tagline {
+    display: none;
+  }
+
+  #slideTitleText {
+    display: none;
+  }
+
+  #btnFullscreen {
+    display: none;
+  }
+
+  /* Bottom Bar Mobile */
+  .bottom-bar {
+    padding: 0 12px;
+    height: 56px;
+  }
+
+  .shortcut-hints {
+    display: none;
+  }
+
+  .btn-nav {
+    padding: 8px 14px;
+    min-height: 38px;
+  }
+
+  /* Speaker Notes Drawer Mobile */
+  .notes-drawer {
+    width: 100% !important;
+    max-width: 100% !important;
+    z-index: 100;
+  }
+
+  /* QA Modal Mobile */
+  .qa-modal-card {
+    width: 95%;
+    max-height: 90vh;
+    padding: 18px;
+  }
+}
+
+@media (max-width: 480px) {
+  .cover-title {
+    font-size: 28px;
+  }
+
+  .team-members-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .stat-pill {
+    flex: 1 1 100%;
+  }
+
+  .slide-title {
+    font-size: 20px;
+  }
+
+  .slide-subtitle {
+    font-size: 12px;
+  }
+
+  .btn-cta span {
+    display: none;
+  }
+}
+
+

@@ -446,8 +446,8 @@ export const DiffViewerModal: React.FC<DiffViewerModalProps> = ({
               {/* Gemini AI Analysis Box */}
               {renderAiBox()}
 
-              <div className="border border-slate-200 rounded-lg overflow-hidden shadow-xs">
-                <table className="w-full text-xs text-left border-collapse">
+              <div className="border border-slate-200 rounded-lg overflow-x-auto shadow-xs">
+                <table className="w-full min-w-[560px] text-xs text-left border-collapse">
                   <thead>
                     <tr className="bg-slate-100 border-b border-slate-200 text-slate-700">
                       <th className="py-2.5 px-4 font-semibold w-1/4">Canonical Field</th>
