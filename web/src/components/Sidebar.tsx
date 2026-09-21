@@ -71,7 +71,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
   ];
 
   const renderSidebarBody = (isMobile = false) => (
-    <div className={`flex flex-col justify-between h-full ${isMobile ? 'min-h-full' : 'min-h-screen'}`}>
+    <div className={`flex flex-col justify-between ${isMobile ? 'min-h-full pb-6' : 'h-full min-h-screen'}`}>
       <div>
         {/* Brand Header - exactly h-16 (64px) to perfectly align with top navigation border-b */}
         <div className="h-16 px-5 border-b border-emerald-900/40 flex items-center justify-between shrink-0">
@@ -143,7 +143,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
       </div>
 
       {/* Engine Status Card in Sidebar Bottom */}
-      <div className={`p-4 border-t border-emerald-900/40 space-y-2.5 ${isMobile ? 'pb-8' : ''}`}>
+      <div className="p-4 pb-6 border-t border-emerald-900/40 space-y-2.5 shrink-0">
         <div className="bg-forest-900/80 rounded-xl p-3 border border-emerald-900/50 space-y-2">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-1.5">
@@ -193,7 +193,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
             className="fixed inset-0 bg-slate-900/60 backdrop-blur-xs transition-opacity"
             onClick={onCloseMobile}
           />
-          <aside className="relative w-72 max-w-[85vw] bg-forest-950 text-slate-100 flex flex-col justify-between shrink-0 border-r border-emerald-900/40 h-[100dvh] max-h-[100dvh] font-sans shadow-2xl z-10 animate-in slide-in-from-left duration-200 overflow-y-auto">
+          <aside className="relative w-72 max-w-[85vw] bg-forest-950 text-slate-100 flex flex-col justify-between shrink-0 border-r border-emerald-900/40 h-[100dvh] max-h-[100dvh] overflow-y-auto font-sans shadow-2xl z-10 animate-in slide-in-from-left duration-200">
             {renderSidebarBody(true)}
           </aside>
         </div>

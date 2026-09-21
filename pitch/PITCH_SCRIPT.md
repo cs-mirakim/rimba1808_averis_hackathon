@@ -46,13 +46,9 @@
 ---
 
 ### [01:25 - 03:15] Scene 4: Live Operations Demonstration Showcase (The 3 Killer Moments)
-**How to Execute This Step-by-Step:**
-1. **At 01:25:** Advance from Slide 3 to **Slide 4 (Live Operations Showcase)**.
-2. **On Slide 4 (Say this on camera for 5 seconds):**
-   > *"Now, instead of just talking about architecture, let's step directly into our live production cockpit to see Averis SDOC handle 520 emails in real-time."*
-3. **Switch to Demo (At 01:30):**
-   Click the glowing **'Launch Live Cockpit'** button on Slide 4 (or press **`Ctrl + Tab`** to switch to your pre-opened tab at `https://rimba1808-averis-sdoc.vercel.app/`).
-4. **Demonstrate the 3 Killer Moments on Screen (01:30 - 03:15):**
+**Visual Transition Guidelines:**
+1. **At 01:25:** On Slide 4, click **'Launch Live Cockpit'** (or press `Ctrl + Tab` to switch to your pre-opened tab at `https://rimba1808-averis-sdoc.vercel.app/`).
+2. Demonstrate the **3 Killer Moments** cleanly without rushing:
 
 **Speaker (During Live Screen Recording):**
 > *(Showing Main Dashboard)*  
@@ -80,13 +76,12 @@
 
 ### [03:15 - 03:45] Scene 5: Flawless Verification (100.0% Official Benchmark Score)
 **Visual Transition Guideline:**
-> **[CRITICAL STEP — RETURNING TO PITCH DECK AT 03:15]:**  
-> 1. At **03:15**, press **`Ctrl + Tab`** (or click your Pitch Deck browser tab) to return to the presentation window. You will land back on **Slide 4**.  
-> 2. Immediately press **`Right Arrow (→)` or `Spacebar`** to advance to **Slide 5 (Benchmark Score)**!  
-> 3. Smoothly continue speaking:
+> **[CRITICAL TRANSITION BACK TO PITCH DECK]:**  
+> At **03:15**, press **`Ctrl + Tab`** (or click your Pitch Deck browser tab) to return to the presentation window.  
+> Press **`Spacebar`** or **`Right Arrow`** to advance to **Slide 5**!
 
 **Speaker:**
-> *"And as you just saw live in our cockpit, our engine delivers cold, verified precision: a perfect 100.0% benchmark score across all 3 test stages against the jury's ground truth:*
+> "With that live operational proof in mind, let us examine the cold hard evaluation metrics: Averis SDOC was rigorously tested against the jury's official evaluation ground truth across all 520 documents:
 > - **100.0% (1.0000)** — Consolidated Official Benchmark Score.
 > - **520 / 520 (100%)** — Email Classification Accuracy & Macro-F1.
 > - **46 / 46 (100%)** — Stage 3 Discrepancy Defect Catch Rate.

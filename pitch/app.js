@@ -59,22 +59,16 @@
       script: `
         <blockquote>
           <div style='background: rgba(16, 185, 129, 0.15); border: 1px solid #10b981; padding: 10px; border-radius: 6px; margin-bottom: 10px;'>
-            <span style='color: #34d399; font-weight: 800;'>[BEFORE SWITCHING TABS — SAY THIS (5s)]:</span><br>
-            <em>"Now, instead of just talking through architecture, let's step directly into our live production cockpit to see Averis SDOC handle 520 emails in real-time."</em>
+            <span style='color: #34d399; font-weight: 800;'>[STEP 1: SWITCH TO LIVE DASHBOARD (01:25)]:</span><br>
+            Click <strong>'Launch Live Cockpit'</strong> or switch to your open tab at <a href='https://rimba1808-averis-sdoc.vercel.app/' target='_blank' style='color:#38bdf8;'>rimba1808-averis-sdoc.vercel.app</a>.
           </div>
-          <div style='background: rgba(245, 158, 11, 0.15); border: 1px solid #f59e0b; padding: 10px; border-radius: 6px; margin-bottom: 12px;'>
-            <span style='color: #f59e0b; font-weight: 800;'>[STEP 1: SWITCH TO LIVE DASHBOARD (01:25)]:</span><br>
-            Click <strong>'Launch Live Cockpit'</strong> on Slide 4 (or press <strong>Ctrl + Tab</strong> to your pre-opened tab at <a href='https://rimba1808-averis-sdoc.vercel.app/' target='_blank' style='color:#38bdf8;'>rimba1808-averis-sdoc.vercel.app</a>).
-          </div>
-          <strong>Demonstrate the 3 Killer Moments on Screen (01:25 - 03:15):</strong><br><br>
+          <strong>Demonstrate the 3 Killer Moments on Screen:</strong><br><br>
           <strong>Moment 1: Speed &amp; Straight-Through Processing</strong> &mdash; Highlight the green sidebar isolating <strong>454 Verified Clean</strong> shipments. 520 emails triaged in 2.5s, clean cargo auto-cleared directly to SAP without human fatigue.<br><br>
           <strong>Moment 2: Defect Catch &amp; Gemini AI Copilot</strong> &mdash; Click <em>Discrepancies</em> &rarr; open <code>email_004</code>. Point to the side-by-side modal highlighting the Consignee mismatch in red ('UAB NOVAKOPA' vs 'EAST BRIGHT FZ-LLC'). Click <strong>'Ask Gemini AI Copilot'</strong> &mdash; live Gemini 3.6 Flash grades high detention risk and drafts the formal Carrier Discrepancy Notice with 1-click copy!<br><br>
           <strong>Moment 3: Human-in-the-Loop &amp; Audit Trail</strong> &mdash; Show <strong>'Escalate to Carrier'</strong> (locking shipment on-hold) vs <strong>'Approve Override'</strong> (commercial exemption with full audit log). Click <strong>'Performance Metrics'</strong> in the sidebar to reveal our verified 100.0% benchmark score.<br><br>
-          <div style='background: rgba(56, 189, 248, 0.15); border: 1px solid #38bdf8; padding: 10px; border-radius: 6px; margin-top: 12px;'>
+          <div style='background: rgba(56, 189, 248, 0.15); border: 1px solid #38bdf8; padding: 10px; border-radius: 6px; margin-top: 10px;'>
             <span style='color: #38bdf8; font-weight: 800;'>[STEP 2: RETURN TO PITCH DECK (03:15)]:</span><br>
-            1. Press <strong>Ctrl + Tab</strong> to return to this Pitch Deck tab (you will be on Slide 4).<br>
-            2. Press <strong>Right Arrow (&rarr;) or Spacebar</strong> immediately to advance to <strong>Slide 5 (Benchmark Score)</strong>!<br>
-            3. Begin Slide 5: <em>"And as you just saw live in our cockpit, the results speak for themselves: 100.0% benchmark score..."</em>
+            Press <strong>Ctrl + Tab</strong> (or click the Pitch Deck browser tab) to return to this presentation, and press <strong>Spacebar</strong> to advance to Slide 5!
           </div>
         </blockquote>
       `
@@ -181,13 +175,19 @@
   const timerBadge = document.getElementById('timerBadge');
   const timerText = document.getElementById('timerText');
 
-  // Speaker Notes Drawer (Toggled via keyboard P or N)
+  // Drawers & Modals
   const notesDrawer = document.getElementById('notesDrawer');
+  const notesBackdrop = document.getElementById('notesBackdrop');
   const notesTitle = document.getElementById('notesTitle');
   const notesTimeTarget = document.getElementById('notesTimeTarget');
   const notesVisualCue = document.getElementById('notesVisualCue');
   const notesScript = document.getElementById('notesScript');
+  const btnToggleNotes = document.getElementById('btnToggleNotes');
   const btnCloseNotes = document.getElementById('btnCloseNotes');
+
+  const qaModal = document.getElementById('qaModal');
+  const btnToggleQA = document.getElementById('btnToggleQA');
+  const btnCloseQA = document.getElementById('btnCloseQA');
 
   const btnFullscreen = document.getElementById('btnFullscreen');
 
@@ -267,9 +267,20 @@
     const isOpen = notesDrawer.classList.contains('open');
     const newState = forceState !== undefined ? forceState : !isOpen;
     notesDrawer.classList.toggle('open', newState);
+    if (notesBackdrop) notesBackdrop.classList.toggle('active', newState);
+    if (btnToggleNotes) btnToggleNotes.classList.toggle('active', newState);
     if (newState) {
       updateNotesContent();
     }
+  }
+
+  // Toggle QA Modal
+  function toggleQA(forceState) {
+    if (!qaModal) return;
+    const isOpen = qaModal.classList.contains('open');
+    const newState = forceState !== undefined ? forceState : !isOpen;
+    qaModal.classList.toggle('open', newState);
+    if (btnToggleQA) btnToggleQA.classList.toggle('active', newState);
   }
 
   // Fullscreen toggle
@@ -393,8 +404,15 @@
         }
         break;
 
+      case 'q':
+      case 'Q':
+        e.preventDefault();
+        toggleQA();
+        break;
+
       case 'Escape':
         toggleNotes(false);
+        toggleQA(false);
         break;
 
       default:
@@ -410,7 +428,9 @@
   // Attach UI event handlers
   btnNext.addEventListener('click', nextSlide);
   btnPrev.addEventListener('click', prevSlide);
+  if (btnToggleNotes) btnToggleNotes.addEventListener('click', () => toggleNotes());
   if (btnCloseNotes) btnCloseNotes.addEventListener('click', () => toggleNotes(false));
+  if (notesBackdrop) notesBackdrop.addEventListener('click', () => toggleNotes(false));
   if (btnFullscreen) btnFullscreen.addEventListener('click', toggleFullscreen);
 
   // ── Touch Swipe Gestures for Mobile Phones ──
