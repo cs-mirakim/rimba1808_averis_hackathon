@@ -46,42 +46,40 @@
 ---
 
 ### [01:25 - 03:15] Scene 4: Live Operations Demonstration Showcase (The 3 Killer Moments)
-**Visual Transition Guidelines:**
-1. **At 01:25:** On Slide 4, click **'Launch Live Cockpit'** (or press `Ctrl + Tab` to switch to your pre-opened tab at `https://rimba1808-averis-sdoc.vercel.app/`).
-2. Demonstrate the **3 Killer Moments** cleanly without rushing:
 
-**Speaker (During Live Screen Recording):**
-> *(Showing Main Dashboard)*  
-> "Here is the **Averis SDOC Operations Cockpit**, running live in production on Vercel.
+**Phase 1: What to Say on Slide 4 Before Opening System (01:25):**
+> *(Looking at Slide 4 on screen)*  
+> "Now that you have seen our hybrid architecture, let us step inside the engine. On screen are the three critical operational moments we are about to demonstrate: rapid straight-through processing, intelligent defect triage with Gemini AI, and executive human governance. Let us switch directly to our live operations cockpit."
+
+**Phase 2: Live System Demonstration Script (Verbatim Spoken Words):**
+> *(Press `Ctrl + Tab` to switch to the Live Dashboard tab at `https://rimba1808-averis-sdoc.vercel.app/`)*  
 >
 > **Moment 1: Speed & Straight-Through Processing (STP)**  
-> Notice our classic forest green sidebar highlighting **454 Verified Clean** shipments out of 520 incoming emails. The engine processed, normalized, and cleared these in under 2.5 seconds with zero human fatigue. Our responsive search bar in the table header allows instant lookup by booking reference or vessel.
+> "Here is the **Averis SDOC Operations Cockpit**, live on Vercel. Look at our left sidebar: out of 520 incoming emails, **454 verified clean shipments** were automatically cleared through Straight-Through Processing in under 2.5 seconds—moving cargo immediately to SAP with zero human fatigue."
 >
-> *(Clicking 'Discrepancies' in Sidebar ➡️ Clicking 'Diff' on email_004)*  
+> *(Click 'Discrepancies' in Sidebar ➡️ Click 'Diff' button on email_004)*  
 > **Moment 2: Defect Catch & Gemini AI Copilot**  
-> The engine cleanly isolated all 46 shipments with discrepancies. Let's inspect `email_004`.  
-> Our side-by-side modal places the customer SI on the left and the carrier Draft BL on the right. Notice the red highlight: the Consignee on the draft BL was erroneously issued to 'UAB NOVAKOPA' instead of 'EAST BRIGHT FZ-LLC'.
+> "Now, let us inspect the exceptions. Exactly 46 discrepancies were caught. Opening `email_004`, our side-by-side modal exposes the critical defect in red: the carrier issued the draft BL to 'UAB NOVAKOPA' instead of our verified customer 'EAST BRIGHT FZ-LLC'. If approved, this cargo would face immediate customs detention at port."
 >
-> *(Clicking 'Ask Gemini AI Copilot')*  
-> When the lead officer clicks **Ask Gemini AI Copilot**, live Gemini 3.6 Flash grades this as High Severity risk due to customs detention, and **autonomously drafts the official Carrier Discrepancy Notice email** with container and booking citations. The officer simply clicks 'Copy Draft' to dispatch it.
+> *(Click 'Ask Gemini AI Copilot' button inside the modal)*  
+> "Instead of an officer drafting emails manually, watch this: clicking 'Ask Gemini AI Copilot' triggers Gemini 3.6 Flash. In three seconds, it grades this as High Severity customs risk, and autonomously drafts the official Carrier Discrepancy Notice with container and booking citations—ready to copy and dispatch in one click."
 >
-> *(Showing 'Escalate to Carrier' vs 'Approve Override')*  
-> **Moment 3: Human-in-the-Loop Governance**  
-> Officers retain ultimate authority: clicking **'Escalate to Carrier'** immediately locks the shipment on-hold until an amended BL v2 arrives. Or, for commercial exemptions, clicking **'Approve Override'** releases the cargo with a complete immutable audit log.
->
-> *(Clicking 'Performance Metrics' in Sidebar)*  
-> And on our Performance Metrics tab, live testing against the official ground truth confirms our engine achieved a **flawless 100.0% (1.0000)** score."
+> *(Point to 'Escalate to Carrier' vs 'Approve Override' ➡️ Click 'Performance Metrics' in Sidebar)*  
+> **Moment 3: Governance & Live Verification**  
+> "Officers retain complete control: clicking 'Escalate to Carrier' locks the shipment on-hold until an amended BL arrives, while 'Approve Override' records an immutable audit log. Finally, opening 'Performance Metrics' verifies our live score against the jury's official ground truth."
 
 ---
 
 ### [03:15 - 03:45] Scene 5: Flawless Verification (100.0% Official Benchmark Score)
-**Visual Transition Guideline:**
-> **[CRITICAL TRANSITION BACK TO PITCH DECK]:**  
-> At **03:15**, press **`Ctrl + Tab`** (or click your Pitch Deck browser tab) to return to the presentation window.  
-> Press **`Spacebar`** or **`Right Arrow`** to advance to **Slide 5**!
 
-**Speaker:**
-> "With that live operational proof in mind, let us examine the cold hard evaluation metrics: Averis SDOC was rigorously tested against the jury's official evaluation ground truth across all 520 documents:
+**Phase 3: Critical Return to Pitch Deck (At 03:15):**
+> 1. Press **`Ctrl + Tab`** on your keyboard to switch back to the Pitch Deck tab.  
+> 2. You land directly back on **Slide 4**.  
+> 3. Press **`Right Arrow (→)`** or **`Spacebar`** once to advance smoothly to **Slide 5**!  
+> 4. Begin speaking immediately:
+
+**Speaker (Slide 5 Opening Sentence):**
+> "And as you just witnessed live in our production cockpit, here is our consolidated evaluation scorecard: a mathematically verified 100.0% benchmark score across all 520 documents:
 > - **100.0% (1.0000)** — Consolidated Official Benchmark Score.
 > - **520 / 520 (100%)** — Email Classification Accuracy & Macro-F1.
 > - **46 / 46 (100%)** — Stage 3 Discrepancy Defect Catch Rate.

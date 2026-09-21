@@ -55,20 +55,40 @@
       slide: 4,
       title: "Slide 4: Live Operations Demonstration Showcase",
       timeTarget: "01:25 - 03:15",
-      visualCue: "DEMO GATEWAY: Click 'Launch Live Cockpit' or switch to https://rimba1808-averis-sdoc.vercel.app/",
+      visualCue: "Slide 4 Introduction ➡️ Switch to Live Dashboard tab via Ctrl+Tab ➡️ Return at 03:15",
       script: `
         <blockquote>
-          <div style='background: rgba(16, 185, 129, 0.15); border: 1px solid #10b981; padding: 10px; border-radius: 6px; margin-bottom: 10px;'>
-            <span style='color: #34d399; font-weight: 800;'>[STEP 1: SWITCH TO LIVE DASHBOARD (01:25)]:</span><br>
-            Click <strong>'Launch Live Cockpit'</strong> or switch to your open tab at <a href='https://rimba1808-averis-sdoc.vercel.app/' target='_blank' style='color:#38bdf8;'>rimba1808-averis-sdoc.vercel.app</a>.
+          <div style='background: rgba(16, 185, 129, 0.12); border-left: 3px solid #10b981; padding: 8px 12px; margin-bottom: 12px;'>
+            <span style='color: #34d399; font-weight: 700; font-size: 11.5px;'>[PHASE 1 &mdash; SAY ON SLIDE 4 BEFORE OPENING SYSTEM]:</span><br>
+            "Now that you have seen our hybrid architecture, let us step inside the engine. On screen are the three critical operational moments we are about to demonstrate: rapid straight-through processing, intelligent defect triage with Gemini AI, and executive human governance. Let us switch directly to our live operations cockpit."
           </div>
-          <strong>Demonstrate the 3 Killer Moments on Screen:</strong><br><br>
-          <strong>Moment 1: Speed &amp; Straight-Through Processing</strong> &mdash; Highlight the green sidebar isolating <strong>454 Verified Clean</strong> shipments. 520 emails triaged in 2.5s, clean cargo auto-cleared directly to SAP without human fatigue.<br><br>
-          <strong>Moment 2: Defect Catch &amp; Gemini AI Copilot</strong> &mdash; Click <em>Discrepancies</em> &rarr; open <code>email_004</code>. Point to the side-by-side modal highlighting the Consignee mismatch in red ('UAB NOVAKOPA' vs 'EAST BRIGHT FZ-LLC'). Click <strong>'Ask Gemini AI Copilot'</strong> &mdash; live Gemini 3.6 Flash grades high detention risk and drafts the formal Carrier Discrepancy Notice with 1-click copy!<br><br>
-          <strong>Moment 3: Human-in-the-Loop &amp; Audit Trail</strong> &mdash; Show <strong>'Escalate to Carrier'</strong> (locking shipment on-hold) vs <strong>'Approve Override'</strong> (commercial exemption with full audit log). Click <strong>'Performance Metrics'</strong> in the sidebar to reveal our verified 100.0% benchmark score.<br><br>
-          <div style='background: rgba(56, 189, 248, 0.15); border: 1px solid #38bdf8; padding: 10px; border-radius: 6px; margin-top: 10px;'>
-            <span style='color: #38bdf8; font-weight: 800;'>[STEP 2: RETURN TO PITCH DECK (03:15)]:</span><br>
-            Press <strong>Ctrl + Tab</strong> (or click the Pitch Deck browser tab) to return to this presentation, and press <strong>Spacebar</strong> to advance to Slide 5!
+
+          <div style='background: rgba(56, 189, 248, 0.12); border-left: 3px solid #38bdf8; padding: 8px 12px; margin-bottom: 12px;'>
+            <span style='color: #38bdf8; font-weight: 700; font-size: 11.5px;'>[ACTION: PRESS Ctrl + Tab TO SWITCH TO LIVE DASHBOARD TAB]</span>
+          </div>
+
+          <div style='background: rgba(15, 23, 42, 0.5); padding: 6px 10px; border-radius: 6px; margin-bottom: 8px;'>
+            <strong style='color: #a7f3d0;'>Moment 1: Speed &amp; Straight-Through Processing:</strong><br>
+            "Here is the Averis SDOC Operations Cockpit, live on Vercel. Look at our left sidebar: out of 520 incoming emails, 454 verified clean shipments were automatically cleared through Straight-Through Processing in under 2.5 seconds&mdash;moving cargo immediately to SAP with zero human fatigue."
+          </div>
+
+          <div style='background: rgba(15, 23, 42, 0.5); padding: 6px 10px; border-radius: 6px; margin-bottom: 8px;'>
+            <span style='color: #94a3b8; font-size: 11.5px;'>[ACTION: Click 'Discrepancies' in Sidebar &rarr; Click 'Diff' on email_004]</span><br>
+            <strong style='color: #7dd3fc;'>Moment 2: Defect Catch &amp; Gemini AI Copilot:</strong><br>
+            "Now, let us inspect the exceptions. Exactly 46 discrepancies were caught. Opening email_004, our side-by-side modal exposes the critical defect in red: the carrier issued the draft BL to 'UAB NOVAKOPA' instead of our verified customer 'EAST BRIGHT FZ-LLC'. If approved, this cargo would face immediate customs detention at port."<br><br>
+            <span style='color: #94a3b8; font-size: 11.5px;'>[ACTION: Click 'Ask Gemini AI Copilot']</span><br>
+            "Instead of an officer drafting emails manually, watch this: clicking 'Ask Gemini AI Copilot' triggers Gemini 3.6 Flash. In three seconds, it grades this as High Severity customs risk, and autonomously drafts the official Carrier Discrepancy Notice with container and booking citations&mdash;ready to copy and dispatch in one click."
+          </div>
+
+          <div style='background: rgba(15, 23, 42, 0.5); padding: 6px 10px; border-radius: 6px; margin-bottom: 12px;'>
+            <span style='color: #94a3b8; font-size: 11.5px;'>[ACTION: Point to 'Escalate to Carrier' vs 'Approve Override' &rarr; Click 'Performance Metrics']</span><br>
+            <strong style='color: #cbd5e1;'>Moment 3: Governance &amp; Live Verification:</strong><br>
+            "Officers retain complete control: clicking 'Escalate to Carrier' locks the shipment on-hold until an amended BL arrives, while 'Approve Override' records an immutable audit log. Finally, opening 'Performance Metrics' verifies our live score against the jury's official ground truth."
+          </div>
+
+          <div style='background: rgba(245, 158, 11, 0.15); border-left: 3px solid #f59e0b; padding: 8px 12px;'>
+            <span style='color: #fbbf24; font-weight: 700; font-size: 11.5px;'>[PHASE 3 &mdash; RETURN TO PITCH DECK AT 03:15]:</span><br>
+            Press <strong>Ctrl + Tab</strong> to return to the Pitch Deck (you land on Slide 4) &rarr; Press <strong>Right Arrow (&rarr;)</strong> to advance to Slide 5!
           </div>
         </blockquote>
       `
