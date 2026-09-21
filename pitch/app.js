@@ -165,7 +165,10 @@
   const slideTitleText = document.getElementById('slideTitleText');
   const btnPrev = document.getElementById('btnPrev');
   const btnNext = document.getElementById('btnNext');
+  const btnFloatPrev = document.getElementById('btnFloatPrev');
+  const btnFloatNext = document.getElementById('btnFloatNext');
   const dotsContainer = document.getElementById('slideDots');
+  const slidesViewport = document.querySelector('.slides-viewport');
 
   // Timer state
   let timerInterval = null;
@@ -227,6 +230,13 @@
     // Update Nav Buttons
     btnPrev.disabled = currentSlide === 0;
     btnNext.disabled = currentSlide === totalSlides - 1;
+    if (btnFloatPrev) btnFloatPrev.disabled = currentSlide === 0;
+    if (btnFloatNext) btnFloatNext.disabled = currentSlide === totalSlides - 1;
+
+    // Reset slide scroll position to top on navigation
+    if (slidesViewport) {
+      slidesViewport.scrollTo({ top: 0, behavior: 'instant' });
+    }
 
     // Update Speaker Notes if drawer is open or prepared
     updateNotesContent();
@@ -420,11 +430,53 @@
   // Attach UI event handlers
   btnNext.addEventListener('click', nextSlide);
   btnPrev.addEventListener('click', prevSlide);
+  if (btnFloatNext) btnFloatNext.addEventListener('click', nextSlide);
+  if (btnFloatPrev) btnFloatPrev.addEventListener('click', prevSlide);
   if (btnToggleNotes) btnToggleNotes.addEventListener('click', () => toggleNotes());
   if (btnCloseNotes) btnCloseNotes.addEventListener('click', () => toggleNotes(false));
   if (btnToggleQA) btnToggleQA.addEventListener('click', () => toggleQA());
   if (btnCloseQA) btnCloseQA.addEventListener('click', () => toggleQA(false));
-  btnFullscreen.addEventListener('click', toggleFullscreen);
+  if (btnFullscreen) btnFullscreen.addEventListener('click', toggleFullscreen);
+
+  // ── Touch Swipe Gestures for Mobile Phones ──
+  let touchStartX = 0;
+  let touchStartY = 0;
+  let touchEndX = 0;
+  let touchEndY = 0;
+  let touchStartTime = 0;
+
+  const swipeTarget = slidesViewport || document.body;
+
+  swipeTarget.addEventListener('touchstart', (e) => {
+    if (e.touches && e.touches.length === 1) {
+      touchStartX = e.touches[0].clientX;
+      touchStartY = e.touches[0].clientY;
+      touchStartTime = Date.now();
+    }
+  }, { passive: true });
+
+  swipeTarget.addEventListener('touchend', (e) => {
+    if (e.changedTouches && e.changedTouches.length === 1) {
+      touchEndX = e.changedTouches[0].clientX;
+      touchEndY = e.changedTouches[0].clientY;
+
+      const diffX = touchEndX - touchStartX;
+      const diffY = touchEndY - touchStartY;
+      const elapsed = Date.now() - touchStartTime;
+
+      // Swipe detected if:
+      // 1. Gesture completed in < 600ms
+      // 2. Horizontal distance > 40px
+      // 3. Horizontal motion is distinctly dominant over vertical scrolling (1.3x)
+      if (elapsed < 600 && Math.abs(diffX) > 40 && Math.abs(diffX) > Math.abs(diffY) * 1.3) {
+        if (diffX < 0) {
+          nextSlide(); // Swipe Left -> Advance to next slide
+        } else {
+          prevSlide(); // Swipe Right -> Return to prev slide
+        }
+      }
+    }
+  }, { passive: true });
 
   // Timer badge click: toggle on click, double click to reset
   timerBadge.addEventListener('click', toggleTimer);
