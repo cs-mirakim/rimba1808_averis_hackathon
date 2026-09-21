@@ -1302,15 +1302,15 @@ html, body {
 /* ────────── Speaker Notes Drawer (Drawer N / P) ────────── */
 .notes-drawer {
   position: fixed;
-  bottom: 60px;
-  left: 28px;
-  right: 28px;
-  max-height: 280px;
-  background-color: #0b1f18;
+  bottom: 64px;
+  left: 32px;
+  right: 32px;
+  max-height: 290px;
+  background-color: #0c241c;
   border: 1px solid var(--border-highlight);
   border-radius: var(--radius-lg);
-  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.7);
-  z-index: 100;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.85);
+  z-index: 300;
   display: flex;
   flex-direction: column;
   transform: translateY(120%);
@@ -1845,24 +1845,9 @@ html, body {
   display: none !important;
 }
 
-/* Notes Backdrop (Mobile Sheet Modal) */
+/* Notes Backdrop - Strictly hidden on desktop */
 .notes-backdrop {
-  display: none;
-  position: fixed;
-  inset: 0;
-  background-color: rgba(3, 10, 7, 0.7);
-  backdrop-filter: blur(6px);
-  -webkit-backdrop-filter: blur(6px);
-  z-index: 180;
-  opacity: 0;
-  transition: opacity var(--transition-fast);
-  pointer-events: none;
-}
-
-.notes-backdrop.active {
-  display: block;
-  opacity: 1;
-  pointer-events: auto;
+  display: none !important;
 }
 
 .notes-drag-handle {
@@ -1882,6 +1867,26 @@ html, body {
 
   .mobile-notes-btn {
     display: flex !important;
+  }
+
+  /* Notes Backdrop - Mobile only */
+  .notes-backdrop {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background-color: rgba(3, 10, 7, 0.75);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    z-index: 180;
+    opacity: 0;
+    transition: opacity var(--transition-fast);
+    pointer-events: none;
+  }
+
+  .notes-backdrop.active {
+    display: block !important;
+    opacity: 1 !important;
+    pointer-events: auto;
   }
 
   .slides-viewport {
