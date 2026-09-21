@@ -343,8 +343,8 @@ html, body {
 /* ────────── SLIDE 1: Cover / Intro ────────── */
 .slide-cover-layout {
   display: grid;
-  grid-template-columns: 1.25fr 0.85fr;
-  gap: 40px;
+  grid-template-columns: 1.15fr 0.95fr;
+  gap: 36px;
   align-items: center;
   height: 100%;
 }
@@ -420,10 +420,10 @@ html, body {
   background-color: var(--bg-card);
   border: 1px solid var(--border-subtle);
   border-radius: var(--radius-lg);
-  padding: 22px;
+  padding: 24px 22px;
   display: flex;
   flex-direction: column;
-  gap: 14px;
+  gap: 16px;
 }
 
 .team-header-title {
@@ -440,28 +440,102 @@ html, body {
 .team-members-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 10px;
+  gap: 14px;
 }
 
 .member-item {
   background-color: var(--bg-surface);
-  border: 1px solid rgba(255, 255, 255, 0.05);
-  border-radius: var(--radius-md);
-  padding: 10px 12px;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: var(--radius-lg);
+  padding: 12px 14px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  transition: transform var(--transition-fast), border-color var(--transition-fast), background-color var(--transition-fast), box-shadow var(--transition-fast);
+}
+
+.member-item:hover {
+  background-color: var(--bg-card-hover);
+  border-color: var(--border-highlight);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.25);
+}
+
+.member-avatar {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  object-fit: cover;
+  object-position: center;
+  flex-shrink: 0;
+  border: 2.5px solid rgba(52, 211, 153, 0.45);
+  box-shadow: 0 0 14px rgba(16, 185, 129, 0.22);
+  background-color: var(--bg-card);
+  transition: transform var(--transition-fast), border-color var(--transition-fast);
+}
+
+.member-item:hover .member-avatar {
+  border-color: var(--mint-accent);
+  transform: scale(1.05);
+}
+
+.member-info {
   display: flex;
   flex-direction: column;
-  gap: 2px;
+  gap: 3px;
+  min-width: 0;
 }
 
 .member-name {
-  font-size: 13px;
+  font-size: 14.5px;
   font-weight: 700;
   color: var(--text-main);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.member-name-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 6px;
+}
+
+.member-click-icon {
+  color: var(--mint-accent);
+  opacity: 0.4;
+  transition: opacity var(--transition-fast), transform var(--transition-fast);
+  flex-shrink: 0;
+}
+
+.member-item:hover .member-click-icon {
+  opacity: 1;
+  transform: scale(1.15);
+}
+
+.member-item {
+  cursor: pointer;
+}
+
+.signoff-member-link {
+  color: var(--text-main);
+  cursor: pointer;
+  border-bottom: 1px dashed rgba(52, 211, 153, 0.4);
+  padding-bottom: 1px;
+  transition: all var(--transition-fast);
+}
+
+.signoff-member-link:hover {
+  color: var(--mint-accent);
+  border-bottom-color: var(--mint-accent);
+  text-shadow: 0 0 8px rgba(16, 185, 129, 0.4);
 }
 
 .member-role {
-  font-size: 11px;
+  font-size: 12px;
   color: var(--text-muted);
+  line-height: 1.35;
 }
 
 .hero-architecture-badge {
@@ -1508,6 +1582,260 @@ html, body {
   line-height: 1.55;
 }
 
+/* ────────── Team Member Profile Lightbox Modal ────────── */
+.member-modal-box {
+  width: 90%;
+  max-width: 820px;
+  background-color: var(--bg-surface);
+  border: 1px solid var(--border-highlight);
+  border-radius: var(--radius-xl);
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.92), 0 0 35px rgba(16, 185, 129, 0.16);
+  position: relative;
+  overflow: hidden;
+  animation: modalPop 0.28s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes modalPop {
+  from {
+    opacity: 0;
+    transform: scale(0.94) translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+.btn-close-modal {
+  position: absolute;
+  top: 16px;
+  right: 18px;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  color: var(--text-muted);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 10;
+  transition: all var(--transition-fast);
+}
+
+.btn-close-modal:hover {
+  background: var(--bg-card-hover);
+  border-color: var(--mint-accent);
+  color: #fff;
+  transform: rotate(90deg);
+}
+
+.member-modal-body {
+  display: grid;
+  grid-template-columns: 310px 1fr;
+  padding: 28px;
+  gap: 28px;
+}
+
+.member-modal-photo-side {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+.member-photo-frame {
+  position: relative;
+  width: 100%;
+  height: 380px;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  border: 2px solid var(--border-highlight);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.6), 0 0 24px rgba(5, 150, 105, 0.2);
+  background: var(--bg-core);
+}
+
+.member-modal-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.member-photo-badge {
+  position: absolute;
+  bottom: 12px;
+  left: 12px;
+  background: rgba(7, 19, 14, 0.88);
+  backdrop-filter: blur(8px);
+  border: 1px solid var(--border-highlight);
+  color: var(--mint-accent);
+  font-size: 11px;
+  font-family: var(--font-mono);
+  font-weight: 700;
+  padding: 4px 12px;
+  border-radius: 999px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.member-photo-hint {
+  font-size: 11px;
+  color: var(--text-dim);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  font-weight: 600;
+}
+
+.member-modal-info-side {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.member-modal-header {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.member-modal-badge-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 6px;
+}
+
+.member-counter-pill {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--mint-accent);
+  background: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  padding: 3px 10px;
+  border-radius: 999px;
+}
+
+.member-modal-name {
+  font-size: 26px;
+  font-weight: 800;
+  color: #fff;
+  letter-spacing: -0.02em;
+}
+
+.member-modal-role {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--mint-accent);
+}
+
+.member-modal-bio-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  padding: 14px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.bio-card-title {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
+  font-family: var(--font-mono);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--mint-soft);
+}
+
+.member-modal-bio-text {
+  font-size: 13.5px;
+  line-height: 1.6;
+  color: var(--text-main);
+}
+
+.member-modal-skills-card {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.skills-card-title {
+  font-size: 11px;
+  font-family: var(--font-mono);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text-dim);
+}
+
+.member-modal-skills-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.member-skill-tag {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text-mint);
+  background: rgba(16, 185, 129, 0.1);
+  border: 1px solid rgba(52, 211, 153, 0.2);
+  padding: 3px 9px;
+  border-radius: var(--radius-sm);
+}
+
+.member-modal-nav-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: 12px;
+  border-top: 1px solid var(--border-subtle);
+}
+
+.btn-member-nav {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  color: var(--text-muted);
+  padding: 8px 14px;
+  border-radius: var(--radius-md);
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.btn-member-nav:hover {
+  background: var(--bg-card-hover);
+  border-color: var(--mint-accent);
+  color: #fff;
+  transform: translateY(-1px);
+}
+
+@media (max-width: 768px) {
+  .member-modal-body {
+    grid-template-columns: 1fr;
+    padding: 20px;
+    gap: 18px;
+    max-height: 82vh;
+    overflow-y: auto;
+  }
+  .member-photo-frame {
+    height: 250px;
+    max-width: 250px;
+    margin: 0 auto;
+  }
+}
+
 /* Custom Scrollbar for Notes & Modal */
 ::-webkit-scrollbar {
   width: 6px;
@@ -1917,7 +2245,17 @@ html, body {
 
   .team-members-grid {
     grid-template-columns: 1fr 1fr;
-    gap: 8px;
+    gap: 10px;
+  }
+
+  .member-item {
+    padding: 10px 12px;
+    gap: 10px;
+  }
+
+  .member-avatar {
+    width: 52px;
+    height: 52px;
   }
 
   /* Slide 2 Problems Responsive */

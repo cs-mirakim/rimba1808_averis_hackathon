@@ -115,24 +115,51 @@
               <div class="team-card-wrapper">
                 <div class="team-header-title">
                   <span>Team Rimba 0818</span>
-                  <span style="font-size: 11px; font-weight: 500; color: #94a3b8;">AVERIS x MONASH HACKATHON 2026</span>
+                  <span class="team-header-hint" style="font-size: 11px; font-weight: 500; color: #94a3b8; display: flex; align-items: center; gap: 5px;">
+                    <svg viewBox="0 0 24 24" width="13" height="13" stroke="currentColor" stroke-width="2" fill="none" style="color: var(--mint-accent);"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+                    Click any member to view photo
+                  </span>
                 </div>
                 <div class="team-members-grid">
-                  <div class="member-item">
-                    <span class="member-name">Amir Hakim</span>
-                    <span class="member-role">Tech Lead &amp; Architecture</span>
+                  <div class="member-item" data-member="amir" role="button" tabindex="0" title="Click to view Amir Hakim's profile &amp; photo">
+                    <img src="Profile_pic/avatar_amir.jpg" alt="Amir Hakim" class="member-avatar avatar-amir" />
+                    <div class="member-info">
+                      <div class="member-name-row">
+                        <span class="member-name">Amir Hakim</span>
+                        <svg class="member-click-icon" viewBox="0 0 24 24" width="13" height="13" stroke="currentColor" stroke-width="2" fill="none"><polyline points="15 3 21 3 21 9"></polyline><polyline points="9 21 3 21 3 15"></polyline><line x1="21" y1="3" x2="14" y2="10"></line><line x1="3" y1="21" x2="10" y2="14"></line></svg>
+                      </div>
+                      <span class="member-role">Tech Lead &amp; Architecture</span>
+                    </div>
                   </div>
-                  <div class="member-item">
-                    <span class="member-name">Amir Azib (Moi)</span>
-                    <span class="member-role">Ingestion &amp; Parsers</span>
+                  <div class="member-item" data-member="moi" role="button" tabindex="0" title="Click to view Amir Azib (Moi)'s profile &amp; photo">
+                    <img src="Profile_pic/avatar_moi.jpg" alt="Amir Azib (Moi)" class="member-avatar avatar-moi" />
+                    <div class="member-info">
+                      <div class="member-name-row">
+                        <span class="member-name">Amir Azib (Moi)</span>
+                        <svg class="member-click-icon" viewBox="0 0 24 24" width="13" height="13" stroke="currentColor" stroke-width="2" fill="none"><polyline points="15 3 21 3 21 9"></polyline><polyline points="9 21 3 21 3 15"></polyline><line x1="21" y1="3" x2="14" y2="10"></line><line x1="3" y1="21" x2="10" y2="14"></line></svg>
+                      </div>
+                      <span class="member-role">Ingestion &amp; Parsers</span>
+                    </div>
                   </div>
-                  <div class="member-item">
-                    <span class="member-name">Farhan (Paan)</span>
-                    <span class="member-role">Core Comparison Engine</span>
+                  <div class="member-item" data-member="paan" role="button" tabindex="0" title="Click to view Farhan (Paan)'s profile &amp; photo">
+                    <img src="Profile_pic/avatar_paan.jpg" alt="Farhan (Paan)" class="member-avatar avatar-paan" />
+                    <div class="member-info">
+                      <div class="member-name-row">
+                        <span class="member-name">Farhan (Paan)</span>
+                        <svg class="member-click-icon" viewBox="0 0 24 24" width="13" height="13" stroke="currentColor" stroke-width="2" fill="none"><polyline points="15 3 21 3 21 9"></polyline><polyline points="9 21 3 21 3 15"></polyline><line x1="21" y1="3" x2="14" y2="10"></line><line x1="3" y1="21" x2="10" y2="14"></line></svg>
+                      </div>
+                      <span class="member-role">Core Comparison Engine</span>
+                    </div>
                   </div>
-                  <div class="member-item">
-                    <span class="member-name">Eqhlas</span>
-                    <span class="member-role">Product Strategy &amp; QA Lead</span>
+                  <div class="member-item" data-member="eqhlas" role="button" tabindex="0" title="Click to view Eqhlas's profile &amp; photo">
+                    <img src="Profile_pic/avatar_eqhlas.jpg" alt="Eqhlas" class="member-avatar avatar-eqhlas" />
+                    <div class="member-info">
+                      <div class="member-name-row">
+                        <span class="member-name">Eqhlas</span>
+                        <svg class="member-click-icon" viewBox="0 0 24 24" width="13" height="13" stroke="currentColor" stroke-width="2" fill="none"><polyline points="15 3 21 3 21 9"></polyline><polyline points="9 21 3 21 3 15"></polyline><line x1="21" y1="3" x2="14" y2="10"></line><line x1="3" y1="21" x2="10" y2="14"></line></svg>
+                      </div>
+                      <span class="member-role">Product Strategy &amp; QA Lead</span>
+                    </div>
                   </div>
                 </div>
                 <div class="hero-architecture-badge">
@@ -695,7 +722,10 @@
                   Team Rimba 0818
                 </div>
                 <div class="signoff-sub">
-                  Amir Hakim • Amir Azib (Moi) • Farhan (Paan) • Eqhlas
+                  <span class="signoff-member-link" data-member="amir" title="Click to view Amir Hakim's profile">Amir Hakim</span> • 
+                  <span class="signoff-member-link" data-member="moi" title="Click to view Amir Azib (Moi)'s profile">Amir Azib (Moi)</span> • 
+                  <span class="signoff-member-link" data-member="paan" title="Click to view Farhan (Paan)'s profile">Farhan (Paan)</span> • 
+                  <span class="signoff-member-link" data-member="eqhlas" title="Click to view Eqhlas's profile">Eqhlas</span>
                 </div>
                 <div style="font-size: 11px; color: var(--text-dim); margin-top: 4px;">
                   Averis x Monash University Hackathon 2026
@@ -853,6 +883,62 @@
             </div>
           </div>
 
+        </div>
+      </div>
+    </div>
+
+    <!-- ══════════════ TEAM MEMBER PROFILE MODAL ══════════════ -->
+    <div id="memberModal" class="modal-backdrop" aria-hidden="true">
+      <div class="member-modal-box">
+        <button id="btnCloseMemberModal" class="btn-close-modal" aria-label="Close Profile" title="Close (Esc)">
+          <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2" fill="none"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+        </button>
+
+        <div class="member-modal-body">
+          <div class="member-modal-photo-side">
+            <div class="member-photo-frame">
+              <img id="memberModalImg" src="" alt="Team Member Photo" class="member-modal-img" />
+              <div id="memberModalBadge" class="member-photo-badge">Team Lead</div>
+            </div>
+            <div class="member-photo-hint">Profile Photo (High Resolution)</div>
+          </div>
+
+          <div class="member-modal-info-side">
+            <div class="member-modal-header">
+              <div class="member-modal-badge-row">
+                <span class="slide-tag" style="background: rgba(16, 185, 129, 0.15); color: #6ee7b7; border-color: rgba(16, 185, 129, 0.3); margin-bottom: 0;">
+                  Team Rimba 0818 • Finalist
+                </span>
+                <span id="memberCounter" class="member-counter-pill">1 / 4</span>
+              </div>
+              <h2 id="memberModalName" class="member-modal-name">Member Name</h2>
+              <div id="memberModalRole" class="member-modal-role">Role Title</div>
+            </div>
+
+            <div class="member-modal-bio-card">
+              <div class="bio-card-title">
+                <svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" stroke-width="2" fill="none"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+                <span>Hackathon Ownership &amp; Focus</span>
+              </div>
+              <p id="memberModalBio" class="member-modal-bio-text"></p>
+            </div>
+
+            <div class="member-modal-skills-card">
+              <div class="skills-card-title">Core Competencies &amp; Technologies</div>
+              <div id="memberModalSkills" class="member-modal-skills-list"></div>
+            </div>
+
+            <div class="member-modal-nav-row">
+              <button id="btnPrevMember" class="btn-member-nav" title="Previous Member (&larr;)">
+                <svg viewBox="0 0 24 24" width="15" height="15" stroke="currentColor" stroke-width="2" fill="none"><polyline points="15 18 9 12 15 6"></polyline></svg>
+                <span>Previous</span>
+              </button>
+              <button id="btnNextMember" class="btn-member-nav" title="Next Member (&rarr;)">
+                <span>Next</span>
+                <svg viewBox="0 0 24 24" width="15" height="15" stroke="currentColor" stroke-width="2" fill="none"><polyline points="9 18 15 12 9 6"></polyline></svg>
+              </button>
+            </div>
+          </div>
         </div>
       </div>
     </div>

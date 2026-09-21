@@ -211,6 +211,63 @@
 
   const btnFullscreen = document.getElementById('btnFullscreen');
 
+  // Team Member Profile Modal
+  const memberModal = document.getElementById('memberModal');
+  const btnCloseMemberModal = document.getElementById('btnCloseMemberModal');
+  const memberModalImg = document.getElementById('memberModalImg');
+  const memberModalBadge = document.getElementById('memberModalBadge');
+  const memberModalName = document.getElementById('memberModalName');
+  const memberModalRole = document.getElementById('memberModalRole');
+  const memberModalBio = document.getElementById('memberModalBio');
+  const memberModalSkills = document.getElementById('memberModalSkills');
+  const memberCounter = document.getElementById('memberCounter');
+  const btnPrevMember = document.getElementById('btnPrevMember');
+  const btnNextMember = document.getElementById('btnNextMember');
+  let currentMemberIndex = 0;
+
+  const teamMembers = [
+    {
+      id: 'amir',
+      name: 'Amir Hakim',
+      role: 'Tech Lead & Enterprise Architect',
+      photo: 'Profile_pic/Gambar_Amir.jpeg',
+      photoPosition: 'center 45%',
+      badge: 'Tech Lead',
+      bio: 'Enterprise Architect & Full-Stack Lead. Engineered the Next.js operations console, Supabase cloud data layer, and Google Gemini 3.6 Flash multimodal AI integration with live discrepancy streaming and deterministic fallback verification.',
+      skills: ['System Architecture', 'Next.js 14', 'Supabase Cloud', 'Google Gemini 3.6 Flash', 'TypeScript']
+    },
+    {
+      id: 'moi',
+      name: 'Amir Azib (Moi)',
+      role: 'Ingestion & Parsers Lead',
+      photo: 'Profile_pic/Gambar_Moi.jpeg',
+      photoPosition: 'center 35%',
+      badge: 'Document Lead',
+      bio: 'Document Processing & Ingestion Specialist. Built the multi-format pipeline capable of parsing raw PDF streams, handling attachment corruptions, and feeding normalized JSON structures to the core engine.',
+      skills: ['Document Ingestion', 'PDF Stream Parsing', 'Attachment Validation', 'Data Normalization']
+    },
+    {
+      id: 'paan',
+      name: 'Farhan (Paan)',
+      role: 'Core Comparison Engine Lead',
+      photo: 'Profile_pic/Gambar_Paan.jpeg',
+      photoPosition: 'center 32%',
+      badge: 'Engine Lead',
+      bio: 'Discrepancy Algorithm Specialist. Architected the deterministic verification matrix comparing 7 critical shipping fields across all 520 emails, achieving 100.0% benchmark score on official evaluation.',
+      skills: ['Deterministic Rules', 'Comparison Engine', '100% Benchmark', 'Discrepancy Matrix']
+    },
+    {
+      id: 'eqhlas',
+      name: 'Eqhlas',
+      role: 'Product Strategy & QA Lead',
+      photo: 'Profile_pic/Gambar_Eqhlas.jpeg',
+      photoPosition: '24% 40%',
+      badge: 'Strategy & QA',
+      bio: 'Product Vision & Quality Assurance Lead. Directed product roadmap, reliability stress-testing (zero false approvals on 20/20 edge cases), user-centric dashboard design, and stakeholder presentations.',
+      skills: ['Product Strategy', 'QA & Edge Cases', 'Operations UX', 'Pitch Presentation']
+    }
+  ];
+
   // Initialize dots
   function buildDots() {
     dotsContainer.innerHTML = '';
@@ -303,6 +360,58 @@
     if (btnToggleQA) btnToggleQA.classList.toggle('active', newState);
   }
 
+  // Member Profile Modal Helpers
+  function openMemberModal(memberId) {
+    if (!memberModal) return;
+    let idx = teamMembers.findIndex(m => m.id === memberId);
+    if (idx === -1) idx = 0;
+    showMember(idx);
+    memberModal.classList.add('open');
+    memberModal.setAttribute('aria-hidden', 'false');
+  }
+
+  function closeMemberModal() {
+    if (!memberModal) return;
+    memberModal.classList.remove('open');
+    memberModal.setAttribute('aria-hidden', 'true');
+  }
+
+  function showMember(index) {
+    if (index < 0) index = teamMembers.length - 1;
+    if (index >= teamMembers.length) index = 0;
+    currentMemberIndex = index;
+    const member = teamMembers[index];
+
+    if (memberModalImg) {
+      memberModalImg.src = member.photo;
+      memberModalImg.alt = member.name;
+      memberModalImg.style.objectPosition = member.photoPosition || 'center center';
+    }
+    if (memberModalBadge) memberModalBadge.textContent = member.badge;
+    if (memberModalName) memberModalName.textContent = member.name;
+    if (memberModalRole) memberModalRole.textContent = member.role;
+    if (memberModalBio) memberModalBio.textContent = member.bio;
+    if (memberCounter) memberCounter.textContent = `${index + 1} / ${teamMembers.length}`;
+
+    if (memberModalSkills) {
+      memberModalSkills.innerHTML = '';
+      member.skills.forEach(s => {
+        const span = document.createElement('span');
+        span.className = 'member-skill-tag';
+        span.textContent = s;
+        memberModalSkills.appendChild(span);
+      });
+    }
+  }
+
+  function nextMember() {
+    showMember(currentMemberIndex + 1);
+  }
+
+  function prevMember() {
+    showMember(currentMemberIndex - 1);
+  }
+
   // Fullscreen toggle
   function toggleFullscreen() {
     if (!document.fullscreenElement) {
@@ -379,6 +488,11 @@
       case 'ArrowRight':
       case ' ':
       case 'PageDown':
+        if (memberModal && memberModal.classList.contains('open')) {
+          e.preventDefault();
+          nextMember();
+          break;
+        }
         e.preventDefault();
         nextSlide();
         break;
@@ -386,16 +500,31 @@
       case 'ArrowLeft':
       case 'Backspace':
       case 'PageUp':
+        if (memberModal && memberModal.classList.contains('open')) {
+          e.preventDefault();
+          prevMember();
+          break;
+        }
         e.preventDefault();
         prevSlide();
         break;
 
       case 'Home':
+        if (memberModal && memberModal.classList.contains('open')) {
+          e.preventDefault();
+          showMember(0);
+          break;
+        }
         e.preventDefault();
         goToSlide(0);
         break;
 
       case 'End':
+        if (memberModal && memberModal.classList.contains('open')) {
+          e.preventDefault();
+          showMember(teamMembers.length - 1);
+          break;
+        }
         e.preventDefault();
         goToSlide(totalSlides - 1);
         break;
@@ -433,6 +562,7 @@
       case 'Escape':
         toggleNotes(false);
         toggleQA(false);
+        closeMemberModal();
         break;
 
       default:
@@ -505,6 +635,46 @@
     if (e.target === qaModal) {
       toggleQA(false);
     }
+  });
+
+  // Member modal controls
+  if (btnCloseMemberModal) {
+    btnCloseMemberModal.addEventListener('click', closeMemberModal);
+  }
+  if (btnPrevMember) {
+    btnPrevMember.addEventListener('click', (e) => {
+      e.stopPropagation();
+      prevMember();
+    });
+  }
+  if (btnNextMember) {
+    btnNextMember.addEventListener('click', (e) => {
+      e.stopPropagation();
+      nextMember();
+    });
+  }
+  if (memberModal) {
+    memberModal.addEventListener('click', (e) => {
+      if (e.target === memberModal) {
+        closeMemberModal();
+      }
+    });
+  }
+
+  // Interactive member triggers in Slide 1 and Slide 8
+  document.querySelectorAll('[data-member]').forEach(el => {
+    el.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const memberId = el.getAttribute('data-member');
+      if (memberId) openMemberModal(memberId);
+    });
+    el.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        const memberId = el.getAttribute('data-member');
+        if (memberId) openMemberModal(memberId);
+      }
+    });
   });
 
   // Initial Setup
